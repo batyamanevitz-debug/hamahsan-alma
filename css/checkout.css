@@ -1,0 +1,235 @@
+/* =========================================================
+   ALMA — דף תשלום (Figma node 577:771 @1920)
+   נטען אחרי style.css
+   ========================================================= */
+
+.ck{--ck-wrap:1429px; --line:#E2E2E2; --line-2:#E6E6E6; --muted:#7D888F; --field:#515978}
+
+.ck__title{
+  font-size:36px;font-weight:500;color:#000;text-align:center;
+  padding:24px 20px 0;
+}
+
+.ck-grid{
+  width:min(100% - 40px, var(--ck-wrap));margin:44px auto 0;
+  /* בעיצוב: סיכום ההזמנה בצד שמאל, הטופס בצד ימין.
+     בגריד RTL עמודה 1 היא הימנית — לכן הטופס בעמודה 1 והסיכום בעמודה 2. */
+  display:grid;grid-template-columns:743px 686px;align-items:start;
+}
+
+/* ---------------------------------------------------------
+   סיכום הזמנה (עמודה שמאלית)
+   --------------------------------------------------------- */
+.sum{grid-column:2;grid-row:1;display:flex;flex-direction:column;gap:24px;align-items:flex-end;padding-top:5px}
+
+.sum__row{width:100%;display:flex;align-items:center;justify-content:space-between;gap:24px}
+.sum__product{display:flex;align-items:center;gap:16px;width:462px;justify-content:flex-start}
+.sum__pic{
+  display:block;width:292px;height:244px;flex:none;
+  border:2px solid var(--line);border-radius:5px;overflow:hidden;
+}
+.sum__pic img{width:100%;height:100%;object-fit:cover}
+.sum__name{width:142px;font-size:14px;font-weight:500;line-height:20px;letter-spacing:.28px;color:#000;text-align:right}
+.sum__price{font-family:'DM Sans',var(--font);font-size:14px;font-weight:700;line-height:20px;letter-spacing:.28px;color:#000;white-space:nowrap}
+
+.coupon{width:696px;max-width:100%;display:flex;align-items:stretch;gap:8px}
+.coupon__input{
+  flex:1 1 auto;min-width:0;height:46px;
+  border:2px solid var(--line);border-radius:5px;padding:12px 20px;
+  font-size:14px;line-height:20px;letter-spacing:.28px;color:#000;text-align:right;background:#fff;
+}
+.coupon__input::placeholder{color:#000;opacity:1}
+.coupon__btn{
+  flex:none;width:98px;border:2px solid var(--line);border-radius:5px;
+  background:rgba(185,153,169,.3);color:#565656;
+  font-size:14px;font-weight:600;line-height:20px;letter-spacing:.28px;transition:filter .2s;
+}
+.coupon__btn:hover{filter:brightness(.96)}
+
+.totals{width:100%;display:flex;flex-direction:column;gap:12px}
+.totals__row{
+  display:flex;align-items:flex-start;justify-content:space-between;
+  font-size:14px;line-height:20px;letter-spacing:.28px;white-space:nowrap;
+}
+.totals__label{font-weight:500;color:var(--muted)}
+.totals__val{font-family:'DM Sans',var(--font);font-weight:700;color:#000}
+.totals__val--free{font-family:var(--font);font-weight:600}
+.totals__val--grand{font-weight:600}
+.totals__rule{width:398px;max-width:100%;height:0;border:0;border-top:1px solid var(--line);margin:0;align-self:flex-end}
+
+.ck-pay{
+  width:637px;max-width:100%;align-self:flex-end;margin-top:53px;
+  background:var(--plum);border:1px solid var(--line-2);border-radius:5px;
+  padding:12px 20px;color:#fff;
+  font-size:18px;font-weight:700;line-height:20px;letter-spacing:.36px;
+  transition:filter .2s,transform .2s;
+}
+.ck-pay:hover{filter:brightness(1.12)}
+.ck-pay:active{transform:translateY(1px)}
+
+/* ---------------------------------------------------------
+   פרטים (עמודה ימנית)
+   --------------------------------------------------------- */
+.ck-details{grid-column:1;grid-row:1;display:flex;flex-direction:column;align-items:flex-start;gap:20px}
+.ck__lead{font-size:14px;line-height:20px;color:#000;align-self:flex-start;margin-bottom:6px}
+
+.fset{width:100%;display:flex;flex-direction:column;align-items:flex-start;gap:13px}
+.fset__title{font-size:18px;font-weight:700;color:#22242F;line-height:20px;letter-spacing:-.36px}
+.fset__head{display:flex;flex-direction:column;align-items:flex-start;width:168px}
+.fset__sub{font-size:14px;line-height:20px;letter-spacing:-.28px;color:var(--muted)}
+
+/* fields */
+.frow{width:638px;max-width:100%;display:flex;gap:25px;align-items:center}
+.field{display:flex;flex-direction:column;gap:4px;width:638px;max-width:100%}
+.field--first{width:311px}
+.field--last{width:302px}
+.field label{font-size:14px;font-weight:600;color:#000}
+.field input,
+.field textarea{
+  width:100%;border:2px solid var(--line);border-radius:5px;background:#fff;
+  padding:8px 12px;font-size:14px;color:#000;text-align:right;
+  -webkit-appearance:none;appearance:none;
+}
+.field input{height:48px}
+.field textarea{height:168px;resize:vertical;padding:12px}
+.field input::placeholder{color:#A2A2A2;font-weight:500}
+.field input:focus,.field textarea:focus{outline:2px solid var(--plum);outline-offset:1px;border-color:var(--plum)}
+
+.hint{font-size:14px;font-weight:300;color:#000;align-self:flex-start}
+.note{font-size:14px;line-height:20px;letter-spacing:.28px;color:var(--muted);width:100%;text-align:right}
+
+/* checkboxes */
+.check{display:flex;align-items:center;gap:4px;cursor:pointer}
+.check input{position:absolute;opacity:0;width:0;height:0}
+.check__box{flex:none;width:18px;height:18px;border-radius:5px;display:block;position:relative}
+.check--outline .check__box{border:3px solid #A99E9E}
+.check--filled .check__box{border-radius:6px;border:1px solid #22242F}
+.check input:checked + .check__box{background:#22242F;border-color:#22242F}
+.check input:checked + .check__box::after{
+  content:"";position:absolute;inset:0;
+  background:no-repeat center/10px 8px url("../assets/ck-checkbox.svg");
+  filter:brightness(0) invert(1);
+}
+.check--filled input:checked + .check__box::after{filter:none;background-size:18px 18px}
+.check input:focus-visible + .check__box{outline:2px solid var(--plum);outline-offset:2px}
+.check__text{font-size:14px;line-height:20px;color:#000;text-align:right}
+.check--filled .check__text{color:var(--field);letter-spacing:-.28px}
+.check--filled .check__text a{text-decoration:underline}
+
+/* shipping / billing options */
+.opt{
+  width:637px;max-width:100%;
+  display:flex;align-items:center;justify-content:space-between;gap:24px;
+  border:1px solid var(--line-2);border-radius:5px;padding:12px 20px;
+  cursor:pointer;transition:background .2s,border-color .2s;
+}
+.opt input{position:absolute;opacity:0;width:0;height:0}
+.opt__label{font-size:14px;line-height:20px;letter-spacing:.28px;color:#000;text-align:right}
+.opt__meta{font-size:14px;font-weight:700;line-height:20px;letter-spacing:.28px;color:#000}
+.opt:hover{border-color:var(--lilac)}
+.opt.is-selected{background:rgba(203,177,224,.3)}
+.opt--strong.is-selected{background:rgba(203,177,224,.5)}
+.opt input:focus-visible ~ .opt__label{outline:2px solid var(--plum);outline-offset:3px}
+
+/* payment method buttons */
+.pays{
+  width:638px;max-width:100%;
+  display:grid;grid-template-columns:1fr 1fr;gap:24px 12px;
+}
+.pay-opt{
+  height:48px;border-radius:5px;background:#F6F7F9;
+  display:flex;align-items:center;justify-content:center;gap:10px;padding:14px 10px;
+  font-size:14px;font-weight:700;line-height:20px;letter-spacing:.28px;color:#000;
+  transition:background .2s;
+}
+.pay-opt img{width:24px;height:24px}
+.pay-opt:hover{background:#eceef3}
+.pay-opt.is-active{background:#F0E8F6}
+
+/* payment details card */
+.card{width:656px;max-width:100%;display:flex;flex-direction:column;gap:20px;padding:24px;border-radius:5px}
+.card__title{font-size:16px;font-weight:600;line-height:20px;letter-spacing:-.32px;color:#22242F;text-align:right}
+.card__grid{display:flex;flex-direction:column;gap:16px;width:100%}
+.crow{display:flex;gap:16px;align-items:center;width:100%}
+.crow > .tf{flex:1 1 0;min-width:0}
+.crow__pair{flex:1 1 0;min-width:0;display:flex;gap:16px;align-items:center}
+.crow__pair .tf{flex:1 1 0;min-width:0}
+
+.tf{position:relative;width:100%}
+.tf input,.tf select{
+  width:100%;height:48px;border:1px solid var(--line-2);border-radius:5px;background:#fff;
+  padding:0 16px;font-size:14px;line-height:20px;letter-spacing:-.28px;color:var(--field);text-align:right;
+  -webkit-appearance:none;appearance:none;
+}
+.tf input::placeholder{color:var(--field);opacity:1}
+.tf input:focus,.tf select:focus{outline:2px solid var(--plum);outline-offset:1px;border-color:var(--plum)}
+.tf--card input{padding-left:40px}
+.tf__icon{position:absolute;left:7px;top:50%;transform:translateY(-50%);width:24px;height:24px}
+.tf__info{position:absolute;left:14px;top:15px;width:16px;height:16px}
+.tf:has(.tf__info) input{padding-left:38px}
+.tf--select select{padding-left:44px;cursor:pointer}
+.tf__chev{position:absolute;left:19px;top:14px;width:20px;height:20px;transform:rotate(90deg);pointer-events:none}
+
+/* policies */
+.policies{display:flex;flex-wrap:wrap;gap:17px;align-self:flex-start;margin-top:8px}
+.policies a{font-size:14px;font-weight:500;line-height:20px;letter-spacing:.28px;color:#000;text-decoration:underline}
+.policies a:hover{color:var(--plum)}
+
+/* footer spacing on this page */
+.ck + .footer{margin-top:138px}
+
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+@media (max-width:1500px){
+  .ck{--ck-wrap:1240px}
+  .ck-grid{grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);column-gap:24px}
+  .sum__pic{width:250px;height:210px}
+  .coupon,.frow,.field,.opt,.pays,.ck-pay{width:100%}
+  .card{width:100%}
+}
+
+@media (max-width:1100px){
+  .ck{--ck-wrap:960px}
+  .ck-grid{grid-template-columns:minmax(0,1fr);row-gap:40px}
+  .ck-details{grid-column:1;grid-row:1}
+  .sum{grid-column:1;grid-row:2;align-items:stretch}
+  .sum__row{align-items:flex-start}
+  .sum__product{width:auto;flex:1 1 auto}
+  .sum__pic{width:200px;height:170px}
+  .totals__rule{width:100%}
+  .ck-pay{margin-top:24px;align-self:stretch}
+  .card{padding:24px 0}
+}
+
+@media (max-width:768px){
+  .ck__title{font-size:26px;padding-top:18px}
+  .ck-grid{width:min(100% - 24px, var(--ck-wrap));margin-top:24px}
+  .ck__lead{font-size:13px}
+  .fset__title{font-size:16px}
+  .frow--2{flex-direction:column;gap:13px}
+  .field--first,.field--last{width:100%}
+  .field textarea{height:130px}
+  .sum__pic{width:130px;height:110px}
+  .sum__name{width:auto;flex:1 1 auto;font-size:13px}
+  .sum__product{gap:10px}
+  .coupon__btn{width:76px}
+  .coupon__input{padding:12px 14px}
+  .opt{padding:12px 14px;gap:12px}
+  .opt__label{font-size:13px}
+  .pays{grid-template-columns:1fr;gap:12px}
+  .crow{flex-direction:column;gap:12px}
+  .crow > .tf,.crow__pair{width:100%}
+  .card__title{font-size:15px}
+  .ck-pay{font-size:16px;padding:14px 20px}
+  .policies{gap:12px;justify-content:center;align-self:center}
+  .policies a{font-size:12.5px}
+  .ck + .footer{margin-top:56px}
+}
+
+@media (max-width:480px){
+  .sum__row{flex-direction:column;align-items:stretch;gap:12px}
+  .sum__product{align-items:center}
+  .sum__price{align-self:flex-start}
+  .crow__pair{flex-direction:row}
+}

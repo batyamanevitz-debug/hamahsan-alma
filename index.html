@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ALMA | המחסן — בשמים, טיפוח ואיפור</title>
+<meta name="description" content="המחסן ALMA – בשמים, טיפוח ואיפור מהמותגים המובילים בעולם. משלוח מהיר, מתנה בכל הזמנה וצבירת נקודות.">
+<link rel="icon" href="assets/logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Assistant:wght@300;400;500;600;700;800&family=Jost:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<a class="skip-link" href="#main">דלג לתוכן הראשי</a>
+
+<!-- ============ HEADER ============ -->
+<header class="site-header">
+
+  <!-- announcement bar -->
+  <div class="announce">
+    <button class="announce__arrow announce__arrow--prev" type="button" aria-label="הודעה קודמת">
+      <img src="assets/arrow-left-thin.svg" alt="">
+    </button>
+    <p class="announce__text">זמני אספקה בין 1-5 ימי עסקים</p>
+    <button class="announce__arrow announce__arrow--next" type="button" aria-label="הודעה הבאה">
+      <img src="assets/arrow-right-thin.svg" alt="">
+    </button>
+  </div>
+
+  <!-- main nav -->
+  <div class="nav">
+    <div class="nav__inner">
+
+      <div class="nav__icons">
+        <button class="nav__icon" type="button" aria-label="חיפוש">
+          <img src="assets/icon-search.svg" alt="">
+        </button>
+        <a class="nav__icon" href="#" aria-label="אזור אישי">
+          <img src="assets/icon-user.svg" alt="">
+        </a>
+        <a class="nav__icon" href="#" aria-label="מועדפים">
+          <img src="assets/icon-heart.svg" alt="">
+          <span class="nav__badge">0</span>
+        </a>
+        <a class="nav__icon" href="#" aria-label="עגלת קניות">
+          <img src="assets/icon-cart.svg" alt="">
+          <span class="nav__badge">0</span>
+        </a>
+      </div>
+
+      <button class="nav__burger" type="button" aria-label="תפריט" aria-expanded="false" aria-controls="primary-menu">
+        <span></span><span></span><span></span>
+      </button>
+
+      <nav class="nav__menu" id="primary-menu" aria-label="תפריט ראשי">
+        <ul class="nav__list">
+          <li class="has-mega">
+            <a href="#" aria-expanded="false" aria-haspopup="true" aria-controls="mega-perfume">בשמים</a>
+            <div class="mega" id="mega-perfume">
+              <div class="mega__inner mega__inner--wide">
+                <img class="mega__img mega__img--perfume" src="assets/mega-perfume.png" alt="">
+                <ul class="mega__list">
+                  <li><a href="category.html">מותגי בישום מובילים</a></li>
+                  <li><a href="category.html">בשמי יוניסקס</a></li>
+                  <li><a href="category.html">בשמי נשים</a></li>
+                  <li><a href="category.html">בשמי גברים</a></li>
+                  <li><a href="category.html">בשמי יוקרה</a></li>
+                  <li><a href="category.html">סטים ומארזים</a></li>
+                </ul>
+              </div>
+            </div>
+          </li>
+          <li class="has-mega">
+            <a href="#" aria-expanded="false" aria-haspopup="true" aria-controls="mega-makeup">איפור</a>
+            <div class="mega" id="mega-makeup">
+              <div class="mega__inner mega__inner--wide">
+                <img class="mega__img mega__img--makeup" src="assets/mega-makeup.png" alt="">
+                <ul class="mega__list">
+                  <li><a href="category.html">מותגי יופי מומלצים</a></li>
+                  <li><a href="category.html">איפור</a></li>
+                  <li><a href="category.html">טיפוח הגוף</a></li>
+                  <li><a href="category.html">טיפוח פנים</a></li>
+                </ul>
+              </div>
+            </div>
+          </li>
+          <li class="has-mega">
+            <a href="#" aria-expanded="false" aria-haspopup="true" aria-controls="mega-hair">הכל לשיער</a>
+            <div class="mega" id="mega-hair">
+              <div class="mega__inner">
+                <ul class="mega__list">
+                  <li><a href="category.html">מותגי טיפוח<br>שיער מומלצים</a></li>
+                  <li><a href="category.html">מכשירי חשמל לשיער</a></li>
+                  <li><a href="category.html">עיצוב שיער</a></li>
+                  <li><a href="category.html">טיפוח שיער</a></li>
+                </ul>
+              </div>
+            </div>
+          </li>
+          <li><a href="category.html">מבצעים</a></li>
+          <li><a href="category.html">חדש</a></li>
+          <li><a href="category.html">מותגים</a></li>
+        </ul>
+        <a class="btn-club" href="#">
+          <span>הצטרפות למועדון</span>
+          <img src="assets/icon-gift-sm.svg" alt="">
+        </a>
+      </nav>
+
+      <a class="nav__logo" href="#" aria-label="ALMA — לעמוד הבית">
+        <img src="assets/logo.png" alt="ALMA">
+      </a>
+
+    </div>
+  </div>
+
+  <!-- ============ SEARCH PANEL (Figma 593:327) ============ -->
+  <div class="search-panel" id="searchPanel" aria-hidden="true">
+    <div class="search-panel__inner">
+      <button class="search-panel__close" type="button" data-search-close aria-label="סגירת החיפוש">
+        <img src="assets/search-close.svg" alt="">
+      </button>
+      <form class="search-panel__form" role="search" action="#">
+        <img class="search-panel__icon" src="assets/search-ai.svg" alt="">
+        <label class="visually-hidden" for="siteSearch">חיפוש באתר</label>
+        <input class="search-panel__input" id="siteSearch" type="search" name="q" placeholder="כן, במה אני יכולה לעזור?" autocomplete="off">
+      </form>
+    </div>
+  </div>
+</header>
+
+<main id="main">
+
+  <!-- ============ HERO ============ -->
+  <section class="hero">
+    <img class="hero__bg" src="assets/hero.png" alt="">
+    <div class="hero__box">
+      <div class="hero__text">
+        <p class="hero__kicker">חדש השבוע</p>
+        <h1 class="hero__title">בושם חדש שיגרום <strong>לך</strong> להתאהב.</h1>
+        <p class="hero__desc">מהדורת קיץ מוגבלת מבית De Marly– בושם נדיר שתוכנן במיוחד לאספנים ולחובבי יוקרה אמתיים. זמין לזמן קצר בלבד, בבלעדיות ל&rdquo;המחסן&rdquo;.</p>
+      </div>
+      <div class="hero__actions">
+        <a class="btn btn--primary btn--buy" href="product.html">קנו עכשיו</a>
+        <a class="btn btn--primary btn--collection" href="category.html">גלו את הקולקציה</a>
+      </div>
+    </div>
+    <div class="dots hero__dots" aria-hidden="true">
+      <span class="dot is-active"></span><span class="dot"></span><span class="dot"></span>
+    </div>
+  </section>
+
+  <!-- ============ USP STRIP ============ -->
+  <section class="usp" aria-label="יתרונות החנות">
+    <ul class="usp__list">
+      <li class="usp__item">
+        <img class="usp__icon" src="assets/feat-heart.svg" alt="" width="44" height="44">
+        <p class="usp__label">מותגים אהובים</p>
+      </li>
+      <li class="usp__item">
+        <img class="usp__icon" src="assets/feat-perfume.svg" alt="" width="33" height="46">
+        <p class="usp__label">צבירת נקודות</p>
+      </li>
+      <li class="usp__item">
+        <img class="usp__icon" src="assets/feat-gift.svg" alt="" width="45" height="45">
+        <p class="usp__label">מתנה בכל הזמנה</p>
+      </li>
+      <li class="usp__item">
+        <img class="usp__icon" src="assets/feat-delivery.svg" alt="" width="45" height="45">
+        <p class="usp__label">משלוח מהיר</p>
+      </li>
+      <li class="usp__item">
+        <img class="usp__icon usp__icon--sm" src="assets/feat-whatsapp.svg" alt="" width="32" height="32">
+        <p class="usp__label">יעוץ ומכירה בוואטסאפ</p>
+      </li>
+    </ul>
+  </section>
+
+  <!-- ============ CATEGORIES ============ -->
+  <section class="cats">
+    <div class="cats__head">
+      <h2 class="cats__title">חדש בקטגוריות הנבחרות</h2>
+      <p class="cats__sub">ניחוחות, טיפוח ואיפור מבתי האופנה האהובים בעולם – באיכות ובסטייל של המחסן.</p>
+    </div>
+    <ul class="cats__list">
+      <li class="cat">
+        <a href="category.html"><img src="assets/cat-perfume.png" alt="בשמים"><span class="cat__name">בשמים</span></a>
+      </li>
+      <li class="cat">
+        <a href="category.html"><img src="assets/cat-hair.png" alt="הכל לשיער"><span class="cat__name">הכל לשיער</span></a>
+      </li>
+      <li class="cat">
+        <a href="category.html"><img src="assets/cat-makeup.png" alt="איפור"><span class="cat__name">איפור</span></a>
+      </li>
+    </ul>
+    <a class="btn btn--primary cats__btn" href="category.html"><span>לכל <b class="ls">הקטגוריות</b></span></a>
+  </section>
+
+  <!-- ============ GIFTS BANNER ============ -->
+  <section class="giftbanner" aria-label="מארז רחצה מפנק Bloomfield">
+    <a href="category.html"><img src="assets/gifts-banner.png" alt="מארז רחצה מפנק Bloomfield, רק ב־129 ש״ח"></a>
+  </section>
+
+  <!-- ============ RECOMMENDED PRODUCTS ============ -->
+  <section class="products">
+    <div class="section-head">
+      <h2 class="section-title">המומלצים של לקוחתינו</h2>
+      <p class="section-sub">המוצרים שקצרו מחמאות – בשמים, טיפוח ואיפור שהפכו לפייבוריטים של הקהילה שלנו. הבחירות שתרצי לגלות שוב ושוב.</p>
+    </div>
+
+    <div class="carousel" data-carousel>
+      <button class="carousel__arrow carousel__arrow--prev" type="button" data-dir="prev" aria-label="הקודם">
+        <img src="assets/icon-arrow-up.svg" alt="">
+      </button>
+
+      <ul class="carousel__track products__track" data-track>
+        <li class="product" data-id="montblanc-legend" data-price="134" data-name="MONT BLANC Legend א.ד.פ" data-img="assets/prod-montblanc.png">
+          <a href="category.html">
+            <span class="product__badge">-10%</span>
+            <span class="product__media"><img src="assets/prod-montblanc.png" alt="MONT BLANC's Legend"></span>
+            <span class="product__body">
+              <span class="product__name">MONT BLANC&rsquo;s Legend</span>
+              <span class="rating" aria-label="דירוג 5 מתוך 5">
+                <img src="assets/icon-star.svg" alt=""><img src="assets/icon-star.svg" alt=""><img src="assets/icon-star.svg" alt=""><img src="assets/icon-star.svg" alt=""><img src="assets/icon-star.svg" alt="">
+              </span>
+              <span class="product__price">₪134.00</span>
+              <span class="product__old">₪149.90</span>
+            </span>
+          </a>
+        </li>
+        <li class="product" data-id="marly-palatine" data-price="207" data-name="Perfumes De Marly Palatin" data-img="assets/prod-demarly.png">
+          <a href="product.html">
+            <span class="product__badge">-10%</span>
+            <span class="product__media"><img src="assets/prod-demarly.png" alt="Perfumes De Marly Palatin"></span>
+            <span class="product__body">
+              <span class="product__name">Perfumes De Marly Palatin</span>
+              <span class="rating" aria-label="דירוג 5 מתוך 5">
+                <img src="assets/icon-star.svg" alt=""><img src="assets/icon-star.svg" alt=""><img src="assets/icon-star.svg" alt=""><img src="assets/icon-star.svg" alt=""><img src="assets/icon-star.svg" alt="">
+              </span>
+              <span class="product__price">₪207.00</span>
+              <span class="product__old">₪229.90</span>
+            </span>
+          </a>
+        </li>
+        <li class="product" data-id="loreal-concealer" data-price="71.99" data-name="L’ORÉAL PARIS Concealer" data-img="assets/prod-loreal.png">
+          <a href="category.html">
+            <span class="product__badge">-10%</span>
+            <span class="product__media"><img src="assets/prod-loreal.png" alt="L’ORÉAL PARIS Concealer"></span>
+            <span class="product__body">
+              <span class="product__name">L&rsquo;ORÉAL PARIS Concealer</span>
+              <span class="rating" aria-label="דירוג 5 מתוך 5">
+                <img src="assets/icon-star.svg" alt=""><img src="assets/icon-star.svg" alt=""><img src="assets/icon-star.svg" alt=""><img src="assets/icon-star.svg" alt=""><img src="assets/icon-star.svg" alt="">
+              </span>
+              <span class="product__price">₪71.99</span>
+              <span class="product__old">₪79.90</span>
+            </span>
+          </a>
+        </li>
+        <li class="product" data-id="cortex-styling" data-price="179" data-name="CORTEX Hair Styling" data-img="assets/prod-cortex.png">
+          <a href="category.html">
+            <span class="product__badge">-10%</span>
+            <span class="product__media"><img src="assets/prod-cortex.png" alt="CORTEX Hair Styling"></span>
+            <span class="product__body">
+              <span class="product__name">CORTEX Hair Styling</span>
+              <span class="rating" aria-label="דירוג 5 מתוך 5">
+                <img src="assets/icon-star.svg" alt=""><img src="assets/icon-star.svg" alt=""><img src="assets/icon-star.svg" alt=""><img src="assets/icon-star.svg" alt=""><img src="assets/icon-star.svg" alt="">
+              </span>
+              <span class="product__price">₪179.00</span>
+              <span class="product__old">₪199.90</span>
+            </span>
+          </a>
+        </li>
+      </ul>
+
+      <button class="carousel__arrow carousel__arrow--next" type="button" data-dir="next" aria-label="הבא">
+        <img src="assets/icon-arrow-up.svg" alt="">
+      </button>
+    </div>
+
+    <div class="dots" data-dots aria-hidden="true">
+      <span class="dot is-active"></span><span class="dot"></span><span class="dot"></span>
+    </div>
+  </section>
+
+  <!-- ============ BRANDS ============ -->
+  <section class="brands">
+    <h2 class="section-title">המותגים המובילים שלנו</h2>
+
+    <div class="carousel" data-carousel>
+      <button class="carousel__arrow carousel__arrow--prev" type="button" data-dir="prev" aria-label="הקודם">
+        <img src="assets/icon-arrow-up.svg" alt="">
+      </button>
+
+      <ul class="carousel__track brands__track" data-track>
+        <li class="brand"><a href="product.html"><img src="assets/brand-demarly.png" alt="PARFUMS de MARLY"><span>PARFUMS de MARLY</span></a></li>
+        <li class="brand"><a href="category.html"><img src="assets/brand-armaf.png" alt="ARMAF"><span>ARMAF</span></a></li>
+        <li class="brand"><a href="category.html"><img src="assets/brand-labeaute.png" alt="LA BEAUTE"><span>LA BEAUTE</span></a></li>
+        <li class="brand"><a href="category.html"><img src="assets/brand-loreal.png" alt="Loreal paris"><span>Loreal paris</span></a></li>
+        <li class="brand"><a href="category.html"><img src="assets/brand-maybelline.png" alt="MAYBELLINE"><span>MAYBELLINE</span></a></li>
+        <li class="brand"><a href="category.html"><img src="assets/brand-k18.png" alt="K18"><span>K18</span></a></li>
+      </ul>
+
+      <button class="carousel__arrow carousel__arrow--next" type="button" data-dir="next" aria-label="הבא">
+        <img src="assets/icon-arrow-up.svg" alt="">
+      </button>
+    </div>
+
+    <div class="dots" data-dots aria-hidden="true">
+      <span class="dot is-active"></span><span class="dot"></span><span class="dot"></span>
+    </div>
+  </section>
+
+  <!-- ============ TESTIMONIALS ============ -->
+  <section class="reviews">
+    <div class="section-head reviews__head">
+      <h2 class="section-title reviews__title">חוות דעת על הרכישה</h2>
+      <p class="section-sub reviews__sub">כל מוצר מספר סיפור, אבל הסיפורים שלכן הם אלה שהכי מרגשים אותנו. מהלקוחות שלנו – חוויות אמיתיות, תוצאות אמיתיות.</p>
+    </div>
+
+    <ul class="reviews__list">
+      <li class="review">
+        <p class="review__text">שירות מהיר, המשלוח הגיע תוך יום! היו זמינים גם בטלפון וגם בווטצאפ שניסיתי ליצור קשר, חווית קנייה מעולה וכך גם המחיר !!</p>
+        <div class="review__person">
+          <img class="review__avatar" src="assets/avatar-3.png" alt="">
+          <div class="review__meta">
+            <span class="review__name">ליז שולמן</span>
+            <span class="review__role">לקוחה מרוצה</span>
+          </div>
+        </div>
+      </li>
+      <li class="review">
+        <p class="review__text">הזמנתי בושם נישה- המחיר היה 300 שקל פחות ממחיר השוק. הגיע תוך 24 שעות, טופל אישית ופינקו בדוגמיות!!!</p>
+        <div class="review__person">
+          <img class="review__avatar" src="assets/avatar-2.png" alt="">
+          <div class="review__meta">
+            <span class="review__name">גבריאל גוזובסקי</span>
+            <span class="review__role">לקוח מרוצה</span>
+          </div>
+        </div>
+      </li>
+      <li class="review">
+        <p class="review__text review__text--lg">&ldquo;שירות מעולה,המחיר הכי טוב שהיה.&rdquo;</p>
+        <div class="review__person">
+          <img class="review__avatar" src="assets/avatar-1.png" alt="">
+          <div class="review__meta">
+            <span class="review__name">פזית יוני</span>
+            <span class="review__role">לקוחה מרוצה</span>
+          </div>
+        </div>
+      </li>
+    </ul>
+  </section>
+
+  <!-- ============ REELS ============ -->
+  <section class="reels">
+    <h2 class="section-title">כמה מילים מהלקוחות שלנו</h2>
+
+    <div class="carousel" data-carousel>
+      <button class="carousel__arrow carousel__arrow--prev" type="button" data-dir="prev" aria-label="הקודם">
+        <img src="assets/icon-arrow-up.svg" alt="">
+      </button>
+
+      <ul class="carousel__track reels__track" data-track>
+        <li class="reel"><a href="#">
+          <span class="reel__media"><img src="assets/reel-xerjoff.png" alt="XERJOFF"><img class="reel__play" src="assets/play.svg" alt=""></span>
+          <span class="reel__name">XERJOFF</span></a></li>
+        <li class="reel"><a href="#">
+          <span class="reel__media"><img src="assets/reel-tomford.png" alt="TOM FORD"><img class="reel__play" src="assets/play.svg" alt=""></span>
+          <span class="reel__name">TOM FORD</span></a></li>
+        <li class="reel"><a href="#">
+          <span class="reel__media"><img src="assets/reel-escada.png" alt="ESCADA"><img class="reel__play" src="assets/play.svg" alt=""></span>
+          <span class="reel__name">ESCADA</span></a></li>
+        <li class="reel"><a href="#">
+          <span class="reel__media"><img src="assets/reel-dg.png" alt="DOLCE & GABBANA"><img class="reel__play" src="assets/play.svg" alt=""></span>
+          <span class="reel__name">DOLCE &amp; GABBANA</span></a></li>
+        <li class="reel"><a href="#">
+          <span class="reel__media"><img src="assets/reel-armani.png" alt="GIORGIO ARMANI"><img class="reel__play" src="assets/play.svg" alt=""></span>
+          <span class="reel__name">GIORGIO ARMANI</span></a></li>
+        <li class="reel reel--wide"><a href="#">
+          <span class="reel__media"><img src="assets/reel-ysl.png" alt="YVES SAINT LAURENT"><img class="reel__play" src="assets/play-1.svg" alt=""></span>
+          <span class="reel__name">YVES SAINT LAURENT</span></a></li>
+      </ul>
+
+      <button class="carousel__arrow carousel__arrow--next" type="button" data-dir="next" aria-label="הבא">
+        <img src="assets/icon-arrow-up.svg" alt="">
+      </button>
+    </div>
+  </section>
+
+  <!-- ============ BEAUTY BLOG ============ -->
+  <section class="blog">
+    <h2 class="section-title blog__title">Beauty blog</h2>
+
+    <div class="blog__grid">
+      <ul class="blog__list">
+        <li class="post">
+          <a href="#">
+            <span class="post__text">לה רוש-פוזה מציגה: כוכב הטיפוח CICAPLAST Baume B5</span>
+            <span class="post__thumb"><img src="assets/blog-1.png" alt=""></span>
+          </a>
+        </li>
+        <li class="post">
+          <a href="#">
+            <span class="post__text">הפטנט שמגדיר מחדש את עולם התלתלים</span>
+            <span class="post__thumb"><img src="assets/blog-2.png" alt=""></span>
+          </a>
+        </li>
+        <li class="post">
+          <a href="#">
+            <span class="post__text">מוצרי טיפוח באריזות מיני: לקחת את השגרה שלך לכל מקום</span>
+            <span class="post__thumb"><img src="assets/blog-3.png" alt=""></span>
+          </a>
+        </li>
+        <li class="post">
+          <a href="#">
+            <span class="post__text">ההשקה הכי מדוברת בארץ: Loreal Paris</span>
+            <span class="post__thumb"><img src="assets/blog-4.png" alt=""></span>
+          </a>
+        </li>
+      </ul>
+
+      <article class="post-main">
+        <a href="#">
+          <span class="post-main__media"><img src="assets/blog-main.png" alt=""></span>
+          <span class="post-main__title">מהפכת ה-K-Beauty בישראל: טיפוח קוריאני מדויק לעור הישראלי</span>
+        </a>
+      </article>
+    </div>
+
+    <div class="blog__foot"><a class="blog__all" href="#">לכל המאמרים</a></div>
+  </section>
+
+  <!-- ============ NEWSLETTER ============ -->
+  <section class="newsletter">
+    <img class="newsletter__img" src="assets/newsletter.png" alt="">
+    <div class="newsletter__content">
+      <h2 class="newsletter__title">בואי נישאר בקשר</h2>
+      <p class="newsletter__sub">הרשמה לניוזלטר של המחסן וקבלו את כל ההטבות, ההפתעות והחידושים ישירות למייל שלך.</p>
+      <form class="newsletter__form" action="#" method="post">
+        <label class="visually-hidden" for="nl-email">כתובת מייל</label>
+        <input class="newsletter__input" id="nl-email" type="email" name="email" placeholder="הזינו כאן את כתובת המייל" required>
+        <button class="newsletter__btn" type="submit">הירשם</button>
+      </form>
+    </div>
+  </section>
+
+  <!-- ============ INSTAGRAM ============ -->
+  <section class="social" aria-label="עקבו אחרינו באינסטגרם">
+    <a class="social__link" href="#" aria-label="עקבו אחרינו באינסטגרם">
+      <ul class="social__grid">
+        <li class="social__cell"><img src="assets/ig-1.png" alt=""><img class="social__over" src="assets/ig-1b.png" alt=""></li>
+        <li><img src="assets/ig-2.png" alt=""></li>
+        <li><img src="assets/ig-3.png" alt=""></li>
+        <li><img src="assets/ig-4.png" alt=""></li>
+        <li><img src="assets/ig-5.png" alt=""></li>
+        <li><img src="assets/ig-6.png" alt=""></li>
+        <li><img src="assets/ig-7.png" alt=""></li>
+        <li><img src="assets/ig-8.png" alt=""></li>
+      </ul>
+      <img class="social__ig" src="assets/icon-instagram.svg" alt="">
+    </a>
+  </section>
+
+</main>
+
+<!-- ============ FOOTER ============ -->
+<footer class="footer">
+  <div class="footer__inner">
+
+    <div class="footer__top">
+      <a class="footer__logo" href="#"><img src="assets/logo.png" alt="ALMA"></a>
+
+      <div class="footer__cols">
+        <div class="fcol fcol--contact">
+          <h3 class="fcol__title">צרו קשר</h3>
+          <div class="fcol__body">
+            <p>כתובת: רח&rsquo; שאול המלך 38, קניון אביה, קומה 2, באר שבע</p>
+            <p>טלפון: 052-9191919<br>זמינים בין השעות 9:00-18:00</p>
+            <p>מייל: Hamahsan@gmail.com</p>
+          </div>
+        </div>
+
+        <div class="fcol">
+          <h3 class="fcol__title">האזור האישי</h3>
+          <ul class="fcol__links">
+            <li><a href="#">כניסה לחשבון</a></li>
+            <li><a href="#">מעקב משלוח</a></li>
+            <li><a href="#">הצהרת נגישות</a></li>
+            <li><a href="#">מדיניות הפרטיות</a></li>
+            <li><a href="#">תו אמון הציבור</a></li>
+          </ul>
+        </div>
+
+        <div class="fcol">
+          <h3 class="fcol__title">שירותים</h3>
+          <ul class="fcol__links">
+            <li><a href="#">סטטוס משלוח</a></li>
+            <li><a href="#">תקנון האתר</a></li>
+            <li><a href="#">תקנון משלוחים</a></li>
+            <li><a href="#">בקשה לזיכוי</a></li>
+          </ul>
+        </div>
+
+        <div class="fcol">
+          <h3 class="fcol__title">קישורים מהירים</h3>
+          <ul class="fcol__links">
+            <li><a href="#">צרו קשר</a></li>
+            <li><a href="#">משלוחים</a></li>
+            <li><a href="#">מפת האתר</a></li>
+            <li><a href="#">שאלות נפוצות</a></li>
+            <li><a href="#">הבלוג</a></li>
+            <li><a href="#">מידע עלינו</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <hr class="footer__rule">
+
+    <div class="footer__bottom">
+      <ul class="pay">
+        <li><img src="assets/pay-isracard.png" alt="PayPal"></li>
+        <li class="pay--amex"><img src="assets/pay-amex.png" alt="American Express"></li>
+        <li><img src="assets/pay-mastercard.png" alt="Visa"></li>
+        <li><img src="assets/pay-visa.png" alt="Mastercard"></li>
+      </ul>
+
+      <p class="footer__copy">HamahsanCopyright 2025 ©</p>
+
+      <ul class="socials">
+        <li><a href="#" aria-label="פייסבוק"><img src="assets/soc-5.svg" alt=""></a></li>
+        <li><a href="#" aria-label="יוטיוב"><img src="assets/soc-4.svg" alt=""></a></li>
+        <li><a href="#" aria-label="לינקדאין"><img src="assets/soc-3.svg" alt=""></a></li>
+        <li><a href="#" aria-label="טוויטר"><img src="assets/soc-2.svg" alt=""></a></li>
+        <li><a href="#" aria-label="אינסטגרם"><img src="assets/soc-1.svg" alt=""></a></li>
+      </ul>
+    </div>
+
+  </div>
+</footer>
+
+<!-- floating whatsapp -->
+<a class="chat" href="https://wa.me/972529191919" target="_blank" rel="noopener" aria-label="דברו איתנו בוואטסאפ">
+  <span class="chat__text">דברו איתנו</span>
+  <img class="chat__icon" src="assets/icon-whatsapp.svg" alt="">
+</a>
+
+<!-- ============ CART DRAWER (Figma 582:103) ============ -->
+<div class="cart-overlay" id="cartOverlay" hidden></div>
+
+<aside class="cart" id="cartDrawer" aria-label="סל קניות" aria-hidden="true">
+
+  <div class="cart__header">
+    <div class="cart__headerRow">
+      <button class="cart__close" type="button" data-cart-close aria-label="סגירת הסל">
+        <img src="assets/cart-close-light.svg" alt="">
+      </button>
+      <p class="cart__title">סל קניות</p>
+    </div>
+  </div>
+
+  <p class="cart__note">ברכותיי, ההזמנה שלך זכאית למשלוח חינם!</p>
+
+  <ul class="cart__list" id="cartList">
+    <li class="citem" data-price="1039">
+      <div class="citem__row">
+        <div class="citem__main">
+          <div class="citem__top">
+            <button class="citem__close" type="button" data-cart-remove aria-label="הסרת המוצר">
+              <img src="assets/cart-close.svg" alt="">
+            </button>
+            <p class="citem__name">בושם פרופרומס דה מארלי</p>
+          </div>
+          <div class="citem__price">
+            <p class="citem__cost"><span data-cart-line>₪ 1039</span></p>
+            <div class="qty">
+              <button class="qty__btn qty__btn--plus" type="button" data-qty="1" aria-label="הוספת יחידה">
+                <img src="assets/cart-plus.svg" alt="">
+              </button>
+              <span class="qty__val" data-qty-val>1</span>
+              <button class="qty__btn qty__btn--minus" type="button" data-qty="-1" aria-label="הפחתת יחידה">
+                <img src="assets/cart-minus.svg" alt="">
+              </button>
+            </div>
+          </div>
+        </div>
+        <span class="citem__img"><img src="assets/pdp-sticky-thumb.png" alt=""></span>
+      </div>
+    </li>
+
+    <li class="citem" data-price="0">
+      <div class="citem__row">
+        <div class="citem__main">
+          <div class="citem__top">
+            <button class="citem__close" type="button" data-cart-remove aria-label="הסרת המוצר">
+              <img src="assets/cart-close.svg" alt="">
+            </button>
+            <p class="citem__name">דוגמיות בשמים חדשים</p>
+          </div>
+          <div class="citem__price">
+            <p class="citem__cost citem__cost--free"><span data-cart-line>חינם</span></p>
+            <div class="qty">
+              <button class="qty__btn qty__btn--plus" type="button" data-qty="1" aria-label="הוספת יחידה">
+                <img src="assets/cart-plus.svg" alt="">
+              </button>
+              <span class="qty__val" data-qty-val>1</span>
+              <button class="qty__btn qty__btn--minus" type="button" data-qty="-1" aria-label="הפחתת יחידה">
+                <img src="assets/cart-minus.svg" alt="">
+              </button>
+            </div>
+          </div>
+        </div>
+        <span class="citem__img"><img src="assets/cart-samples.png" alt=""></span>
+      </div>
+    </li>
+  </ul>
+
+  <p class="cart__empty" id="cartEmpty" hidden>הסל שלך ריק</p>
+
+  <div class="cart__foot">
+    <div class="cart__sum">
+      <span class="cart__sumVal" id="cartTotal">1039</span>
+      <span class="cart__sumLabel">סיכום ביניים</span>
+    </div>
+    <a class="cart__checkout" href="checkout.html">מעבר לתשלום</a>
+    <button class="cart__continue" type="button" data-cart-close>או המשיכי בקניות</button>
+  </div>
+</aside>
+
+<script src="js/store.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>
