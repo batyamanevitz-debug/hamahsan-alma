@@ -138,9 +138,10 @@
   document.addEventListener('keydown', function (e) {
     if (e.key === 'Escape') wraps.forEach(closeWrap);
   });
-  window.addEventListener('resize', function () {
-    wraps.forEach(function (w) { if (w.classList.contains('is-open')) clampPanel(w); });
-  });
+  function clampAll() { wraps.forEach(clampPanel); }
+  window.addEventListener('resize', clampAll);
+  window.addEventListener('load', clampAll);
+  clampAll();
 
   /* checkboxes drive the grid and label their chip */
   document.querySelectorAll('.fpanel .fopts').forEach(function (list) {
