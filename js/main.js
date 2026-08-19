@@ -108,7 +108,7 @@
         return;
       }
       results.innerHTML = list.map(function (p) {
-        return '<a class="sres" href="' + p.url + '">' +
+        return '<a class="sres" href="' + Store.url(p) + '">' +
           '<img src="' + p.img + '" alt="">' +
           '<span class="sres__txt"><b>' + p.brand + '</b><em>' + p.name + '</em></span>' +
           '<span class="sres__price">' + Store.money(p.price) + '</span></a>';
@@ -143,7 +143,7 @@
       var q = searchInput.value.trim();
       if (!q) { searchInput.focus(); return; }
       var hit = Store.search(q)[0];
-      if (hit) window.location.href = hit.url;
+      if (hit) window.location.href = Store.url(hit);
       else Store.toast('לא נמצאו תוצאות עבור ' + q);
     });
   }

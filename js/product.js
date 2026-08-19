@@ -1,23 +1,108 @@
 /* =========================================================
-   ALMA — product page: gallery, tabs, cart, wishlist, reviews
+   ALMA — product page. תבנית אחת שנבנית מהקטלוג לפי ?id=
    ========================================================= */
 (function () {
   'use strict';
 
   var Store = window.AlmaStore;
+  var id = new URLSearchParams(location.search).get('id') || 'marly-palatine';
+  var PRODUCT = Store.get(id);
+  var copy = Store.copy(PRODUCT);
 
-  var PRODUCT = {
-    id: 'marly-palatine',
-    name: 'Parfumes De Marly פאלטין א.ד.פ 75 מ"ל',
-    price: 1039.9,
-    img: 'assets/pdp-sticky-thumb.png',
-    url: 'product.html'
+  var cartItem = {
+    id: PRODUCT.id,
+    name: PRODUCT.brand + ' ' + PRODUCT.name,
+    price: PRODUCT.price,
+    img: PRODUCT.img,
+    url: Store.url(PRODUCT)
   };
+
+  /* ---------------------------------------------------------
+     fill the template
+     --------------------------------------------------------- */
+  function text(id, value) { var el = document.getElementById(id); if (el) el.textContent = value; }
+  function html(id, value) { var el = document.getElementById(id); if (el) el.innerHTML = value; }
+
+  document.title = PRODUCT.brand + ' ' + PRODUCT.name + ' | ALMA';
+  var desc = document.querySelector('meta[name="description"]');
+  if (desc) desc.setAttribute('content', PRODUCT.brand + ' ' + PRODUCT.name + ' — ' + copy.about.slice(0, 140));
+
+  text('crumbCat', PRODUCT.cat);
+  text('crumbName', PRODUCT.brand + ' ' + PRODUCT.name);
+  text('pBrand', PRODUCT.brand);
+  html('pName', PRODUCT.name.replace(' 75 מ”ל', '<br>75 מ”ל'));
+  text('pLatin', PRODUCT.latin || '');
+  text('pSku', 'מק"ט: ' + PRODUCT.sku);
+  text('pReviews', PRODUCT.reviews + ' חוות דעת');
+
+  var priceEl = document.getElementById('pPrice');
+  if (priceEl) {
+    priceEl.innerHTML = '₪' + PRODUCT.price.toFixed(2) +
+      (PRODUCT.old ? ' <s class="pinfo__old">₪' + PRODUCT.old.toFixed(2) + '</s>' : '');
+  }
+
+  var starsEl = document.getElementById('pStars');
+  if (starsEl) {
+    starsEl.innerHTML = '';
+    for (var s = 0; s < 5; s++) {
+      var im = document.createElement('img');
+      im.src = 'assets/star-full.svg';
+      im.alt = '';
+      im.style.opacity = s < PRODUCT.rating ? '1' : '.25';
+      starsEl.appendChild(im);
+    }
+    starsEl.setAttribute('aria-label', 'דירוג ' + PRODUCT.rating + ' מתוך 5');
+  }
+
+  /* tabs content */
+  text('tab-about', copy.about);
+  text('tab-who', copy.who);
+  text('tab-love', copy.love);
+
+  /* notes — only for perfumes (בעיצוב קיימות ארבע אריחי ניחוח בלבד) */
+  var notes = document.getElementById('pNotes');
+  if (notes && PRODUCT.kind) notes.hidden = true;
+
+  /* wishlist button targets this product */
+  var fav = document.querySelector('.gallery__fav');
+  if (fav) {
+    fav.setAttribute('data-wish', PRODUCT.id);
+    var liked = Store.inWish(PRODUCT.id);
+    fav.classList.toggle('is-on', liked);
+    fav.setAttribute('aria-pressed', String(liked));
+  }
+
+  /* sticky bar */
+  var sp = document.getElementById('stickyProduct');
+  if (sp) {
+    sp.querySelector('img').src = PRODUCT.img;
+    sp.querySelector('p').textContent = PRODUCT.brand + ' ' + PRODUCT.name;
+  }
 
   /* ---------------------------------------------------------
      gallery
      --------------------------------------------------------- */
   var main = document.getElementById('galleryMain');
+  var thumbsWrap = document.getElementById('galleryThumbs');
+  var shots = PRODUCT.gallery || [PRODUCT.img];
+
+  if (main) {
+    main.src = shots[0];
+    main.alt = PRODUCT.brand + ' ' + PRODUCT.name;
+  }
+
+  if (thumbsWrap) {
+    var thumbSrc = PRODUCT.thumbs || shots;
+    thumbsWrap.innerHTML = shots.map(function (src, i) {
+      return '<li><button class="thumb' + (i ? '' : ' is-active') + '" type="button" data-full="' + src +
+        '" aria-label="תמונה ' + (i + 1) + '"><img src="' + (thumbSrc[i] || src) + '" alt=""></button></li>';
+    }).join('');
+    /* תמונה אחת — אין טעם בעמודת תמונות קטנות ובחצים */
+    var single = shots.length < 2;
+    thumbsWrap.hidden = single;
+    document.querySelectorAll('.gallery__nav').forEach(function (b) { b.hidden = single; });
+  }
+
   var thumbs = [].slice.call(document.querySelectorAll('#galleryThumbs .thumb'));
 
   function show(i) {
@@ -29,9 +114,7 @@
     btn.classList.add('is-active');
   }
 
-  thumbs.forEach(function (btn, i) {
-    btn.addEventListener('click', function () { show(i); });
-  });
+  thumbs.forEach(function (btn, i) { btn.addEventListener('click', function () { show(i); }); });
 
   function current() {
     var i = thumbs.findIndex(function (t) { return t.classList.contains('is-active'); });
@@ -43,13 +126,29 @@
   if (prev) prev.addEventListener('click', function () { show(current() - 1); });
   if (next) next.addEventListener('click', function () { show(current() + 1); });
 
-  /* keyboard arrows move the gallery too */
   document.addEventListener('keydown', function (e) {
-    if (!thumbs.length) return;
+    if (thumbs.length < 2) return;
     if (e.target.closest('input, textarea, select')) return;
     if (e.key === 'ArrowRight') show(current() - 1);
     if (e.key === 'ArrowLeft') show(current() + 1);
   });
+
+  /* ---------------------------------------------------------
+     related products — נבנים מהקטלוג
+     --------------------------------------------------------- */
+  var relTrack = document.querySelector('.related__track');
+  if (relTrack) {
+    relTrack.innerHTML = Store.related(PRODUCT.id, 4).map(function (p) {
+      return '<li class="rel"><a href="' + Store.url(p) + '">' +
+        (p.old ? '<span class="rel__tag">מחיר מקורי<br>₪' + p.old.toFixed(2) + '</span>' : '') +
+        '<span class="rel__media"><img src="' + p.img + '" alt="' + p.brand + ' ' + p.name + '"></span>' +
+        '<span class="rel__name">' + p.name + '</span>' +
+        '<span class="rel__prices">' +
+          (p.old ? '<s class="rel__old">₪' + p.old.toFixed(2) + '</s>' : '') +
+          '<b class="rel__price">₪' + p.price.toFixed(2) + '</b>' +
+        '</span></a></li>';
+    }).join('');
+  }
 
   /* ---------------------------------------------------------
      tabs
@@ -73,14 +172,10 @@
   /* ---------------------------------------------------------
      add to cart / buy now
      --------------------------------------------------------- */
-  function addProduct() {
-    Store.add(PRODUCT);
-    Store.toast(PRODUCT.name + ' נוסף לסל');
-  }
-
   document.querySelectorAll('.pbtn--cart, .sticky-buy__cart').forEach(function (btn) {
     btn.addEventListener('click', function () {
-      addProduct();
+      Store.add(cartItem);
+      Store.toast(cartItem.name + ' נוסף לסל');
       var txt = btn.textContent;
       btn.textContent = 'נוסף לסל ✓';
       setTimeout(function () { btn.textContent = txt; }, 1500);
@@ -92,12 +187,11 @@
   if (buy) {
     buy.addEventListener('click', function (e) {
       e.preventDefault();
-      Store.add(PRODUCT);
+      Store.add(cartItem);
       window.location.href = 'checkout.html';
     });
   }
 
-  /* scroll to the reviews from the rating line */
   var count = document.querySelector('.pinfo__count');
   if (count) {
     count.addEventListener('click', function (e) {
@@ -138,7 +232,7 @@
   }
 
   /* ---------------------------------------------------------
-     reviews — real paging + sorting + helpful votes
+     reviews
      --------------------------------------------------------- */
   var revList = document.querySelector('.rev__list');
   if (revList) {
@@ -150,11 +244,11 @@
       { name: 'אולגה ו.', date: '06/11/25', stars: 5, text: 'אני מכורה למוצר, קודם כול הוא נעים ויש לו ריח מטורף וזה כיף!' },
       { name: 'פיירוז ו.', date: '30/10/25', stars: 4, text: 'אין הזמנה שהוא לא נכנס לסל. נעים וקליל ונספג ברגע עם ריח מושלם' },
       { name: 'שירה מ.', date: '22/10/25', stars: 5, text: 'קיבלתי מחמאות כל היום הראשון שלבשתי אותו. מחזיק שעות ארוכות בלי להיות מתקתק.' },
-      { name: 'רותם כ.', date: '14/10/25', stars: 5, text: 'הגיע ארוז יפה עם דוגמיות מתנה. הריח בדיוק כמו שציפיתי, נשי ומעודן.' },
-      { name: 'יעל ב.', date: '02/10/25', stars: 4, text: 'מאוד אוהבת את הפתיחה של האגס והברגמוט. בערב הוא נהיה חמים ומפנק.' },
-      { name: 'מיכל א.', date: '18/09/25', stars: 5, text: 'הבושם הכי מוצלח שקניתי השנה. השירות היה מהיר והמשלוח הגיע למחרת.' },
+      { name: 'רותם כ.', date: '14/10/25', stars: 5, text: 'הגיע ארוז יפה עם דוגמיות מתנה. בדיוק כמו שציפיתי, מעודן ומדויק.' },
+      { name: 'יעל ב.', date: '02/10/25', stars: 4, text: 'הפתיחה שלו הכי אהובה עליי. בערב הוא נהיה חמים ומפנק.' },
+      { name: 'מיכל א.', date: '18/09/25', stars: 5, text: 'הקנייה הכי מוצלחת שלי השנה. השירות היה מהיר והמשלוח הגיע למחרת.' },
       { name: 'דנה ל.', date: '05/09/25', stars: 5, text: 'קניתי כמתנה לאמא שלי והיא לא מפסיקה להתלהב. אריזה מהממת.' },
-      { name: 'נועה ר.', date: '28/08/25', stars: 3, text: 'ריח יפה מאוד אבל עליי הוא מחזיק פחות ממה שקיוויתי. עדיין נהנית ממנו.' }
+      { name: 'נועה ר.', date: '28/08/25', stars: 3, text: 'יפה מאוד אבל עליי הוא מחזיק פחות ממה שקיוויתי. עדיין נהנית ממנו.' }
     ];
 
     var PER = 3;
@@ -163,9 +257,7 @@
 
     function starsHtml(n) {
       var out = '';
-      for (var i = 5; i >= 1; i--) {
-        out += '<img src="' + (i <= n ? STAR_FULL : STAR_EMPTY) + '" alt="">';
-      }
+      for (var i = 5; i >= 1; i--) out += '<img src="' + (i <= n ? STAR_FULL : STAR_EMPTY) + '" alt="">';
       return out;
     }
 
@@ -220,7 +312,6 @@
     if (pPrev) pPrev.addEventListener('click', function () { if (revPage > 1) { revPage--; renderReviews(); } });
     if (pNext) pNext.addEventListener('click', function () { revPage++; renderReviews(); });
 
-    /* sort chips */
     var chips = [].slice.call(document.querySelectorAll('.chip'));
     chips.forEach(function (chip) {
       chip.addEventListener('click', function () {
@@ -234,7 +325,6 @@
       });
     });
 
-    /* helpful votes */
     revList.addEventListener('click', function (e) {
       var btn = e.target.closest('[data-vote]');
       if (!btn) return;
@@ -244,7 +334,6 @@
       btn.style.opacity = '.4';
     });
 
-    /* write a review */
     var write = document.querySelector('.rev__write');
     if (write) {
       write.addEventListener('click', function () {

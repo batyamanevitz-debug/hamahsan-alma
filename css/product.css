@@ -376,3 +376,9 @@ body.has-sticky .chat{bottom:104px}
   .rel__media{height:170px}
   .sticky-buy__product p{font-size:12.5px;line-height:16px}
 }
+
+/* מחיר קודם — מוצג רק למוצרים שיש להם מבצע */
+.pinfo__old{
+  font-size:15px;font-weight:500;color:var(--gray);
+  text-decoration:line-through;margin-inline-start:8px;
+}

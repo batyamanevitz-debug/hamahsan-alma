@@ -125,11 +125,11 @@
       <ol>
         <li><a href="index.html">עמוד הבית</a></li>
         <li aria-hidden="true">/</li>
-        <li><a href="category.html">בשמי נשים</a></li>
+        <li><a href="category.html" id="crumbCat">בשמי נשים</a></li>
         <li aria-hidden="true">/</li>
         <li><a href="#">בשמי בוטיק</a></li>
         <li aria-hidden="true">/</li>
-        <li><span aria-current="page">בושם לאישה Parfums De Marly Palatine EDP 75ml</span></li>
+        <li><span aria-current="page" id="crumbName">בושם לאישה Parfums De Marly Palatine EDP 75ml</span></li>
       </ol>
     </div>
   </nav>
@@ -165,17 +165,17 @@
     <section class="pinfo" aria-label="פרטי המוצר">
       <div class="pinfo__head">
         <div class="pinfo__names">
-          <h1 class="pinfo__brand">Parfumes De Marly</h1>
-          <p class="pinfo__title">פאלטין א.ד.פ<br>75 מ”ל</p>
-          <p class="pinfo__latin">Palatine E.D.P</p>
+          <h1 class="pinfo__brand" id="pBrand">Parfumes De Marly</h1>
+          <p class="pinfo__title" id="pName">פאלטין א.ד.פ<br>75 מ”ל</p>
+          <p class="pinfo__latin" id="pLatin">Palatine E.D.P</p>
         </div>
-        <p class="pinfo__sku">מק"ט: 425-0526</p>
-        <p class="pinfo__price">₪1039.90</p>
+        <p class="pinfo__sku" id="pSku">מק"ט: 425-0526</p>
+        <p class="pinfo__price" id="pPrice">₪1039.90</p>
         <div class="pinfo__rating">
-          <span class="stars stars--dark" aria-label="דירוג 5 מתוך 5">
+          <span class="stars stars--dark" id="pStars" aria-label="דירוג 5 מתוך 5">
             <img src="assets/star-full.svg" alt=""><img src="assets/star-full.svg" alt=""><img src="assets/star-full.svg" alt=""><img src="assets/star-full.svg" alt=""><img src="assets/star-full.svg" alt="">
           </span>
-          <a class="pinfo__count" href="#reviews">520 חוות דעת</a>
+          <a class="pinfo__count" href="#reviews" id="pReviews">520 חוות דעת</a>
         </div>
       </div>
 
@@ -192,8 +192,8 @@
         <li><img src="assets/ic-delivery.svg" alt=""><span>משלוח מהיר עד הבית – 1–3 ימי עסקים</span></li>
       </ul>
 
-      <div class="notes">
-        <h2 class="notes__title">מאפייני עיקריים של הבושם</h2>
+      <div class="notes" id="pNotes">
+        <h2 class="notes__title" id="pNotesTitle">מאפייני עיקריים של הבושם</h2>
         <ul class="notes__list">
           <li><img src="assets/note-vanilla.png" alt=""><span>וניל</span></li>
           <li><img src="assets/note-mandarin.png" alt=""><span>מנדרינה</span></li>
@@ -464,7 +464,7 @@
 <div class="sticky-buy" id="stickyBuy" aria-hidden="true">
   <div class="sticky-buy__inner">
     <button class="sticky-buy__cart" type="button">הוספה לסל</button>
-    <div class="sticky-buy__product">
+    <div class="sticky-buy__product" id="stickyProduct">
       <img src="assets/pdp-sticky-thumb.png" alt="">
       <p>בושם פרפומס דה מארלי - פלאטין א.ד.פ 75 מ"ל</p>
     </div>
