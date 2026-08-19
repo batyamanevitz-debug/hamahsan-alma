@@ -264,7 +264,14 @@
 
     var PER = 3;
     var revPage = 1;
-    var order = 'new';
+    var starFilter = null;   /* null = הכל, או 1..5 */
+    var sortDir = 'new';     /* new = מהחדש לישן, old = הפוך */
+
+    /* תאריך ממוין מתוך המחרוזת dd/mm/yy */
+    REVIEWS.forEach(function (r) {
+      var p = r.date.split('/');
+      r.ts = new Date(2000 + Number(p[2]), Number(p[1]) - 1, Number(p[0])).getTime();
+    });
 
     function starsHtml(n) {
       var out = '';
@@ -296,8 +303,35 @@
 
     function sorted() {
       var list = REVIEWS.slice();
-      if (order === 'five') list = list.filter(function (r) { return r.stars === 5; });
+      if (starFilter) list = list.filter(function (r) { return r.stars === starFilter; });
+      list.sort(function (a, b) { return sortDir === 'new' ? b.ts - a.ts : a.ts - b.ts; });
       return list;
+    }
+
+    /* מצב הכפתורים מסונכרן עם המצב האמיתי */
+    function syncControls(shown) {
+      var chip = document.querySelector('[data-rev-filter]');
+      if (chip) {
+        var on = starFilter === 5;
+        chip.classList.toggle('is-on', on);
+        chip.setAttribute('aria-pressed', String(on));
+      }
+      var sortChip = document.querySelector('[data-rev-sort]');
+      if (sortChip) {
+        sortChip.classList.add('is-on');
+        sortChip.classList.toggle('is-reversed', sortDir === 'old');
+        sortChip.firstChild.nodeValue = (sortDir === 'new' ? 'החדש ביותר' : 'הישן ביותר') + ' ';
+      }
+      document.querySelectorAll('.bars li[data-star]').forEach(function (li) {
+        var on = starFilter === Number(li.getAttribute('data-star'));
+        li.classList.toggle('is-on', on);
+        li.setAttribute('aria-pressed', String(on));
+      });
+      var note = document.getElementById('revFilterNote');
+      if (note) {
+        note.hidden = !starFilter;
+        note.textContent = starFilter ? 'מוצגות ' + shown + ' חוות דעת בדירוג ' + starFilter + ' כוכבים · לניקוי הסינון' : '';
+      }
     }
 
     function renderReviews() {
@@ -305,7 +339,10 @@
       var pages = Math.max(1, Math.ceil(list.length / PER));
       if (revPage > pages) revPage = pages;
       var from = (revPage - 1) * PER;
-      revList.innerHTML = list.slice(from, from + PER).map(reviewHtml).join('');
+      revList.innerHTML = list.length
+        ? list.slice(from, from + PER).map(reviewHtml).join('')
+        : '<li class="rev__empty">אין עדיין חוות דעת בדירוג הזה.</li>';
+      syncControls(list.length);
 
       document.querySelectorAll('.pager__page').forEach(function (btn, i) {
         btn.hidden = i >= pages;
@@ -323,18 +360,47 @@
     if (pPrev) pPrev.addEventListener('click', function () { if (revPage > 1) { revPage--; renderReviews(); } });
     if (pNext) pNext.addEventListener('click', function () { revPage++; renderReviews(); });
 
-    var chips = [].slice.call(document.querySelectorAll('.chip'));
-    chips.forEach(function (chip) {
-      chip.addEventListener('click', function () {
-        var five = chip.textContent.indexOf('5') > -1;
-        var on = chip.classList.contains('is-on');
-        chips.forEach(function (c) { c.classList.remove('is-on'); });
-        if (!on) chip.classList.add('is-on');
-        order = (!on && five) ? 'five' : 'new';
+    function setFilter(star) {
+      starFilter = (starFilter === star) ? null : star;
+      revPage = 1;
+      renderReviews();
+    }
+
+    /* צ'יפ '5 כוכבים' — סינון */
+    var filterChip = document.querySelector('[data-rev-filter]');
+    if (filterChip) {
+      filterChip.addEventListener('click', function () {
+        setFilter(Number(filterChip.getAttribute('data-rev-filter')));
+      });
+    }
+
+    /* צ'יפ 'החדש ביותר' — מיון לפי תאריך, לחיצה נוספת הופכת את הסדר */
+    var sortChip = document.querySelector('[data-rev-sort]');
+    if (sortChip) {
+      sortChip.addEventListener('click', function () {
+        sortDir = sortDir === 'new' ? 'old' : 'new';
         revPage = 1;
         renderReviews();
       });
+    }
+
+    /* פסי הדירוג בסיכום הם כפתורי סינון (כמו בפיגמה) */
+    document.querySelectorAll('.bars li[data-star]').forEach(function (li) {
+      var star = Number(li.getAttribute('data-star'));
+      li.addEventListener('click', function () { setFilter(star); });
+      li.addEventListener('keydown', function (e) {
+        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setFilter(star); }
+      });
     });
+
+    /* שורת מצב + ניקוי סינון */
+    var filterNote = document.createElement('button');
+    filterNote.type = 'button';
+    filterNote.id = 'revFilterNote';
+    filterNote.className = 'rev__note';
+    filterNote.hidden = true;
+    filterNote.addEventListener('click', function () { starFilter = null; revPage = 1; renderReviews(); });
+    revList.parentNode.insertBefore(filterNote, revList);
 
     revList.addEventListener('click', function (e) {
       var btn = e.target.closest('[data-vote]');

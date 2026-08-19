@@ -231,11 +231,11 @@
         </span>
 
         <ul class="bars">
-          <li><span class="bars__n">5</span><img class="bars__star" src="assets/star-sm.svg" alt=""><span class="bars__track"><span class="bars__fill" style="width:91.4%"></span></span><span class="bars__c">1142</span></li>
-          <li><span class="bars__n">4</span><img class="bars__star" src="assets/star-sm.svg" alt=""><span class="bars__track"><span class="bars__fill" style="width:6.6%"></span></span><span class="bars__c">83</span></li>
-          <li><span class="bars__n">3</span><img class="bars__star" src="assets/star-sm.svg" alt=""><span class="bars__track"><span class="bars__fill" style="width:1.4%"></span></span><span class="bars__c">18</span></li>
-          <li><span class="bars__n">2</span><img class="bars__star" src="assets/star-sm.svg" alt=""><span class="bars__track"><span class="bars__fill" style="width:0.4%"></span></span><span class="bars__c">5</span></li>
-          <li><span class="bars__n">1</span><img class="bars__star" src="assets/star-sm.svg" alt=""><span class="bars__track"><span class="bars__fill" style="width:0.2%"></span></span><span class="bars__c">2</span></li>
+          <li data-star="5" role="button" tabindex="0" aria-pressed="false"><span class="bars__n">5</span><img class="bars__star" src="assets/star-sm.svg" alt=""><span class="bars__track"><span class="bars__fill" style="width:91.4%"></span></span><span class="bars__c">1142</span></li>
+          <li data-star="4" role="button" tabindex="0" aria-pressed="false"><span class="bars__n">4</span><img class="bars__star" src="assets/star-sm.svg" alt=""><span class="bars__track"><span class="bars__fill" style="width:6.6%"></span></span><span class="bars__c">83</span></li>
+          <li data-star="3" role="button" tabindex="0" aria-pressed="false"><span class="bars__n">3</span><img class="bars__star" src="assets/star-sm.svg" alt=""><span class="bars__track"><span class="bars__fill" style="width:1.4%"></span></span><span class="bars__c">18</span></li>
+          <li data-star="2" role="button" tabindex="0" aria-pressed="false"><span class="bars__n">2</span><img class="bars__star" src="assets/star-sm.svg" alt=""><span class="bars__track"><span class="bars__fill" style="width:0.4%"></span></span><span class="bars__c">5</span></li>
+          <li data-star="1" role="button" tabindex="0" aria-pressed="false"><span class="bars__n">1</span><img class="bars__star" src="assets/star-sm.svg" alt=""><span class="bars__track"><span class="bars__fill" style="width:0.2%"></span></span><span class="bars__c">2</span></li>
         </ul>
 
         <button class="rev__write" type="button">כתיבת חוות דעת</button>
@@ -244,8 +244,8 @@
       <div class="rev__sort">
         <p class="rev__sortTitle">מיין לפי</p>
         <div class="rev__sortBtns">
-          <button class="chip" type="button">5 כוכבים <img src="assets/chevron.svg" alt=""></button>
-          <button class="chip" type="button">החדש ביותר <img src="assets/chevron.svg" alt=""></button>
+          <button class="chip" type="button" data-rev-filter="5" aria-pressed="false">5 כוכבים <img src="assets/chevron.svg" alt=""></button>
+          <button class="chip" type="button" data-rev-sort aria-pressed="true">החדש ביותר <img src="assets/chevron.svg" alt=""></button>
         </div>
       </div>
 

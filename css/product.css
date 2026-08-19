@@ -382,3 +382,26 @@ body.has-sticky .chat{bottom:104px}
   font-size:15px;font-weight:500;color:var(--gray);
   text-decoration:line-through;margin-inline-start:8px;
 }
+
+/* ---------- מצב פעיל לצ'יפים של חוות הדעת ---------- */
+.chip{cursor:pointer}
+.chip.is-on{background:#f6eef4;border-color:var(--plum);color:var(--plum);font-weight:600}
+.chip.is-reversed img{transform:rotate(-90deg)}
+
+/* פסי הדירוג בסיכום הם כפתורי סינון */
+.bars li[data-star]{cursor:pointer;border-radius:4px;transition:background .15s}
+.bars li[data-star]:hover{background:#f6eef4}
+.bars li[data-star]:focus-visible{outline:2px solid var(--plum);outline-offset:2px}
+.bars li[data-star].is-on{background:#f0e4ec}
+.bars li[data-star].is-on .bars__n,
+.bars li[data-star].is-on .bars__c{font-weight:700;color:var(--plum)}
+
+/* שורת מצב הסינון + מצב ריק */
+.rev__note{
+  align-self:flex-start;margin:14px 0 -18px;
+  font-size:14px;color:var(--plum);text-decoration:underline;
+}
+.rev__note:hover{filter:brightness(1.15)}
+.rev__empty{
+  padding:40px 8px;text-align:center;font-size:15px;color:var(--gray);
+}
