@@ -306,3 +306,6 @@
   .pgrid{gap:12px}
   .pcard__media{height:165px}
 }
+
+/* באנר קטגוריה ללא תמונה ייעודית — רצועת לילך נקייה */
+.cbanner--plain{background:var(--lilac)}

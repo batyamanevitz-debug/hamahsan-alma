@@ -260,7 +260,10 @@
     }
 
     var cartIcon = document.querySelectorAll('.nav__icon')[3];
-    if (cartIcon) cartIcon.addEventListener('click', function (e) { e.preventDefault(); openCart(); });
+    if (cartIcon) {
+      cartIcon.setAttribute('data-handled', '');
+      cartIcon.addEventListener('click', function (e) { e.preventDefault(); openCart(); });
+    }
   }
 
   /* ---------------------------------------------------------
@@ -284,6 +287,7 @@
 
   var wishIcon = document.querySelectorAll('.nav__icon')[2];
   if (wishIcon) {
+    wishIcon.setAttribute('data-handled', '');
     wishIcon.addEventListener('click', function (e) {
       e.preventDefault();
       var n = Store.wishCount();
@@ -310,7 +314,7 @@
     var a = e.target.closest('a[href="#"]');
     if (!a) return;
     if (a.parentElement && a.parentElement.classList.contains('has-mega')) return;
-    if (a.hasAttribute('data-wish') || a.classList.contains('nav__icon')) return;
+    if (a.hasAttribute('data-wish') || a.hasAttribute('data-handled')) return;
     e.preventDefault();
     Store.toast('הדף הזה לא נכלל בעיצוב — בקרוב');
   });

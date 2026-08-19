@@ -49,12 +49,12 @@
               <div class="mega__inner mega__inner--wide">
                 <img class="mega__img mega__img--perfume" src="assets/mega-perfume.png" alt="">
                 <ul class="mega__list">
-                  <li><a href="category.html">מותגי בישום מובילים</a></li>
-                  <li><a href="category.html">בשמי יוניסקס</a></li>
+                  <li><a href="category.html?cat=perfume">מותגי בישום מובילים</a></li>
+                  <li><a href="category.html?cat=perfume">בשמי יוניסקס</a></li>
                   <li><a href="category.html">בשמי נשים</a></li>
-                  <li><a href="category.html">בשמי גברים</a></li>
-                  <li><a href="category.html">בשמי יוקרה</a></li>
-                  <li><a href="category.html">סטים ומארזים</a></li>
+                  <li><a href="category.html?cat=perfume">בשמי גברים</a></li>
+                  <li><a href="category.html?cat=perfume">בשמי יוקרה</a></li>
+                  <li><a href="category.html?cat=perfume">סטים ומארזים</a></li>
                 </ul>
               </div>
             </div>
@@ -65,10 +65,10 @@
               <div class="mega__inner mega__inner--wide">
                 <img class="mega__img mega__img--makeup" src="assets/mega-makeup.png" alt="">
                 <ul class="mega__list">
-                  <li><a href="category.html">מותגי יופי מומלצים</a></li>
-                  <li><a href="category.html">איפור</a></li>
-                  <li><a href="category.html">טיפוח הגוף</a></li>
-                  <li><a href="category.html">טיפוח פנים</a></li>
+                  <li><a href="category.html?cat=makeup">מותגי יופי מומלצים</a></li>
+                  <li><a href="category.html?cat=makeup">איפור</a></li>
+                  <li><a href="category.html?cat=makeup">טיפוח הגוף</a></li>
+                  <li><a href="category.html?cat=makeup">טיפוח פנים</a></li>
                 </ul>
               </div>
             </div>
@@ -78,17 +78,17 @@
             <div class="mega" id="mega-hair">
               <div class="mega__inner">
                 <ul class="mega__list">
-                  <li><a href="category.html">מותגי טיפוח<br>שיער מומלצים</a></li>
-                  <li><a href="category.html">מכשירי חשמל לשיער</a></li>
-                  <li><a href="category.html">עיצוב שיער</a></li>
-                  <li><a href="category.html">טיפוח שיער</a></li>
+                  <li><a href="category.html?cat=hair">מותגי טיפוח<br>שיער מומלצים</a></li>
+                  <li><a href="category.html?cat=hair">מכשירי חשמל לשיער</a></li>
+                  <li><a href="category.html?cat=hair">עיצוב שיער</a></li>
+                  <li><a href="category.html?cat=hair">טיפוח שיער</a></li>
                 </ul>
               </div>
             </div>
           </li>
-          <li><a href="category.html">מבצעים</a></li>
-          <li><a href="category.html">חדש</a></li>
-          <li><a href="category.html">מותגים</a></li>
+          <li><a href="category.html?cat=perfume">מבצעים</a></li>
+          <li><a href="category.html?cat=perfume">חדש</a></li>
+          <li><a href="category.html?cat=perfume">מותגים</a></li>
         </ul>
         <a class="btn-club" href="#">
           <span>הצטרפות למועדון</span>
@@ -120,14 +120,14 @@
 <main id="main" class="catpage">
 
   <!-- ============ BANNER ============ -->
-  <section class="cbanner">
-    <img class="cbanner__bg" src="assets/cat-banner.png" alt="">
-    <h1 class="cbanner__title">בשמי נשים</h1>
+  <section class="cbanner" id="catBanner">
+    <img class="cbanner__bg" id="catBannerImg" src="assets/cat-banner.png" alt="">
+    <h1 class="cbanner__title" id="catTitle">בשמי נשים</h1>
   </section>
 
   <!-- ============ SUB CATEGORIES ============ -->
   <nav class="circles" aria-label="תתי קטגוריות">
-    <ul class="circles__list">
+    <ul class="circles__list" id="catCircles">
       <li class="circ"><a href="#"><img src="assets/circ-kids.png" alt=""><span>ילדים</span></a></li>
       <li class="circ"><a href="#"><img src="assets/circ-sets.png" alt=""><span>מארזים</span></a></li>
       <li class="circ"><a href="#"><img src="assets/circ-unisex.png" alt=""><span>יוניסקס</span></a></li>
@@ -139,9 +139,9 @@
   <!-- ============ TITLE ROW ============ -->
   <div class="cat-wrap ctitle">
     <nav class="ctitle__crumbs" aria-label="מסלול ניווט">
-      <a href="index.html">ראשי</a> <span>-</span> <span>בשמים</span>
+      <a href="index.html">ראשי</a> <span>-</span> <span id="catCrumb">בשמים</span>
     </nav>
-    <h2 class="ctitle__heading">בישום</h2>
+    <h2 class="ctitle__heading" id="catHeading">בישום</h2>
     <p class="ctitle__count"><span>60</span> פריטים</p>
   </div>
 
@@ -151,7 +151,7 @@
       <span class="filters__label">סינון</span>
       <div class="chips">
 
-        <div class="fwrap">
+        <div class="fwrap" data-filter="brand">
           <button class="fchip" type="button" aria-expanded="false" aria-controls="f-brand">מותג<img src="assets/chip-caret.svg" alt=""></button>
           <div class="fpanel fpanel--brand" id="f-brand">
             <ul class="fopts">
@@ -164,7 +164,7 @@
           </div>
         </div>
 
-        <div class="fwrap">
+        <div class="fwrap" data-filter="price">
           <button class="fchip" type="button" aria-expanded="false" aria-controls="f-price">מחיר<img src="assets/chip-caret.svg" alt=""></button>
           <div class="fpanel fpanel--price" id="f-price">
             <div class="prange">
@@ -175,7 +175,7 @@
           </div>
         </div>
 
-        <div class="fwrap">
+        <div class="fwrap" data-filter="rating">
           <button class="fchip" type="button" aria-expanded="false" aria-controls="f-rating">דירוג וחוות דעת<img src="assets/chip-caret.svg" alt=""></button>
           <div class="fpanel fpanel--rating" id="f-rating">
             <ul class="fopts">
@@ -193,7 +193,7 @@
           </div>
         </div>
 
-        <div class="fwrap">
+        <div class="fwrap" data-filter="note">
           <button class="fchip" type="button" aria-expanded="false" aria-controls="f-note">מרכיב<img src="assets/chip-caret.svg" alt=""></button>
           <div class="fpanel" id="f-note">
             <ul class="fopts">
@@ -206,7 +206,7 @@
           </div>
         </div>
 
-        <div class="fwrap">
+        <div class="fwrap" data-filter="style">
           <button class="fchip" type="button" aria-expanded="false" aria-controls="f-style">סגנון הניחוח<img src="assets/chip-caret.svg" alt=""></button>
           <div class="fpanel" id="f-style">
             <ul class="fopts">
@@ -219,7 +219,7 @@
           </div>
         </div>
 
-        <div class="fwrap">
+        <div class="fwrap" data-filter="need">
           <button class="fchip" type="button" aria-expanded="false" aria-controls="f-need">צורך<img src="assets/chip-caret.svg" alt=""></button>
           <div class="fpanel fpanel--need" id="f-need">
             <ul class="fopts">
@@ -249,217 +249,7 @@
 
   <!-- ============ PRODUCTS ============ -->
   <div class="cat-wrap">
-    <ul class="pgrid">
-
-      <li class="pcard" data-id="creed-spice" data-price="1629.9" data-brand="Creed" data-note="שרף" data-style="אגוזי" data-need="ערב" data-rating="3">
-        <a class="pcard__link" href="product.html?id=creed-spice">
-          <span class="pcard__media"><img src="assets/p-creed-spice.png" alt="CREED ספייס והוד א.ד.פ"></span>
-          <span class="pcard__name"><b>CREED</b><em>ספייס והוד א.ד.פ</em></span>
-          <span class="pcard__price">₪1629.90</span>
-          <span class="pcard__rate">
-            <span class="pcard__rev">חוות דעת</span>
-            <span class="cstars"><img src="assets/cstar-full.svg" alt=""><img src="assets/cstar-full.svg" alt=""><img src="assets/cstar-full.svg" alt=""><img src="assets/cstar-empty.svg" alt=""><img src="assets/cstar-empty.svg" alt=""></span>
-          </span>
-        </a>
-        <button class="pcard__cart" type="button">הוספה לסל</button>
-      </li>
-
-      <li class="pcard" data-id="maison-amyris" data-price="1549.9" data-brand="Maison Francis" data-note="צמחים" data-style="מתוק" data-need="אירוע" data-rating="5">
-        <a class="pcard__link" href="product.html?id=maison-amyris">
-          <span class="pcard__media"><img src="assets/p-maison-amyris.png" alt="MAISON FRANCIS אמיריס פם א.ד.פ"></span>
-          <span class="pcard__name"><b>MAISON FRANCIS</b><em>אמיריס פם א.ד.פ</em></span>
-          <span class="pcard__price">₪1549.90</span>
-          <span class="pcard__rate">
-            <span class="pcard__rev">חוות דעת</span>
-            <span class="cstars"><img src="assets/cstar-full.svg" alt=""><img src="assets/cstar-full.svg" alt=""><img src="assets/cstar-full.svg" alt=""><img src="assets/cstar-full.svg" alt=""><img src="assets/cstar-full.svg" alt=""></span>
-          </span>
-        </a>
-        <button class="pcard__cart" type="button">הוספה לסל</button>
-      </li>
-
-      <li class="pcard" data-id="roja-oud" data-price="1439.9" data-brand="Roja" data-note="שרף" data-style="אגוזי" data-need="אירוע" data-rating="5">
-        <a class="pcard__link" href="product.html?id=roja-oud">
-          <span class="pcard__media"><img src="assets/p-roja-oud.png" alt="ROJA אוד קריסטל פרפיום"></span>
-          <span class="pcard__name"><b>ROJA</b><em>אוד קריסטל פרפיום</em></span>
-          <span class="pcard__price">₪1439.90</span>
-          <span class="pcard__rate">
-            <span class="pcard__rev">חוות דעת</span>
-            <span class="cstars"><img src="assets/cstar-full.svg" alt=""><img src="assets/cstar-full.svg" alt=""><img src="assets/cstar-full.svg" alt=""><img src="assets/cstar-full.svg" alt=""><img src="assets/cstar-full.svg" alt=""></span>
-          </span>
-        </a>
-        <button class="pcard__cart" type="button">הוספה לסל</button>
-      </li>
-
-      <li class="pcard" data-id="chanel-coromandel" data-price="2199.9" data-brand="Chanel" data-note="זרעים" data-style="אבקתי" data-need="ערב" data-rating="5">
-        <a class="pcard__link" href="product.html?id=chanel-coromandel">
-          <span class="pcard__media"><img src="assets/p-chanel-coromandel.png" alt="CHANEL קורומנדאל א.ד.פ"></span>
-          <span class="pcard__name"><b>CHANEL</b><em>קורומנדאל א.ד.פ</em></span>
-          <span class="pcard__price">₪2199.90</span>
-          <span class="pcard__rate">
-            <span class="pcard__rev">חוות דעת</span>
-            <span class="cstars"><img src="assets/cstar-full.svg" alt=""><img src="assets/cstar-full.svg" alt=""><img src="assets/cstar-full.svg" alt=""><img src="assets/cstar-full.svg" alt=""><img src="assets/cstar-full.svg" alt=""></span>
-          </span>
-        </a>
-        <button class="pcard__cart" type="button">הוספה לסל</button>
-      </li>
-
-      <li class="pcard" data-id="malle-portrait" data-price="1119.9" data-brand="Frederic Malle" data-note="צמחים" data-style="אבקתי" data-need="ערב" data-rating="5">
-        <a class="pcard__link" href="product.html?id=malle-portrait">
-          <span class="pcard__media"><img src="assets/p-malle-portrait.png" alt="FREDERIC MALLE פורטרייט אוף ליידי א.ד.פ"></span>
-          <span class="pcard__name"><b>FREDERIC MALLE</b><em>פורטרייט אוף ליידי א.ד.פ</em></span>
-          <span class="pcard__price">₪1119.90</span>
-          <span class="pcard__rate">
-            <span class="pcard__rev">חוות דעת</span>
-            <span class="cstars"><img src="assets/cstar-full.svg" alt=""><img src="assets/cstar-full.svg" alt=""><img src="assets/cstar-full.svg" alt=""><img src="assets/cstar-full.svg" alt=""><img src="assets/cstar-full.svg" alt=""></span>
-          </span>
-        </a>
-        <button class="pcard__cart" type="button">הוספה לסל</button>
-      </li>
-
-      <li class="pcard" data-id="marly-palatine" data-price="1039.9" data-brand="Parfums De Marly" data-note="פירות" data-style="פירותיי" data-need="יומיומי" data-rating="5">
-        <a class="pcard__link" href="product.html?id=marly-palatine">
-          <span class="pcard__media"><img src="assets/p-marly-palatine.png" alt="DE MARLY פלאטין א.ד.פ"></span>
-          <span class="pcard__name"><b>DE MARLY</b><em>פלאטין א.ד.פ</em></span>
-          <span class="pcard__price">₪1039.90</span>
-          <span class="pcard__rate">
-            <span class="pcard__rev">חוות דעת</span>
-            <span class="cstars"><img src="assets/cstar-full.svg" alt=""><img src="assets/cstar-full.svg" alt=""><img src="assets/cstar-full.svg" alt=""><img src="assets/cstar-full.svg" alt=""><img src="assets/cstar-full.svg" alt=""></span>
-          </span>
-        </a>
-        <button class="pcard__cart" type="button">הוספה לסל</button>
-      </li>
-
-      <li class="pcard" data-id="marly-delina" data-price="969.9" data-brand="Parfums De Marly" data-note="פירות" data-style="פירותיי" data-need="יומיומי" data-rating="5">
-        <a class="pcard__link" href="product.html?id=marly-delina">
-          <span class="pcard__media"><img src="assets/p-marly-delina.png" alt="DE MARLY דאלינה א.ד.פ"></span>
-          <span class="pcard__name"><b>DE MARLY</b><em>דאלינה א.ד.פ</em></span>
-          <span class="pcard__price">₪969.90</span>
-          <span class="pcard__rate">
-            <span class="pcard__rev">חוות דעת</span>
-            <span class="cstars"><img src="assets/cstar-full.svg" alt=""><img src="assets/cstar-full.svg" alt=""><img src="assets/cstar-full.svg" alt=""><img src="assets/cstar-full.svg" alt=""><img src="assets/cstar-full.svg" alt=""></span>
-          </span>
-        </a>
-        <button class="pcard__cart" type="button">הוספה לסל</button>
-      </li>
-
-      <li class="pcard" data-id="creed-carmina" data-price="959.9" data-brand="Creed" data-note="צמחים" data-style="מתוק" data-need="ערב" data-rating="5">
-        <a class="pcard__link" href="product.html?id=creed-carmina">
-          <span class="pcard__media"><img src="assets/p-creed-carmina.png" alt="CREED קרמינה א.ד.פ"></span>
-          <span class="pcard__name"><b>CREED</b><em>קרמינה א.ד.פ</em></span>
-          <span class="pcard__price">₪959.90</span>
-          <span class="pcard__rate">
-            <span class="pcard__rev">חוות דעת</span>
-            <span class="cstars"><img src="assets/cstar-full.svg" alt=""><img src="assets/cstar-full.svg" alt=""><img src="assets/cstar-full.svg" alt=""><img src="assets/cstar-full.svg" alt=""><img src="assets/cstar-full.svg" alt=""></span>
-          </span>
-        </a>
-        <button class="pcard__cart" type="button">הוספה לסל</button>
-      </li>
-
-      <li class="pcard" data-id="tomford-tobacco" data-price="949.9" data-brand="Tom Ford" data-note="צמחים" data-style="אגוזי" data-need="ערב" data-rating="5">
-        <a class="pcard__link" href="product.html?id=tomford-tobacco">
-          <span class="pcard__media"><img src="assets/p-tomford-tobacco.png" alt="TOM FORD טוברוס א.ד.פ"></span>
-          <span class="pcard__name"><b>TOM FORD</b><em>טוברוס א.ד.פ</em></span>
-          <span class="pcard__price">₪949.90</span>
-          <span class="pcard__rate">
-            <span class="pcard__rev">חוות דעת</span>
-            <span class="cstars"><img src="assets/cstar-full.svg" alt=""><img src="assets/cstar-full.svg" alt=""><img src="assets/cstar-full.svg" alt=""><img src="assets/cstar-full.svg" alt=""><img src="assets/cstar-full.svg" alt=""></span>
-          </span>
-        </a>
-        <button class="pcard__cart" type="button">הוספה לסל</button>
-      </li>
-
-      <li class="pcard" data-id="creed-wind" data-price="949.9" data-brand="Creed" data-note="צמחים" data-style="רענן" data-need="יומיומי" data-rating="5">
-        <a class="pcard__link" href="product.html?id=creed-wind">
-          <span class="pcard__media"><img src="assets/p-creed-windflowers.png" alt="CREED ווינד פלוארס א.ד.פ"></span>
-          <span class="pcard__name"><b>CREED</b><em>ווינד פלוארס א.ד.פ</em></span>
-          <span class="pcard__price">₪949.90</span>
-          <span class="pcard__rate">
-            <span class="pcard__rev">חוות דעת</span>
-            <span class="cstars"><img src="assets/cstar-full.svg" alt=""><img src="assets/cstar-full.svg" alt=""><img src="assets/cstar-full.svg" alt=""><img src="assets/cstar-full.svg" alt=""><img src="assets/cstar-full.svg" alt=""></span>
-          </span>
-        </a>
-        <button class="pcard__cart" type="button">הוספה לסל</button>
-      </li>
-
-      <li class="pcard" data-id="penh-halfeti" data-price="919.9" data-brand="Penhaligons" data-note="שרף" data-style="אגוזי" data-need="אירוע" data-rating="5">
-        <a class="pcard__link" href="product.html?id=penh-halfeti">
-          <span class="pcard__media"><img src="assets/p-penh-halfeti.png" alt="PENHALIGONS חאלפטי לדר א.ד.פ"></span>
-          <span class="pcard__name"><b>PENHALIGONS</b><em>חאלפטי לדר א.ד.פ</em></span>
-          <span class="pcard__price">₪919.90</span>
-          <span class="pcard__rate">
-            <span class="pcard__rev">חוות דעת</span>
-            <span class="cstars"><img src="assets/cstar-full.svg" alt=""><img src="assets/cstar-full.svg" alt=""><img src="assets/cstar-full.svg" alt=""><img src="assets/cstar-full.svg" alt=""><img src="assets/cstar-full.svg" alt=""></span>
-          </span>
-        </a>
-        <button class="pcard__cart" type="button">הוספה לסל</button>
-      </li>
-
-      <li class="pcard" data-id="creed-virgin" data-price="919.9" data-brand="Creed" data-note="פירות" data-style="רענן" data-need="יומיומי" data-rating="5">
-        <a class="pcard__link" href="product.html?id=creed-virgin">
-          <span class="pcard__media"><img src="assets/p-creed-virgin.png" alt="CREED וירג׳יניה איסלנד ווטר א.ד.פ"></span>
-          <span class="pcard__name"><b>CREED</b><em>וירג&rsquo;יניה איסלנד ווטר א.ד.פ</em></span>
-          <span class="pcard__price">₪919.90</span>
-          <span class="pcard__rate">
-            <span class="pcard__rev">חוות דעת</span>
-            <span class="cstars"><img src="assets/cstar-full.svg" alt=""><img src="assets/cstar-full.svg" alt=""><img src="assets/cstar-full.svg" alt=""><img src="assets/cstar-full.svg" alt=""><img src="assets/cstar-full.svg" alt=""></span>
-          </span>
-        </a>
-        <button class="pcard__cart" type="button">הוספה לסל</button>
-      </li>
-
-      <li class="pcard" data-id="penh-constance" data-price="899.9" data-brand="Penhaligons" data-note="צמחים" data-style="אבקתי" data-need="אירוע" data-rating="5">
-        <a class="pcard__link" href="product.html?id=penh-constance">
-          <span class="pcard__media"><img src="assets/p-penh-constance.png" alt="PENHALIGONS צאנגינג קונסטנס א.ד.פ"></span>
-          <span class="pcard__name"><b>PENHALIGONS</b><em>צאנגינג קונסטנס א.ד.פ</em></span>
-          <span class="pcard__price">₪899.90</span>
-          <span class="pcard__rate">
-            <span class="pcard__rev">חוות דעת</span>
-            <span class="cstars"><img src="assets/cstar-full.svg" alt=""><img src="assets/cstar-full.svg" alt=""><img src="assets/cstar-full.svg" alt=""><img src="assets/cstar-full.svg" alt=""><img src="assets/cstar-full.svg" alt=""></span>
-          </span>
-        </a>
-        <button class="pcard__cart" type="button">הוספה לסל</button>
-      </li>
-
-      <li class="pcard" data-id="malle-lipstick" data-price="899.9" data-brand="Frederic Malle" data-note="צמחים" data-style="מתוק" data-need="ערב" data-rating="5">
-        <a class="pcard__link" href="product.html?id=malle-lipstick">
-          <span class="pcard__media"><img src="assets/p-malle-lipstick.png" alt="FREDERIC MALLE ליפסטיק רוז א.ד.פ"></span>
-          <span class="pcard__name"><b>FREDERIC MALLE</b><em>ליפסטיק רוז א.ד.פ</em></span>
-          <span class="pcard__price">₪899.90</span>
-          <span class="pcard__rate">
-            <span class="pcard__rev">חוות דעת</span>
-            <span class="cstars"><img src="assets/cstar-full.svg" alt=""><img src="assets/cstar-full.svg" alt=""><img src="assets/cstar-full.svg" alt=""><img src="assets/cstar-full.svg" alt=""><img src="assets/cstar-full.svg" alt=""></span>
-          </span>
-        </a>
-        <button class="pcard__cart" type="button">הוספה לסל</button>
-      </li>
-
-      <li class="pcard" data-id="marly-oriana" data-price="849.9" data-brand="Parfums De Marly" data-note="פירות" data-style="פירותיי" data-need="יומיומי" data-rating="5">
-        <a class="pcard__link" href="product.html?id=marly-oriana">
-          <span class="pcard__media"><img src="assets/p-marly-oriana.png" alt="DE MARLY אוריאנה א.ד.פ"></span>
-          <span class="pcard__name"><b>DE MARLY</b><em>אוריאנה א.ד.פ</em></span>
-          <span class="pcard__price">₪849.90</span>
-          <span class="pcard__rate">
-            <span class="pcard__rev">חוות דעת</span>
-            <span class="cstars"><img src="assets/cstar-full.svg" alt=""><img src="assets/cstar-full.svg" alt=""><img src="assets/cstar-full.svg" alt=""><img src="assets/cstar-full.svg" alt=""><img src="assets/cstar-full.svg" alt=""></span>
-          </span>
-        </a>
-        <button class="pcard__cart" type="button">הוספה לסל</button>
-      </li>
-
-      <li class="pcard" data-id="bond-goldcoast" data-price="839.9" data-brand="Bond No.9" data-note="מושק" data-style="מתוק" data-need="אירוע" data-rating="5">
-        <a class="pcard__link" href="product.html?id=bond-goldcoast">
-          <span class="pcard__media"><img src="assets/p-bond-goldcoast.png" alt="BOND NO.9 גולד קוסט א.ד.פ"></span>
-          <span class="pcard__name"><b>BOND NO.9</b><em>גולד קוסט א.ד.פ</em></span>
-          <span class="pcard__price">₪839.90</span>
-          <span class="pcard__rate">
-            <span class="pcard__rev">חוות דעת</span>
-            <span class="cstars"><img src="assets/cstar-full.svg" alt=""><img src="assets/cstar-full.svg" alt=""><img src="assets/cstar-full.svg" alt=""><img src="assets/cstar-full.svg" alt=""><img src="assets/cstar-full.svg" alt=""></span>
-          </span>
-        </a>
-        <button class="pcard__cart" type="button">הוספה לסל</button>
-      </li>
-
-    </ul>
+    <ul class="pgrid" id="catGrid"></ul>
 
     <nav class="cpager" aria-label="עמודי תוצאות">
       <button class="cpager__arrow cpager__arrow--prev" type="button" aria-label="הקודם">‹</button>
