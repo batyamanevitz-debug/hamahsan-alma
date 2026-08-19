@@ -368,7 +368,32 @@
     }).slice(0, 6);
   };
 
-  Store.url = function (p) { return 'product.html?id=' + p.id; };
+  /* קישור לדף הקטגוריה שאליה שייך המוצר */
+  var CAT_KEY = {
+    "בשמי נשים": "",
+    "בשמים": "?cat=perfume",
+    "איפור": "?cat=makeup",
+    "הכל לשיער": "?cat=hair"
+  };
+
+  Store.catUrl = function (p) {
+    return "category.html" + (CAT_KEY[p.cat] !== undefined ? CAT_KEY[p.cat] : "");
+  };
+
+  /* פירור הביניים — תת הקטגוריה של המוצר */
+  var SUB = {
+    makeup:   "איפור",
+    skincare: "טיפוח פנים",
+    hair:     "טיפוח שיער",
+    device:   "מכשירי חשמל לשיער",
+    set:      "מארזים ומתנות"
+  };
+
+  Store.subCrumb = function (p) {
+    return { label: p.kind ? (SUB[p.kind] || p.cat) : "בשמי בוטיק", href: Store.catUrl(p) };
+  };
+
+  Store.url = function (p) { return "product.html?id=" + p.id; };
 
   window.AlmaStore = Store;
 })(window);

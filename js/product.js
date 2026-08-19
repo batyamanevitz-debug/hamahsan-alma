@@ -27,7 +27,18 @@
   var desc = document.querySelector('meta[name="description"]');
   if (desc) desc.setAttribute('content', PRODUCT.brand + ' ' + PRODUCT.name + ' — ' + copy.about.slice(0, 140));
 
-  text('crumbCat', PRODUCT.cat);
+  var catLink = document.getElementById('crumbCat');
+  if (catLink) {
+    catLink.textContent = PRODUCT.cat;
+    catLink.href = Store.catUrl(PRODUCT);
+  }
+
+  var subLink = document.getElementById('crumbSub');
+  if (subLink) {
+    var sub = Store.subCrumb(PRODUCT);
+    subLink.textContent = sub.label;
+    subLink.href = sub.href;
+  }
   text('crumbName', PRODUCT.brand + ' ' + PRODUCT.name);
   text('pBrand', PRODUCT.brand);
   html('pName', PRODUCT.name.replace(' 75 מ”ל', '<br>75 מ”ל'));
