@@ -10,6 +10,7 @@
   if (!grid) return;
 
   var VIEW = Store.category(new URLSearchParams(location.search).get('cat'));
+  var GROUP = VIEW.parent || VIEW.key;
   var PER_PAGE = 8;
   var page = 1;
   var sort = '';
@@ -40,7 +41,7 @@
   var bannerImg = document.getElementById('catBannerImg');
   var banner = document.getElementById('catBanner');
   if (bannerImg && banner) {
-    var src = BANNERS[VIEW.key];
+    var src = BANNERS[GROUP];
     if (src) { bannerImg.src = src; bannerImg.hidden = false; banner.classList.remove('cbanner--plain'); }
     else { bannerImg.hidden = true; banner.classList.add('cbanner--plain'); }
   }
@@ -48,17 +49,17 @@
   var crumb = document.getElementById('catCrumb');
   if (crumb) crumb.textContent = VIEW.crumb;
   var heading = document.getElementById('catHeading');
-  if (heading) heading.textContent = HEADINGS[VIEW.key] || VIEW.title;
+  if (heading) heading.textContent = HEADINGS[GROUP] || VIEW.title;
 
   /* ---------------------------------------------------------
      עיגולי תתי הקטגוריות
      --------------------------------------------------------- */
   var PERFUME_CIRCLES = [
-    { img: 'assets/circ-kids.png',   label: 'ילדים',          href: 'category.html?cat=perfume' },
-    { img: 'assets/circ-sets.png',   label: 'מארזים',         href: 'category.html?cat=perfume' },
-    { img: 'assets/circ-unisex.png', label: 'יוניסקס',        href: 'category.html?cat=perfume' },
-    { img: 'assets/circ-women.png',  label: 'נשים',           href: 'category.html', key: 'women' },
-    { img: 'assets/circ-best.png',   label: 'הנמכרים ביותר',  href: 'category.html?cat=perfume', key: 'perfume' }
+    { img: 'assets/circ-kids.png',   label: 'ילדים',         href: 'category.html?cat=kids',   key: 'kids' },
+    { img: 'assets/circ-sets.png',   label: 'מארזים',        href: 'category.html?cat=sets',   key: 'sets' },
+    { img: 'assets/circ-unisex.png', label: 'יוניסקס',       href: 'category.html?cat=unisex', key: 'unisex' },
+    { img: 'assets/circ-women.png',  label: 'נשים',          href: 'category.html',            key: 'women' },
+    { img: 'assets/circ-best.png',   label: 'הנמכרים ביותר', href: 'category.html?cat=best',   key: 'best' }
   ];
 
   var MAIN_CIRCLES = [
@@ -69,7 +70,7 @@
 
   var circles = document.getElementById('catCircles');
   if (circles) {
-    var list = (VIEW.key === 'women' || VIEW.key === 'perfume') ? PERFUME_CIRCLES : MAIN_CIRCLES;
+    var list = GROUP === 'perfume' ? PERFUME_CIRCLES : MAIN_CIRCLES;
     circles.innerHTML = list.map(function (c) {
       var active = c.key === VIEW.key;
       return '<li class="circ' + (active ? ' is-active' : '') + '">' +
@@ -78,6 +79,24 @@
     }).join('');
   }
 
+
+  /* ניווט בין תתי הקטגוריות של אותה קבוצה */
+  var siblings = Object.keys(Store.subviews).filter(function (k) {
+    return Store.subviews[k].parent === GROUP;
+  });
+  if (siblings.length > 1) {
+    var nav = document.createElement('nav');
+    nav.className = 'subnav cat-wrap';
+    nav.setAttribute('aria-label', 'תתי קטגוריות');
+    nav.innerHTML = siblings.map(function (k) {
+      var v = Store.subviews[k];
+      var href = k === 'women' ? 'category.html' : 'category.html?cat=' + k;
+      return '<a class="subnav__link' + (k === VIEW.key ? ' is-on' : '') + '" href="' + href + '"' +
+        (k === VIEW.key ? ' aria-current="page"' : '') + '>' + v.title + '</a>';
+    }).join('');
+    var titleRow = document.querySelector('.ctitle');
+    titleRow.parentNode.insertBefore(nav, titleRow);
+  }
   /* ---------------------------------------------------------
      כרטיסי המוצרים
      --------------------------------------------------------- */
@@ -115,7 +134,9 @@
   var noRes = document.createElement('p');
   noRes.className = 'pgrid-empty';
   noRes.hidden = true;
-  noRes.textContent = 'לא נמצאו מוצרים שמתאימים לסינון. נסי לנקות חלק מהמסננים.';
+  noRes.textContent = VIEW.items.length
+    ? 'לא נמצאו מוצרים שמתאימים לסינון. נסי לנקות חלק מהמסננים.'
+    : 'הקטגוריה הזו עוד מתמלאת — בקרוב יהיו כאן מוצרים.';
   grid.parentNode.insertBefore(noRes, grid.nextSibling);
 
   /* ---------------------------------------------------------
@@ -151,7 +172,7 @@
   }
 
   /* מסננים ייחודיים לבשמים */
-  if (VIEW.key === 'makeup' || VIEW.key === 'hair') {
+  if (GROUP === 'makeup' || GROUP === 'hair') {
     wraps.forEach(function (w) {
       if (PERFUME_ONLY.indexOf(w.getAttribute('data-filter')) > -1) w.hidden = true;
     });

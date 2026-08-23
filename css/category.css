@@ -309,3 +309,21 @@
 
 /* באנר קטגוריה ללא תמונה ייעודית — רצועת לילך נקייה */
 .cbanner--plain{background:var(--lilac)}
+
+/* ---------- ניווט בין תתי קטגוריות ---------- */
+.subnav{
+  display:flex;flex-wrap:wrap;gap:8px;justify-content:center;
+  margin-top:26px;
+}
+.subnav__link{
+  padding:7px 16px;border:1px solid var(--line);border-radius:20px;
+  font-size:14px;color:#000;background:#fff;
+  transition:border-color .2s,color .2s,background .2s;
+}
+.subnav__link:hover{border-color:var(--plum);color:var(--plum)}
+.subnav__link.is-on{background:var(--plum);border-color:var(--plum);color:#fff;font-weight:600}
+
+@media (max-width:768px){
+  .subnav{gap:6px;margin-top:18px}
+  .subnav__link{padding:6px 12px;font-size:12.5px}
+}
