@@ -46,8 +46,22 @@
     else { bannerImg.hidden = true; banner.classList.add('cbanner--plain'); }
   }
 
-  var crumb = document.getElementById('catCrumb');
-  if (crumb) crumb.textContent = VIEW.crumb;
+  /* פירורי לחם — ראשי › קטגוריה ראשית › תת קטגוריה */
+  var crumbNav = document.querySelector('.ctitle__crumbs');
+  if (crumbNav) {
+    var trail = [{ label: 'ראשי', href: 'index.html' }];
+    var up = VIEW.parent && VIEW.parent !== VIEW.key ? Store.groups[VIEW.parent] : null;
+    /* תת קטגוריה שנקראת כמו הראשית — פירור אחד מספיק */
+    if (up && up.title !== VIEW.title) {
+      trail.push({ label: up.title, href: Store.viewUrl(VIEW.parent) });
+    }
+    trail.push({ label: VIEW.title });
+    crumbNav.innerHTML = trail.map(function (c, i) {
+      return (i ? ' <span>-</span> ' : '') + (c.href
+        ? '<a href="' + c.href + '">' + c.label + '</a>'
+        : '<span id="catCrumb" aria-current="page">' + c.label + '</span>');
+    }).join('');
+  }
   var heading = document.getElementById('catHeading');
   if (heading) heading.textContent = HEADINGS[GROUP] || VIEW.title;
 

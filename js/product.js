@@ -29,15 +29,24 @@
 
   var catLink = document.getElementById('crumbCat');
   if (catLink) {
-    catLink.textContent = PRODUCT.cat;
-    catLink.href = Store.catUrl(PRODUCT);
+    var topCrumb = Store.catCrumb(PRODUCT);
+    catLink.textContent = topCrumb.label;
+    catLink.href = topCrumb.href;
   }
 
   var subLink = document.getElementById('crumbSub');
   if (subLink) {
     var sub = Store.subCrumb(PRODUCT);
-    subLink.textContent = sub.label;
-    subLink.href = sub.href;
+    if (sub) {
+      subLink.textContent = sub.label;
+      subLink.href = sub.href;
+    } else {
+      /* אין תת קטגוריה נפרדת — מסירים את הפירור ואת הלוכסן שלפניו */
+      var li = subLink.parentNode;
+      var sep = li.previousElementSibling;
+      if (sep && sep.getAttribute('aria-hidden') === 'true') sep.parentNode.removeChild(sep);
+      li.parentNode.removeChild(li);
+    }
   }
   text('crumbName', PRODUCT.brand + ' ' + PRODUCT.name);
   text('pBrand', PRODUCT.brand);

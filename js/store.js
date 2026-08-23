@@ -405,30 +405,51 @@
     }).slice(0, 6);
   };
 
-  /* קישור לדף הקטגוריה שאליה שייך המוצר */
-  var CAT_KEY = {
-    "בשמי נשים": "",
-    "בשמים": "?cat=perfume",
-    "איפור": "?cat=makeup",
-    "הכל לשיער": "?cat=hair"
+  /* ---------------------------------------------------------
+     פירורי לחם — קטגוריה ראשית ותת קטגוריה אמיתיות
+     --------------------------------------------------------- */
+  var TOP = {
+    "בשמי נשים": { key: "perfume", label: "בשמים" },
+    "בשמים":     { key: "perfume", label: "בשמים" },
+    "איפור":     { key: "makeup",  label: "איפור" },
+    "הכל לשיער": { key: "hair",    label: "הכל לשיער" }
   };
 
-  Store.catUrl = function (p) {
-    return "category.html" + (CAT_KEY[p.cat] !== undefined ? CAT_KEY[p.cat] : "");
+  /* סדר העדיפות של תת הקטגוריה שתוצג — מהמדויקת ביותר לכללית */
+  var SUB_ORDER = {
+    perfume: ["kids", "sets", "men", "women", "unisex", "luxury", "brands"],
+    makeup:  ["sets", "face", "body", "cosmetics", "beauty-brands"],
+    hair:    ["sets", "devices", "styling", "haircare", "hair-brands"]
   };
 
-  /* פירור הביניים — תת הקטגוריה של המוצר */
-  var SUB = {
-    makeup:   "איפור",
-    skincare: "טיפוח פנים",
-    hair:     "טיפוח שיער",
-    device:   "מכשירי חשמל לשיער",
-    set:      "מארזים ומתנות"
+  function top(p) { return TOP[p.cat] || TOP["בשמי נשים"]; }
+
+  Store.viewUrl = function (key) {
+    return "category.html" + (key === "women" ? "" : "?cat=" + key);
   };
 
+  /* הפירור הראשון — הקטגוריה הראשית */
+  Store.catCrumb = function (p) {
+    var t = top(p);
+    return { label: t.label, href: Store.viewUrl(t.key) };
+  };
+
+  /* הפירור השני — תת הקטגוריה שהמוצר באמת שייך אליה, או null */
   Store.subCrumb = function (p) {
-    return { label: p.kind ? (SUB[p.kind] || p.cat) : "בשמי בוטיק", href: Store.catUrl(p) };
+    var t = top(p);
+    var subs = p.subs || [];
+    var order = SUB_ORDER[t.key] || [];
+    for (var i = 0; i < order.length; i++) {
+      var key = order[i];
+      if (subs.indexOf(key) < 0) continue;
+      var v = SUBVIEWS[key];
+      /* תת קטגוריה שנקראת כמו הראשית לא מוסיפה מידע — מדלגים עליה */
+      if (!v || v.title === t.label) continue;
+      return { label: v.title, href: Store.viewUrl(key) };
+    }
+    return null;
   };
+
 
   Store.url = function (p) { return "product.html?id=" + p.id; };
 
