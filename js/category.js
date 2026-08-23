@@ -79,24 +79,6 @@
     }).join('');
   }
 
-
-  /* ניווט בין תתי הקטגוריות של אותה קבוצה */
-  var siblings = Object.keys(Store.subviews).filter(function (k) {
-    return Store.subviews[k].parent === GROUP;
-  });
-  if (siblings.length > 1) {
-    var nav = document.createElement('nav');
-    nav.className = 'subnav cat-wrap';
-    nav.setAttribute('aria-label', 'תתי קטגוריות');
-    nav.innerHTML = siblings.map(function (k) {
-      var v = Store.subviews[k];
-      var href = k === 'women' ? 'category.html' : 'category.html?cat=' + k;
-      return '<a class="subnav__link' + (k === VIEW.key ? ' is-on' : '') + '" href="' + href + '"' +
-        (k === VIEW.key ? ' aria-current="page"' : '') + '>' + v.title + '</a>';
-    }).join('');
-    var titleRow = document.querySelector('.ctitle');
-    titleRow.parentNode.insertBefore(nav, titleRow);
-  }
   /* ---------------------------------------------------------
      כרטיסי המוצרים
      --------------------------------------------------------- */
