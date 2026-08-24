@@ -116,87 +116,87 @@
   var P = 'PARFUMS DE MARLY';
 
   Store.products = [
-    /* --- בשמי נשים (דף הקטגוריה) --- */
+    /* --- בשמים --- */
     { id:'chanel-coromandel', subs:['brands','unisex','luxury'], brand:'CHANEL', name:'קורומנדאל א.ד.פ', latin:'Coromandel E.D.P',
       price:2199.9, sku:'425-0512', img:'assets/p-chanel-coromandel.png',
-      style:'אבקתי', note:'זרעים', need:'ערב', rating:5, reviews:214, cat:'בשמי נשים' },
+      style:'אבקתי', note:'זרעים', need:'ערב', rating:5, reviews:214, cat:'בשמים' },
 
     { id:'creed-spice', subs:['brands','unisex','luxury'], brand:'CREED', name:'ספייס והוד א.ד.פ', latin:'Spice And Wood E.D.P',
       price:1629.9, sku:'425-0501', img:'assets/p-creed-spice.png',
-      style:'אגוזי', note:'שרף', need:'ערב', rating:3, reviews:96, cat:'בשמי נשים' },
+      style:'אגוזי', note:'שרף', need:'ערב', rating:3, reviews:96, cat:'בשמים' },
 
     { id:'maison-amyris', subs:['women','luxury'], brand:'MAISON FRANCIS', name:'אמיריס פם א.ד.פ', latin:'Amyris Femme E.D.P',
       price:1549.9, sku:'425-0502', img:'assets/p-maison-amyris.png',
-      style:'מתוק', note:'צמחים', need:'אירוע', rating:5, reviews:181, cat:'בשמי נשים' },
+      style:'מתוק', note:'צמחים', need:'אירוע', rating:5, reviews:181, cat:'בשמים' },
 
     { id:'roja-oud', subs:['unisex','luxury'], brand:'ROJA', name:'אוד קריסטל פרפיום', latin:'Oud Crystal Parfum',
       price:1439.9, sku:'425-0503', img:'assets/p-roja-oud.png',
-      style:'אגוזי', note:'שרף', need:'אירוע', rating:5, reviews:143, cat:'בשמי נשים' },
+      style:'אגוזי', note:'שרף', need:'אירוע', rating:5, reviews:143, cat:'בשמים' },
 
     { id:'malle-portrait', subs:['brands','women','luxury'], brand:'FREDERIC MALLE', name:'פורטרייט אוף ליידי א.ד.פ', latin:'Portrait Of A Lady E.D.P',
       price:1119.9, sku:'425-0505', img:'assets/p-malle-portrait.png',
-      style:'אבקתי', note:'צמחים', need:'ערב', rating:5, reviews:307, cat:'בשמי נשים' },
+      style:'אבקתי', note:'צמחים', need:'ערב', rating:5, reviews:307, cat:'בשמים' },
 
     { id:'marly-palatine', subs:['brands','women','luxury'], brand:'Parfumes De Marly', name:'פאלטין א.ד.פ 75 מ”ל', latin:'Palatine E.D.P',
       price:1039.9, sku:'425-0526', img:'assets/pdp-main.png',
       gallery:['assets/pdp-main.png','assets/pdp-thumb-2.png','assets/pdp-thumb-3.png','assets/pdp-thumb-4.png','assets/pdp-thumb-5.png'],
       thumbs:['assets/pdp-thumb-1.png','assets/pdp-thumb-2.png','assets/pdp-thumb-3.png','assets/pdp-thumb-4.png','assets/pdp-thumb-5.png'],
-      style:'פירותיי', note:'פירות', need:'יומיומי', rating:5, reviews:520, cat:'בשמי נשים',
+      style:'פירותיי', note:'פירות', need:'יומיומי', rating:5, reviews:520, cat:'בשמים',
       about:'הבושם Palatine E.D.P של מותג בשמי הבוטיק מרלי, שואב את השראתו מאישיות צבעונית מהמאה ה – 18, נסיכת פאלטין שהיתה ידועה בחוכמה ותעוזה, באומץ לב ואלגנטיות. הניחוח נפתח בתערובת תוססת של אגס וברגמוט המעניקים רעננות נעימה, מתפתח לעוצמה שובת לב בזכות זר פרחים מודרני ונשי ומתיישב על בסיס חזק, עמיד ויוקרתי המעניק תחושה מפנקת דרך המאסק.' },
 
     { id:'marly-delina', subs:['brands','women'], brand:P, name:'דאלינה א.ד.פ', latin:'Delina E.D.P',
       price:969.9, sku:'425-0507', img:'assets/p-marly-delina.png',
       gallery:['assets/p-marly-delina.png','assets/rel-delina.png'],
-      style:'פירותיי', note:'פירות', need:'יומיומי', rating:5, reviews:412, cat:'בשמי נשים' },
+      style:'פירותיי', note:'פירות', need:'יומיומי', rating:5, reviews:412, cat:'בשמים' },
 
     { id:'creed-carmina', subs:['brands','women'], brand:'CREED', name:'קרמינה א.ד.פ', latin:'Carmina E.D.P',
       price:959.9, sku:'425-0508', img:'assets/p-creed-carmina.png',
-      style:'מתוק', note:'צמחים', need:'ערב', rating:5, reviews:128, cat:'בשמי נשים' },
+      style:'מתוק', note:'צמחים', need:'ערב', rating:5, reviews:128, cat:'בשמים' },
 
     { id:'tomford-tobacco', subs:['brands','unisex'], brand:'TOM FORD', name:'טוברוס א.ד.פ', latin:'Tubereuse Nue E.D.P',
       price:949.9, sku:'425-0509', img:'assets/p-tomford-tobacco.png',
-      style:'אגוזי', note:'צמחים', need:'ערב', rating:5, reviews:265, cat:'בשמי נשים' },
+      style:'אגוזי', note:'צמחים', need:'ערב', rating:5, reviews:265, cat:'בשמים' },
 
     { id:'creed-wind', subs:['brands','women'], brand:'CREED', name:'ווינד פלוארס א.ד.פ', latin:'Wind Flowers E.D.P',
       price:949.9, sku:'425-0510', img:'assets/p-creed-windflowers.png',
-      style:'רענן', note:'צמחים', need:'יומיומי', rating:5, reviews:174, cat:'בשמי נשים' },
+      style:'רענן', note:'צמחים', need:'יומיומי', rating:5, reviews:174, cat:'בשמים' },
 
     { id:'penh-halfeti', subs:['brands','unisex'], brand:'PENHALIGONS', name:'חאלפטי לדר א.ד.פ', latin:'Halfeti Leather E.D.P',
       price:919.9, sku:'425-0511', img:'assets/p-penh-halfeti.png',
-      style:'אגוזי', note:'שרף', need:'אירוע', rating:5, reviews:99, cat:'בשמי נשים' },
+      style:'אגוזי', note:'שרף', need:'אירוע', rating:5, reviews:99, cat:'בשמים' },
 
     { id:'creed-virgin', subs:['brands','unisex'], brand:'CREED', name:'וירג’יניה איסלנד ווטר א.ד.פ', latin:'Virgin Island Water E.D.P',
       price:919.9, sku:'425-0513', img:'assets/p-creed-virgin.png',
-      style:'רענן', note:'פירות', need:'יומיומי', rating:5, reviews:238, cat:'בשמי נשים' },
+      style:'רענן', note:'פירות', need:'יומיומי', rating:5, reviews:238, cat:'בשמים' },
 
     { id:'penh-constance', subs:['brands','women'], brand:'PENHALIGONS', name:'צאנגינג קונסטנס א.ד.פ', latin:'Changing Constance E.D.P',
       price:899.9, sku:'425-0514', img:'assets/p-penh-constance.png',
-      style:'אבקתי', note:'צמחים', need:'אירוע', rating:5, reviews:87, cat:'בשמי נשים' },
+      style:'אבקתי', note:'צמחים', need:'אירוע', rating:5, reviews:87, cat:'בשמים' },
 
     { id:'malle-lipstick', subs:['brands','women'], brand:'FREDERIC MALLE', name:'ליפסטיק רוז א.ד.פ', latin:'Lipstick Rose E.D.P',
       price:899.9, sku:'425-0515', img:'assets/p-malle-lipstick.png',
-      style:'מתוק', note:'צמחים', need:'ערב', rating:5, reviews:156, cat:'בשמי נשים' },
+      style:'מתוק', note:'צמחים', need:'ערב', rating:5, reviews:156, cat:'בשמים' },
 
     { id:'marly-oriana', subs:['brands','women'], brand:P, name:'אוריאנה א.ד.פ', latin:'Oriana E.D.P',
       price:849.9, sku:'425-0516', img:'assets/p-marly-oriana.png',
-      style:'פירותיי', note:'פירות', need:'יומיומי', rating:5, reviews:301, cat:'בשמי נשים' },
+      style:'פירותיי', note:'פירות', need:'יומיומי', rating:5, reviews:301, cat:'בשמים' },
 
     { id:'bond-goldcoast', subs:['unisex'], brand:'BOND NO.9', name:'גולד קוסט א.ד.פ', latin:'Gold Coast E.D.P',
       price:839.9, sku:'425-0517', img:'assets/p-bond-goldcoast.png',
-      style:'מתוק', note:'מושק', need:'אירוע', rating:5, reviews:64, cat:'בשמי נשים' },
+      style:'מתוק', note:'מושק', need:'אירוע', rating:5, reviews:64, cat:'בשמים' },
 
     /* --- נבחר במיוחד עבורך (דף המוצר) --- */
     { id:'marly-greenley', subs:['brands','men'], brand:P, name:'גרינלי א.ד.פ', latin:'Greenley E.D.P',
       price:499.9, old:589.9, sku:'425-0518', img:'assets/rel-greenley.png',
-      style:'רענן', note:'צמחים', need:'יומיומי', rating:5, reviews:210, cat:'בשמי נשים' },
+      style:'רענן', note:'צמחים', need:'יומיומי', rating:5, reviews:210, cat:'בשמים' },
 
     { id:'marly-perseus', subs:['brands','men'], brand:P, name:'פרסאוס א.ד.פ', latin:'Perseus E.D.P',
       price:779.9, sku:'425-0519', img:'assets/rel-perseus.png',
-      style:'רענן', note:'פירות', need:'יומיומי', rating:5, reviews:118, cat:'בשמי נשים' },
+      style:'רענן', note:'פירות', need:'יומיומי', rating:5, reviews:118, cat:'בשמים' },
 
     { id:'marly-valaya', subs:['brands','women','luxury'], brand:P, name:'ואלאיה א.ד.פ', latin:'Valaya E.D.P',
       price:1039.9, sku:'425-0520', img:'assets/rel-valaya.png',
-      style:'פירותיי', note:'פירות', need:'יומיומי', rating:5, reviews:342, cat:'בשמי נשים' },
+      style:'פירותיי', note:'פירות', need:'יומיומי', rating:5, reviews:342, cat:'בשמים' },
 
     /* --- המומלצים של לקוחתינו (דף הבית) --- */
     { id:'montblanc-legend', subs:['men'], brand:'MONT BLANC', name:'לג’נד א.ד.פ', latin:'Legend E.D.P',
@@ -332,16 +332,17 @@
   /* שורה בדאטהבייס -> מוצר כמו שהאתר מכיר */
   function fromRow(r) {
     var p = {
-      id: r.id, brand: r.brand, name: r.name, latin: r.latin || '',
+      id: r.id, brand: r.brand, name: r.title, latin: r.latin || '',
       price: Number(r.price), sku: r.sku, cat: r.cat,
       img: r.img, subs: r.subs || [],
       rating: Number(r.rating), reviews: Number(r.reviews)
     };
-    if (r.old_price !== null && r.old_price !== undefined) p.old = Number(r.old_price);
-    ['kind', 'style', 'note', 'need', 'about', 'who', 'love'].forEach(function (k) {
+    if (r.original_price !== null && r.original_price !== undefined) p.old = Number(r.original_price);
+    ['kind', 'style', 'note', 'need', 'who', 'love'].forEach(function (k) {
       if (r[k]) p[k] = r[k];
     });
-    if (r.gallery && r.gallery.length) p.gallery = r.gallery;
+    if (r.full_description) p.about = r.full_description;
+    if (r.images && r.images.length) p.gallery = r.images;
     if (r.thumbs && r.thumbs.length) p.thumbs = r.thumbs;
     return p;
   }
@@ -364,7 +365,8 @@
   Store.source = 'fallback';
   Store.ready = fetchCatalog().then(function (rows) {
     if (!rows || !rows.length) throw new Error('empty catalog');
-    Store.products = rows.map(fromRow);
+    /* מוצר שסומן כאזל בלוח הניהול לא מוצג בחנות */
+    Store.products = rows.filter(function (r) { return r.is_in_stock !== false; }).map(fromRow);
     Store.source = 'supabase';
     write(DB_CACHE, rows);
     return Store.products;
@@ -380,8 +382,7 @@
   });
 
   var GROUPS = {
-    women:   { title: "בשמי נשים", crumb: "בשמים", match: function (p) { return p.cat === "בשמי נשים"; } },
-    perfume: { title: "בשמים",     crumb: "בשמים", match: function (p) { return p.cat === "בשמי נשים" || p.cat === "בשמים"; } },
+    perfume: { title: "בשמים",     crumb: "בשמים", match: function (p) { return p.cat === "בשמים"; } },
     makeup:  { title: "איפור",     crumb: "איפור", match: function (p) { return p.cat === "איפור"; } },
     hair:    { title: "הכל לשיער", crumb: "שיער",  match: function (p) { return p.cat === "הכל לשיער"; } }
   };
@@ -425,10 +426,10 @@
         })
       };
     }
-    var g = GROUPS[key] || GROUPS.women;
+    var g = GROUPS[key] || GROUPS.perfume;
     return {
-      key: GROUPS[key] ? key : "women",
-      parent: GROUPS[key] ? key : "women",
+      key: GROUPS[key] ? key : "perfume",
+      parent: GROUPS[key] ? key : "perfume",
       title: g.title,
       crumb: g.crumb,
       items: Store.products.filter(g.match)
@@ -470,7 +471,6 @@
      פירורי לחם — קטגוריה ראשית ותת קטגוריה אמיתיות
      --------------------------------------------------------- */
   var TOP = {
-    "בשמי נשים": { key: "perfume", label: "בשמים" },
     "בשמים":     { key: "perfume", label: "בשמים" },
     "איפור":     { key: "makeup",  label: "איפור" },
     "הכל לשיער": { key: "hair",    label: "הכל לשיער" }
@@ -483,7 +483,7 @@
     hair:    ["sets", "devices", "styling", "haircare", "hair-brands"]
   };
 
-  function top(p) { return TOP[p.cat] || TOP["בשמי נשים"]; }
+  function top(p) { return TOP[p.cat] || TOP["בשמים"]; }
 
   Store.viewUrl = function (key) {
     return "category.html" + (key === "women" ? "" : "?cat=" + key);

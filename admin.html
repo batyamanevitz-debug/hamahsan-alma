@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>ניהול החנות | המחסן ALMA</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Assistant:wght@300;400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/admin.css">
+</head>
+<body>
+
+<!-- ============================================================
+     מסך התחברות
+     ============================================================ -->
+<div class="gate" id="gate">
+  <form class="gate__box" id="loginForm" autocomplete="on">
+    <h1 class="gate__logo">ALMA</h1>
+    <p class="gate__sub">ניהול החנות</p>
+
+    <label class="field">
+      <span class="field__label">דוא״ל</span>
+      <input class="field__input" type="email" id="loginEmail" required autocomplete="username" dir="ltr">
+    </label>
+
+    <label class="field">
+      <span class="field__label">סיסמה</span>
+      <input class="field__input" type="password" id="loginPassword" required autocomplete="current-password" dir="ltr">
+    </label>
+
+    <p class="gate__error" id="loginError" hidden></p>
+
+    <button class="btn btn--primary btn--block" type="submit" id="loginBtn">כניסה</button>
+    <p class="gate__note">הגישה מוגבלת למנהלי החנות בלבד.</p>
+  </form>
+</div>
+
+<!-- ============================================================
+     לוח הניהול
+     ============================================================ -->
+<div class="app" id="app" hidden>
+
+  <header class="topbar">
+    <button class="topbar__burger" id="navToggle" type="button" aria-label="תפריט" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+    <div class="topbar__brand">
+      <strong>ALMA</strong><span>ניהול החנות</span>
+    </div>
+    <div class="topbar__side">
+      <a class="topbar__link" href="index.html" target="_blank" rel="noopener">צפייה באתר ↗</a>
+      <span class="topbar__user" id="userEmail"></span>
+      <button class="btn btn--ghost btn--sm" type="button" id="logoutBtn">יציאה</button>
+    </div>
+  </header>
+
+  <div class="layout">
+    <nav class="side" id="side" aria-label="ניווט ראשי">
+      <button class="side__item is-active" data-tab="products">מוצרים</button>
+      <button class="side__item" data-tab="taxonomy">קטגוריות ומותגים</button>
+      <button class="side__item" data-tab="pages">דפי תוכן</button>
+      <button class="side__item" data-tab="blog">בלוג</button>
+      <button class="side__item" data-tab="settings">הגדרות חנות</button>
+      <button class="side__item" data-tab="orders">הזמנות <span class="side__badge" id="ordersBadge" hidden>0</span></button>
+    </nav>
+
+    <main class="main" id="main">
+
+      <!-- ---------- מוצרים ---------- -->
+      <section class="panel is-active" id="tab-products">
+        <div class="panel__head">
+          <div>
+            <h2 class="panel__title">מוצרים</h2>
+            <p class="panel__sub" id="productsCount">טוען…</p>
+          </div>
+          <button class="btn btn--primary" type="button" id="newProduct">+ מוצר חדש</button>
+        </div>
+
+        <div class="toolbar">
+          <input class="toolbar__search" type="search" id="productSearch" placeholder="חיפוש לפי שם, מותג או מק״ט">
+          <select class="toolbar__select" id="productCatFilter"><option value="">כל הקטגוריות</option></select>
+          <select class="toolbar__select" id="productStockFilter">
+            <option value="">כל המלאי</option>
+            <option value="in">במלאי</option>
+            <option value="out">אזל</option>
+          </select>
+        </div>
+
+        <div class="tablewrap">
+          <table class="table" id="productsTable">
+            <thead>
+              <tr>
+                <th>תמונה</th><th>שם</th><th>מותג</th><th>קטגוריה</th>
+                <th>מחיר</th><th>מלאי</th><th>מצב</th><th></th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+          <p class="empty" id="productsEmpty" hidden>לא נמצאו מוצרים שמתאימים לחיפוש.</p>
+        </div>
+      </section>
+
+      <!-- ---------- קטגוריות ומותגים ---------- -->
+      <section class="panel" id="tab-taxonomy">
+        <div class="panel__head">
+          <div>
+            <h2 class="panel__title">קטגוריות ומותגים</h2>
+            <p class="panel__sub">ה־slug הוא המפתח שהאתר משתמש בו בכתובת. שינוי שלו משנה קישורים קיימים.</p>
+          </div>
+        </div>
+
+        <div class="cols">
+          <div class="card">
+            <div class="card__head">
+              <h3>עץ הקטגוריות</h3>
+              <button class="btn btn--sm" type="button" id="newCategory">+ קטגוריה</button>
+            </div>
+            <div class="tree" id="categoryTree"></div>
+          </div>
+
+          <div class="card">
+            <div class="card__head">
+              <h3>מותגים</h3>
+              <button class="btn btn--sm" type="button" id="newBrand">+ מותג</button>
+            </div>
+            <div class="brands" id="brandList"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ---------- דפי תוכן ---------- -->
+      <section class="panel" id="tab-pages">
+        <div class="panel__head">
+          <div>
+            <h2 class="panel__title">דפי תוכן</h2>
+            <p class="panel__sub">אודות, תקנון, משלוחים ושאלות נפוצות.</p>
+          </div>
+          <button class="btn btn--primary" type="button" id="newPage">+ דף חדש</button>
+        </div>
+        <div class="cardgrid" id="pageList"></div>
+      </section>
+
+      <!-- ---------- בלוג ---------- -->
+      <section class="panel" id="tab-blog">
+        <div class="panel__head">
+          <div>
+            <h2 class="panel__title">בלוג הביוטי</h2>
+            <p class="panel__sub">מאמרים, תמונות נושא ותקצירים.</p>
+          </div>
+          <button class="btn btn--primary" type="button" id="newPost">+ מאמר חדש</button>
+        </div>
+        <div class="cardgrid" id="postList"></div>
+      </section>
+
+      <!-- ---------- הגדרות ---------- -->
+      <section class="panel" id="tab-settings">
+        <div class="panel__head">
+          <div>
+            <h2 class="panel__title">הגדרות חנות</h2>
+            <p class="panel__sub">באנרים, טקסטים ופרטי יצירת קשר.</p>
+          </div>
+        </div>
+        <form class="card card--form" id="settingsForm">
+          <div class="fields" id="settingsFields"></div>
+          <div class="card__foot">
+            <button class="btn btn--primary" type="submit">שמירת הגדרות</button>
+          </div>
+        </form>
+      </section>
+
+      <!-- ---------- הזמנות ---------- -->
+      <section class="panel" id="tab-orders">
+        <div class="panel__head">
+          <div>
+            <h2 class="panel__title">הזמנות</h2>
+            <p class="panel__sub" id="ordersCount">טוען…</p>
+          </div>
+        </div>
+
+        <div class="toolbar">
+          <input class="toolbar__search" type="search" id="orderSearch" placeholder="חיפוש לפי שם, מייל או מספר הזמנה">
+          <select class="toolbar__select" id="orderStatusFilter">
+            <option value="">כל הסטטוסים</option>
+            <option value="pending">ממתין</option>
+            <option value="processing">בטיפול</option>
+            <option value="shipped">נשלח</option>
+            <option value="completed">הושלם</option>
+            <option value="cancelled">בוטל</option>
+          </select>
+        </div>
+
+        <div class="tablewrap">
+          <table class="table" id="ordersTable">
+            <thead>
+              <tr><th>הזמנה</th><th>לקוח</th><th>פריטים</th><th>סכום</th><th>תאריך</th><th>סטטוס</th><th></th></tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+          <p class="empty" id="ordersEmpty" hidden>אין עדיין הזמנות.</p>
+        </div>
+      </section>
+
+    </main>
+  </div>
+</div>
+
+<!-- ============================================================
+     חלון עריכה
+     ============================================================ -->
+<div class="modal" id="modal" hidden>
+  <div class="modal__backdrop" data-close></div>
+  <div class="modal__box" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <header class="modal__head">
+      <h3 class="modal__title" id="modalTitle"></h3>
+      <button class="modal__x" type="button" data-close aria-label="סגירה">&times;</button>
+    </header>
+    <form class="modal__body" id="modalForm"></form>
+    <footer class="modal__foot">
+      <button class="btn btn--danger btn--ghost" type="button" id="modalDelete" hidden>מחיקה</button>
+      <span class="modal__spacer"></span>
+      <button class="btn btn--ghost" type="button" data-close>ביטול</button>
+      <button class="btn btn--primary" type="submit" form="modalForm" id="modalSave">שמירה</button>
+    </footer>
+  </div>
+</div>
+
+<!-- אישור מחיקה -->
+<div class="modal modal--sm" id="confirm" hidden>
+  <div class="modal__backdrop" data-confirm-close></div>
+  <div class="modal__box" role="alertdialog" aria-modal="true">
+    <header class="modal__head"><h3 class="modal__title">מחיקה</h3></header>
+    <div class="modal__body"><p id="confirmText"></p></div>
+    <footer class="modal__foot">
+      <span class="modal__spacer"></span>
+      <button class="btn btn--ghost" type="button" data-confirm-close>ביטול</button>
+      <button class="btn btn--danger" type="button" id="confirmYes">כן, למחוק</button>
+    </footer>
+  </div>
+</div>
+
+<div class="toasts" id="toasts" aria-live="polite"></div>
+
+<script type="module" src="js/admin.js"></script>
+</body>
+</html>
