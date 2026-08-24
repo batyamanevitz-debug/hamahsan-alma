@@ -109,7 +109,9 @@
 
 
   /* ---------------------------------------------------------
-     CATALOG — כל המוצרים באתר. דף המוצר נבנה מכאן לפי ?id=
+     CATALOG — המקור האמיתי הוא טבלת products ב-Supabase.
+     הרשימה שכאן היא רשת ביטחון: היא זו שמוצגת אם הדאטהבייס
+     לא זמין (למשל אחרי שפרויקט חינמי נכנס להשהיה).
      --------------------------------------------------------- */
   var P = 'PARFUMS DE MARLY';
 
@@ -318,6 +320,65 @@
   };
 
   /* קיבוץ לשלוש הקטגוריות הראשיות של האתר */
+  /* ---------------------------------------------------------
+     Supabase — טעינת הקטלוג מהדאטהבייס
+     המפתח הזה ציבורי בכוונה. RLS על הטבלה מתיר קריאה בלבד.
+     --------------------------------------------------------- */
+  var DB_URL = 'https://touuyegybctmfdtzlbmt.supabase.co';
+  var DB_KEY = 'sb_publishable_OaxEZB5EkKNvGlXk9yrY-w_6gV7zcsI';
+  var DB_CACHE = 'alma.catalog.v1';
+  var DB_TIMEOUT = 5000;
+
+  /* שורה בדאטהבייס -> מוצר כמו שהאתר מכיר */
+  function fromRow(r) {
+    var p = {
+      id: r.id, brand: r.brand, name: r.name, latin: r.latin || '',
+      price: Number(r.price), sku: r.sku, cat: r.cat,
+      img: r.img, subs: r.subs || [],
+      rating: Number(r.rating), reviews: Number(r.reviews)
+    };
+    if (r.old_price !== null && r.old_price !== undefined) p.old = Number(r.old_price);
+    ['kind', 'style', 'note', 'need', 'about', 'who', 'love'].forEach(function (k) {
+      if (r[k]) p[k] = r[k];
+    });
+    if (r.gallery && r.gallery.length) p.gallery = r.gallery;
+    if (r.thumbs && r.thumbs.length) p.thumbs = r.thumbs;
+    return p;
+  }
+
+  function fetchCatalog() {
+    if (!window.fetch) return Promise.reject(new Error('no fetch'));
+    var ctrl = window.AbortController ? new AbortController() : null;
+    var timer = setTimeout(function () { if (ctrl) ctrl.abort(); }, DB_TIMEOUT);
+    return fetch(DB_URL + '/rest/v1/products?select=*&order=sort_order.asc', {
+      headers: { apikey: DB_KEY, Authorization: 'Bearer ' + DB_KEY },
+      signal: ctrl ? ctrl.signal : undefined
+    }).then(function (res) {
+      clearTimeout(timer);
+      if (!res.ok) throw new Error('HTTP ' + res.status);
+      return res.json();
+    });
+  }
+
+  /* Store.ready — הדפים ממתינים לזה לפני שהם מציירים מוצרים */
+  Store.source = 'fallback';
+  Store.ready = fetchCatalog().then(function (rows) {
+    if (!rows || !rows.length) throw new Error('empty catalog');
+    Store.products = rows.map(fromRow);
+    Store.source = 'supabase';
+    write(DB_CACHE, rows);
+    return Store.products;
+  }).catch(function (err) {
+    /* אין רשת או שהדאטהבייס מושהה — מנסים עותק שמור, ואם אין נשארים עם המוטמע */
+    var cached = read(DB_CACHE);
+    if (cached && cached.length) {
+      Store.products = cached.map(fromRow);
+      Store.source = 'cache';
+    }
+    if (window.console) console.warn('ALMA: קטלוג מ-' + Store.source, err && err.message);
+    return Store.products;
+  });
+
   var GROUPS = {
     women:   { title: "בשמי נשים", crumb: "בשמים", match: function (p) { return p.cat === "בשמי נשים"; } },
     perfume: { title: "בשמים",     crumb: "בשמים", match: function (p) { return p.cat === "בשמי נשים" || p.cat === "בשמים"; } },
