@@ -334,7 +334,7 @@
     var p = {
       id: r.id, brand: r.brand, name: r.title, latin: r.latin || '',
       price: Number(r.price), sku: r.sku, cat: r.cat,
-      img: r.img, subs: r.subs || [],
+      img: r.img, subs: r.subs || [], catId: r.category_id,
       rating: Number(r.rating), reviews: Number(r.reviews)
     };
     if (r.original_price !== null && r.original_price !== undefined) p.old = Number(r.original_price);
@@ -494,6 +494,92 @@
 
   Store.subviews = SUBVIEWS;
 
+  /* ---------------------------------------------------------
+     עץ הקטגוריות מגיע מטבלת categories, כדי ששינוי שם, העברה
+     לקטגוריית אב אחרת או הוספת קטגוריה בלוח הניהול ישפיעו על
+     האתר. המבנה שלמעלה נשאר כרשת ביטחון אם אין דאטהבייס.
+
+     כללי סינון מיוחדים שאי אפשר להביע בטבלה נשמרים לפי slug.
+     --------------------------------------------------------- */
+  var RULES = {
+    best: function (p) { return p.reviews >= 300 && isUnder(p, 'perfume'); }
+  };
+
+  /* האם המוצר שייך לקטגוריה הראשית הזו */
+  function isUnder(p, slug) {
+    var g = GROUPS[slug];
+    return !!(g && g.match(p));
+  }
+
+  function applyCategories(rows) {
+    if (!rows || !rows.length) return;
+
+    var byId = {};
+    rows.forEach(function (c) { byId[c.id] = c; });
+
+    var roots = rows.filter(function (c) { return !c.parent_id; });
+    var kids  = rows.filter(function (c) { return c.parent_id && byId[c.parent_id]; });
+    if (!roots.length) return;
+
+    var G = {}, S = {};
+
+    roots.forEach(function (c) {
+      G[c.slug] = {
+        id: c.id,
+        title: c.name,
+        crumb: c.name,
+        image: c.image_url || null,
+        /* התאמה לפי מזהה ולא לפי שם — שינוי שם לא מנתק מוצרים */
+        match: function (p) { return p.catId === c.id; }
+      };
+    });
+
+    kids.forEach(function (c) {
+      var parent = byId[c.parent_id];
+      if (!G[parent.slug]) return;
+      S[c.slug] = {
+        id: c.id,
+        title: c.name,
+        crumb: parent.name,
+        parent: parent.slug,
+        image: c.image_url || null
+      };
+      if (RULES[c.slug]) S[c.slug].match = RULES[c.slug];
+    });
+
+    /* קטגוריה ראשית שיש לה כלל מיוחד מתנהגת לפיו גם כשורש */
+    roots.forEach(function (c) {
+      if (RULES[c.slug]) G[c.slug].match = RULES[c.slug];
+    });
+
+    GROUPS = Store.groups = G;
+    SUBVIEWS = Store.subviews = S;
+    Store.taxonomy = 'supabase';
+  }
+
+  Store.taxonomy = 'fallback';
+
+  var TAX_CACHE = 'alma.categories.v1';
+
+  var taxonomyReady = dbGet('categories?select=id,name,slug,parent_id,image_url,sort_order&order=sort_order.asc')
+    .then(function (rows) {
+      if (!rows || !rows.length) throw new Error('empty taxonomy');
+      write(TAX_CACHE, rows);
+      applyCategories(rows);
+      return rows;
+    })
+    .catch(function () {
+      var cached = read(TAX_CACHE);
+      if (cached && cached.length) { applyCategories(cached); Store.taxonomy = 'cache'; }
+      return [];
+    });
+
+  /* הדפים ממתינים גם לעץ הקטגוריות: בלעדיו Store.category תיבנה
+     על המבנה המוטמע ותתעלם משינויים שנעשו בלוח הניהול */
+  Store.ready = Promise.all([Store.ready, taxonomyReady]).then(function () {
+    return Store.products;
+  });
+
   Store.category = function (key) {
     if (!key) key = "women";
     if (SUBVIEWS[key]) {
@@ -552,20 +638,28 @@
   /* ---------------------------------------------------------
      פירורי לחם — קטגוריה ראשית ותת קטגוריה אמיתיות
      --------------------------------------------------------- */
-  var TOP = {
-    "בשמים":     { key: "perfume", label: "בשמים" },
-    "איפור":     { key: "makeup",  label: "איפור" },
-    "הכל לשיער": { key: "hair",    label: "הכל לשיער" }
-  };
+  /* סדר העדיפות של תת הקטגוריה שתוצג — מהמדויקת ביותר לכללית.
+     slug שלא מופיע כאן עדיין יוצג, רק אחרי אלה שכן. */
+  var SUB_ORDER = ["kids", "sets", "men", "women", "unisex", "luxury",
+                   "face", "body", "devices", "styling", "haircare",
+                   "cosmetics", "brands", "beauty-brands", "hair-brands"];
 
-  /* סדר העדיפות של תת הקטגוריה שתוצג — מהמדויקת ביותר לכללית */
-  var SUB_ORDER = {
-    perfume: ["kids", "sets", "men", "women", "unisex", "luxury", "brands"],
-    makeup:  ["sets", "face", "body", "cosmetics", "beauty-brands"],
-    hair:    ["sets", "devices", "styling", "haircare", "hair-brands"]
-  };
-
-  function top(p) { return TOP[p.cat] || TOP["בשמים"]; }
+  /* הקטגוריה הראשית של המוצר, לפי מזהה ולא לפי שם — כך ששינוי
+     שם של קטגוריה בלוח הניהול לא מנתק את פירורי הלחם */
+  function top(p) {
+    var keys = Object.keys(GROUPS);
+    for (var i = 0; i < keys.length; i++) {
+      if (GROUPS[keys[i]].id && GROUPS[keys[i]].id === p.catId) {
+        return { key: keys[i], label: GROUPS[keys[i]].title };
+      }
+    }
+    for (var j = 0; j < keys.length; j++) {
+      if (GROUPS[keys[j]].title === p.cat) {
+        return { key: keys[j], label: GROUPS[keys[j]].title };
+      }
+    }
+    return { key: keys[0], label: GROUPS[keys[0]] ? GROUPS[keys[0]].title : p.cat };
+  }
 
   Store.viewUrl = function (key) {
     return "category.html" + (key === "women" ? "" : "?cat=" + key);
@@ -580,17 +674,19 @@
   /* הפירור השני — תת הקטגוריה שהמוצר באמת שייך אליה, או null */
   Store.subCrumb = function (p) {
     var t = top(p);
-    var subs = p.subs || [];
-    var order = SUB_ORDER[t.key] || [];
-    for (var i = 0; i < order.length; i++) {
-      var key = order[i];
-      if (subs.indexOf(key) < 0) continue;
-      var v = SUBVIEWS[key];
-      /* תת קטגוריה שנקראת כמו הראשית לא מוסיפה מידע — מדלגים עליה */
-      if (!v || v.title === t.label) continue;
-      return { label: v.title, href: Store.viewUrl(key) };
-    }
-    return null;
+    var subs = (p.subs || []).filter(function (k) {
+      var v = SUBVIEWS[k];
+      /* רק תת קטגוריה שקיימת, שייכת לאותה קטגוריה ראשית,
+         ושמה שונה ממנה — אחרת הפירור חוזר על עצמו */
+      return v && v.parent === t.key && v.title !== t.label;
+    });
+    if (!subs.length) return null;
+
+    subs.sort(function (a, b) {
+      var ia = SUB_ORDER.indexOf(a), ib = SUB_ORDER.indexOf(b);
+      return (ia < 0 ? 99 : ia) - (ib < 0 ? 99 : ib);
+    });
+    return { label: SUBVIEWS[subs[0]].title, href: Store.viewUrl(subs[0]) };
   };
 
 

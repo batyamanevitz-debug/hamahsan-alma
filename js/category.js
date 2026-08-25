@@ -86,9 +86,34 @@
       { img: 'assets/cat-makeup.png',  label: 'איפור',      href: 'category.html?cat=makeup',  key: 'makeup' }
     ];
 
+    /* התמונות מהעיצוב, לפי slug. אם הוגדרה תמונה בלוח הניהול
+       היא גוברת, וקטגוריה חדשה מקבלת את התמונה שהוגדרה לה. */
+    var FALLBACK_IMG = {};
+    PERFUME_CIRCLES.concat(MAIN_CIRCLES).forEach(function (c) { FALLBACK_IMG[c.key] = c.img; });
+
+    /* העיגולים נבנים מעץ הקטגוריות: תתי הקטגוריות של הקבוצה
+       הנוכחית, ואם היא עצמה שורש ללא ילדים — שאר הקטגוריות הראשיות */
+    function circlesFor(groupKey) {
+      var subs = Store.subviews || {};
+      var kids = Object.keys(subs).filter(function (k) { return subs[k].parent === groupKey; });
+
+      if (kids.length) {
+        return kids.map(function (k) {
+          return { key: k, label: subs[k].title,
+                   img: subs[k].image || FALLBACK_IMG[k] || 'assets/cat-perfume.png',
+                   href: Store.viewUrl(k) };
+        });
+      }
+      return Object.keys(Store.groups || {}).map(function (k) {
+        return { key: k, label: Store.groups[k].title,
+                 img: Store.groups[k].image || FALLBACK_IMG[k] || 'assets/cat-perfume.png',
+                 href: Store.viewUrl(k) };
+      });
+    }
+
     var circles = document.getElementById('catCircles');
     if (circles) {
-      var list = GROUP === 'perfume' ? PERFUME_CIRCLES : MAIN_CIRCLES;
+      var list = circlesFor(GROUP);
       circles.innerHTML = list.map(function (c) {
         var active = c.key === VIEW.key;
         return '<li class="circ' + (active ? ' is-active' : '') + '">' +
