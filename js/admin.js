@@ -13,9 +13,9 @@ const SUPABASE_URL = 'https://touuyegybctmfdtzlbmt.supabase.co';
 const SUPABASE_KEY = 'sb_publishable_OaxEZB5EkKNvGlXk9yrY-w_6gV7zcsI';
 const BUCKET = 'media';
 
-/* חשבון המנהל. המסך מבקש סיסמה בלבד, והמייל מולא כאן מראש.
-   הסיסמה עצמה לא נמצאת בקוד — היא נבדקת מול Supabase Auth,
-   ובלי סשן תקף אין הרשאת כתיבה לשום טבלה. */
+/* חשבון המנהל. הכניסה היא בקישור קסם: לוחצים, מגיע מייל לכתובת הזו,
+   ולחיצה על הקישור פותחת סשן. אין סיסמה בקוד ואין סיסמה לזכור —
+   מי שאין לו גישה לתיבת המייל הזו לא יכול להיכנס. */
 const ADMIN_EMAIL = 'batyamanevitz@gmail.com';
 
 const db = createClient(SUPABASE_URL, SUPABASE_KEY);
@@ -99,32 +99,54 @@ async function run(promise, failMsg) {
 const gate = $('#gate');
 const app  = $('#app');
 
+$('#gateEmail').textContent = ADMIN_EMAIL;
+
+/* אם החזרה מהמייל נכשלה, Supabase מחזיר את הסיבה ב-hash */
+(function showLinkError() {
+  const hash = new URLSearchParams(location.hash.slice(1));
+  const code = hash.get('error_code') || hash.get('error');
+  if (!code) return;
+  const box = $('#loginError');
+  box.textContent = /expired|invalid/i.test(code)
+    ? 'הקישור פג תוקף או כבר נוצל. אפשר לבקש קישור חדש.'
+    : 'הכניסה נכשלה: ' + (hash.get('error_description') || code);
+  box.hidden = false;
+  history.replaceState({}, '', location.pathname);
+})();
+
 $('#loginForm').addEventListener('submit', async e => {
   e.preventDefault();
-  const btn = $('#loginBtn');
-  const box = $('#loginError');
+  const btn  = $('#loginBtn');
+  const box  = $('#loginError');
+  const sent = $('#loginSent');
   box.hidden = true;
+  sent.hidden = true;
   btn.disabled = true;
-  btn.textContent = 'מתחבר…';
+  btn.textContent = 'שולח…';
 
-  const { error } = await db.auth.signInWithPassword({
+  const { error } = await db.auth.signInWithOtp({
     email: ADMIN_EMAIL,
-    password: $('#loginPassword').value
+    options: {
+      emailRedirectTo: location.origin + location.pathname,
+      /* לא יוצרים משתמשים מהמסך הזה — רק חשבון קיים יכול להיכנס */
+      shouldCreateUser: false
+    }
   });
 
   btn.disabled = false;
-  btn.textContent = 'כניסה';
+  btn.textContent = 'שליחת קישור כניסה';
 
   if (error) {
-    box.textContent = error.message === 'Invalid login credentials'
-      ? 'הסיסמה שגויה.'
-      : 'ההתחברות נכשלה: ' + error.message;
+    box.textContent = /rate|limit|seconds/i.test(error.message)
+      ? 'נשלחו יותר מדי בקשות. צריך להמתין דקה ולנסות שוב.'
+      : 'שליחת הקישור נכשלה: ' + error.message;
     box.hidden = false;
-    $('#loginPassword').select();
     return;
   }
-  $('#loginPassword').value = '';
-  boot();
+
+  sent.innerHTML = 'הקישור נשלח. אפשר לפתוח את המייל וללחוץ עליו — '
+                 + 'הכניסה תתבצע אוטומטית.<br>לא הגיע? כדאי לבדוק גם בספאם.';
+  sent.hidden = false;
 });
 
 $('#logoutBtn').addEventListener('click', async () => {
@@ -143,13 +165,18 @@ async function currentAdmin() {
   return { user: session.user };
 }
 
+/* מזהה המשתמש שהלוח כבר טעון עבורו — מונע טעינה כפולה
+   כשהחזרה מהמייל מפעילה גם את boot וגם את onAuthStateChange */
+let loadedFor = null;
+
 async function boot() {
   const admin = await currentAdmin();
 
-  if (!admin) { gate.hidden = false; app.hidden = true; return; }
+  if (!admin) { loadedFor = null; gate.hidden = false; app.hidden = true; return; }
 
   if (admin.denied) {
     await db.auth.signOut();
+    loadedFor = null;
     const box = $('#loginError');
     box.textContent = 'החשבון הזה מחובר אבל אינו מוגדר כמנהל חנות.';
     box.hidden = false;
@@ -161,6 +188,13 @@ async function boot() {
   gate.hidden = true;
   app.hidden = false;
   $('#userEmail').textContent = admin.user.email || '';
+
+  if (loadedFor === admin.user.id) return;
+  loadedFor = admin.user.id;
+
+  /* מנקים את הטוקן מהכתובת כדי שרענון לא ינסה לממש קישור שכבר נוצל */
+  if (location.search || location.hash) history.replaceState({}, '', location.pathname);
+
   await loadAll();
 }
 
@@ -1316,7 +1350,9 @@ function orderForm(o) {
    הפעלה
    --------------------------------------------------------- */
 db.auth.onAuthStateChange((event) => {
-  if (event === 'SIGNED_OUT') { gate.hidden = false; app.hidden = true; }
+  if (event === 'SIGNED_OUT') { loadedFor = null; gate.hidden = false; app.hidden = true; }
+  /* החזרה מקישור הקסם מזוהה על ידי ה-SDK ומגיעה לכאן */
+  if (event === 'SIGNED_IN' || event === 'INITIAL_SESSION') boot();
 });
 
 boot();

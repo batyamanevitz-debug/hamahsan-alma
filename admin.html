@@ -16,20 +16,20 @@
      מסך התחברות
      ============================================================ -->
 <div class="gate" id="gate">
-  <form class="gate__box" id="loginForm" autocomplete="on">
+  <form class="gate__box" id="loginForm">
     <h1 class="gate__logo">ALMA</h1>
     <p class="gate__sub">ניהול החנות</p>
 
-    <label class="field">
-      <span class="field__label">סיסמה</span>
-      <input class="field__input" type="password" id="loginPassword" required
-             autocomplete="current-password" dir="ltr" autofocus>
-    </label>
+    <p class="gate__lead">
+      נשלח קישור כניסה לכתובת<br>
+      <b class="gate__mail" id="gateEmail" dir="ltr"></b>
+    </p>
 
     <p class="gate__error" id="loginError" hidden></p>
+    <p class="gate__sent"  id="loginSent"  hidden></p>
 
-    <button class="btn btn--primary btn--block" type="submit" id="loginBtn">כניסה</button>
-    <p class="gate__note">הגישה מוגבלת למנהלי החנות בלבד.</p>
+    <button class="btn btn--primary btn--block" type="submit" id="loginBtn">שליחת קישור כניסה</button>
+    <p class="gate__note">הקישור תקף לשעה אחת ולשימוש אחד בלבד.</p>
   </form>
 </div>
 

@@ -92,9 +92,20 @@ button{font-family:inherit}
   margin:6px 0 26px;text-align:center;color:var(--muted);
   font-size:13px;letter-spacing:.05em;
 }
+.gate__lead{
+  margin:0 0 20px;text-align:center;color:var(--ink-2);
+  font-size:14px;line-height:1.7;
+}
+.gate__mail{
+  display:inline-block;margin-top:3px;font-weight:600;color:var(--ink);
+}
 .gate__error{
   margin:0 0 14px;padding:9px 12px;border-radius:var(--radius-sm);
   background:var(--danger-soft);color:var(--danger);font-size:13.5px;
+}
+.gate__sent{
+  margin:0 0 14px;padding:11px 13px;border-radius:var(--radius-sm);
+  background:var(--ok-soft);color:var(--ok);font-size:13.5px;line-height:1.6;
 }
 .gate__note{
   margin:16px 0 0;text-align:center;color:var(--muted);font-size:12.5px;

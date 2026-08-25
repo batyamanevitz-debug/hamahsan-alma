@@ -64,22 +64,26 @@ node server.js
 
 ### כניסה
 
-מסך הכניסה מבקש **סיסמה בלבד**. המייל של חשבון המנהל קבוע בקוד
-(`ADMIN_EMAIL` ב-[`js/admin.js`](js/admin.js)) והסיסמה נבדקת מול Supabase Auth.
+אין סיסמה. לוחצים **שליחת קישור כניסה**, מגיע מייל לכתובת שב-`ADMIN_EMAIL`
+([`js/admin.js`](js/admin.js)), ולחיצה על הקישור פותחת סשן. הקישור תקף לשעה
+ולשימוש אחד.
 
-להוספת מנהל נוסף:
+**הגדרה חד-פעמית ב-Supabase** (Authentication → URL Configuration):
 
-1. ליצור משתמש ב-Supabase: **Authentication → Users → Add user** (עם Auto Confirm User).
-2. בעורך ה-SQL: `select public.grant_admin('המייל@שלו.com');`
-3. לעדכן את `ADMIN_EMAIL` אם רוצים שהוא יהיה החשבון שנכנס מהמסך הזה.
+* **Site URL:** `https://batyamanevitz-debug.github.io/hamahsan-alma/`
+* **Redirect URLs:** להוסיף את שתי השורות
+  `https://batyamanevitz-debug.github.io/hamahsan-alma/admin.html`
+  ו-`http://localhost:4321/admin.html` (לפיתוח מקומי).
+
+בלי זה הקישור שבמייל יחזיר לכתובת ברירת המחדל ולא ללוח.
+
+להוספת מנהל נוסף: ליצור משתמש ב-Authentication → Users, להריץ
+`select public.grant_admin('המייל@שלו.com');`, ולעדכן את `ADMIN_EMAIL`.
 
 חשוב: משתמש מחובר **אינו** מנהל. רק מי שרשום בטבלת `admins` יכול לשנות
 משהו — כל פוליסת כתיבה בדאטהבייס דורשת `public.is_admin()`. לכן העובדה
 ש-`admin.html` נגיש לכולם ב-GitHub Pages אינה חושפת את החנות: מי שיפתח
-אותו בלי הסיסמה יראה מסך התחברות ולא יוכל לקרוא הזמנות או לשנות דבר.
-
-הסיסמה היא ההגנה היחידה על נתוני הלקוחות בטבלת `orders`. Supabase דורש
-לפחות 6 תווים, וכדאי הרבה יותר.
+אותו יוכל לבקש קישור, אבל הקישור יגיע לתיבה של בעלת החנות בלבד.
 
 ### מה אפשר לעשות שם
 
