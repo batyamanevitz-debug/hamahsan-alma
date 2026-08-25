@@ -347,18 +347,29 @@
     return p;
   }
 
-  function fetchCatalog() {
+  function dbHeaders(extra) {
+    var h = { apikey: DB_KEY, Authorization: 'Bearer ' + DB_KEY };
+    for (var k in extra) h[k] = extra[k];
+    return h;
+  }
+
+  /* קריאה מהדאטהבייס עם תקציב זמן, כדי שדף לא ייתקע על רשת איטית */
+  function dbGet(path) {
     if (!window.fetch) return Promise.reject(new Error('no fetch'));
     var ctrl = window.AbortController ? new AbortController() : null;
     var timer = setTimeout(function () { if (ctrl) ctrl.abort(); }, DB_TIMEOUT);
-    return fetch(DB_URL + '/rest/v1/products?select=*&order=sort_order.asc', {
-      headers: { apikey: DB_KEY, Authorization: 'Bearer ' + DB_KEY },
+    return fetch(DB_URL + '/rest/v1/' + path, {
+      headers: dbHeaders(),
       signal: ctrl ? ctrl.signal : undefined
     }).then(function (res) {
       clearTimeout(timer);
       if (!res.ok) throw new Error('HTTP ' + res.status);
       return res.json();
     });
+  }
+
+  function fetchCatalog() {
+    return dbGet('products?select=*&order=sort_order.asc');
   }
 
   /* Store.ready — הדפים ממתינים לזה לפני שהם מציירים מוצרים */
@@ -380,6 +391,77 @@
     if (window.console) console.warn('ALMA: קטלוג מ-' + Store.source, err && err.message);
     return Store.products;
   });
+
+  /* ---------------------------------------------------------
+     הגדרות החנות — נערכות בלוח הניהול ומוחלות על כל הדפים
+     --------------------------------------------------------- */
+  var SET_CACHE = 'alma.settings.v1';
+
+  Store.settings = read(SET_CACHE) && !Array.isArray(read(SET_CACHE)) ? read(SET_CACHE) : {};
+
+  Store.settingsReady = dbGet('site_settings?select=key,value').then(function (rows) {
+    var map = {};
+    (rows || []).forEach(function (r) { map[r.key] = r.value; });
+    Store.settings = map;
+    write(SET_CACHE, map);
+    return map;
+  }).catch(function () {
+    /* בלי רשת נשארים עם מה שנשמר, ואם אין — עם הטקסטים שכתובים ב-HTML */
+    return Store.settings;
+  });
+
+  /* ---------------------------------------------------------
+     תוכן: דפים ומאמרים
+     --------------------------------------------------------- */
+  Store.pages = function () {
+    return dbGet('pages?select=title,slug&is_published=is.true&order=sort_order.asc')
+      .catch(function () { return []; });
+  };
+
+  Store.page = function (slug) {
+    return dbGet('pages?select=*&is_published=is.true&slug=eq.' + encodeURIComponent(slug))
+      .then(function (rows) { return (rows || [])[0] || null; })
+      .catch(function () { return null; });
+  };
+
+  Store.posts = function (limit) {
+    return dbGet('blog_posts?select=*&is_published=is.true&order=created_at.desc' +
+                 (limit ? '&limit=' + limit : ''))
+      .catch(function () { return []; });
+  };
+
+  Store.post = function (slug) {
+    return dbGet('blog_posts?select=*&is_published=is.true&slug=eq.' + encodeURIComponent(slug))
+      .then(function (rows) { return (rows || [])[0] || null; })
+      .catch(function () { return null; });
+  };
+
+  /* ---------------------------------------------------------
+     הזמנות — דף התשלום כותב לכאן, לוח הניהול קורא משם.
+     RLS מתיר לאנונימי רק להוסיף: אי אפשר לקרוא הזמנות של אחרים.
+     --------------------------------------------------------- */
+  Store.createOrder = function (order) {
+    if (!window.fetch) return Promise.reject(new Error('no fetch'));
+    /* דרך place_order ולא הוספה ישירה: כך דף התשלום מקבל את מספר
+       ההזמנה בלי שתהיה לו הרשאת קריאה לטבלת ההזמנות. */
+    return fetch(DB_URL + '/rest/v1/rpc/place_order', {
+      method: 'POST',
+      headers: dbHeaders({ 'Content-Type': 'application/json' }),
+      body: JSON.stringify({
+        p_name:    order.customer_name,
+        p_email:   order.customer_email,
+        p_phone:   order.customer_phone || '',
+        p_address: order.shipping_address || {},
+        p_items:   order.items || [],
+        p_total:   order.total_price
+      })
+    }).then(function (res) {
+      if (!res.ok) {
+        return res.text().then(function (t) { throw new Error('HTTP ' + res.status + ' ' + t); });
+      }
+      return res.json();
+    }).then(function (num) { return { order_number: num }; });
+  };
 
   var GROUPS = {
     perfume: { title: "בשמים",     crumb: "בשמים", match: function (p) { return p.cat === "בשמים"; } },

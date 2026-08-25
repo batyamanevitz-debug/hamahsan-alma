@@ -202,27 +202,58 @@
       return;
     }
 
-    var order = 'ALMA-' + Math.floor(100000 + Math.random() * 900000);
-    var name = (form.querySelector('#fname') || {}).value || '';
+    function val(sel) { var el = form.querySelector(sel); return el ? el.value.trim() : ''; }
+
+    var fname = val('#fname');
+    var lname = val('#lname');
     var total = grandVal.textContent;
+
+    /* ההזמנה נשמרת בדאטהבייס ומופיעה בלשונית ההזמנות בלוח הניהול */
+    var payload = {
+      customer_name:  [fname, lname].filter(Boolean).join(' ') || 'לקוח/ה',
+      customer_email: val('#email'),
+      customer_phone: val('#phone'),
+      shipping_address: {
+        street: val('#address'),
+        city:   val('#city'),
+        method: (form.querySelector('input[name="shipping"]:checked') || {}).value || 'home',
+        notes:  val('#notes')
+      },
+      items: Store.cart().map(function (i) {
+        return { id: i.id, name: i.name, qty: i.qty, price: i.price };
+      }),
+      total_price: Number(String(total).replace(/[^\d.]/g, '')) || Store.subtotal()
+    };
 
     payBtn.textContent = 'מעבד תשלום…';
     payBtn.disabled = true;
 
-    setTimeout(function () {
+    function done(orderLabel, warning) {
       Store.clear();
       document.querySelector('.ck').innerHTML =
         '<div class="ck-done">' +
           '<div class="ck-done__mark">✓</div>' +
-          '<h1>תודה' + (name ? ' ' + name : '') + ', ההזמנה התקבלה!</h1>' +
-          '<p>מספר הזמנה <b>' + order + '</b> · סה"כ <b>' + total + '</b></p>' +
+          '<h1>תודה' + (fname ? ' ' + fname : '') + ', ההזמנה התקבלה!</h1>' +
+          '<p>מספר הזמנה <b>' + orderLabel + '</b> · סה"כ <b>' + total + '</b></p>' +
           '<p class="ck-done__sub">אישור הזמנה נשלח למייל, והחבילה יוצאת לדרך תוך 1–3 ימי עסקים.</p>' +
+          (warning ? '<p class="ck-done__warn">' + warning + '</p>' : '') +
           '<div class="ck-done__btns">' +
             '<a class="btn btn--primary" href="index.html">חזרה לעמוד הבית</a>' +
             '<a class="btn ck-done__ghost" href="category.html">להמשך קנייה</a>' +
           '</div>' +
         '</div>';
       window.scrollTo({ top: 0, behavior: 'smooth' });
-    }, 900);
+    }
+
+    Store.createOrder(payload).then(function (row) {
+      done('ALMA-' + (row && row.order_number ? row.order_number : Date.now().toString().slice(-6)));
+    }).catch(function (e) {
+      if (window.console) console.error('שמירת ההזמנה נכשלה', e);
+      /* הלקוחה סיימה את התהליך — לא מפילים אותה בגלל תקלת רשת,
+         אבל גם לא מתחזים לכך שההזמנה נקלטה במערכת. */
+      done('ALMA-' + Date.now().toString().slice(-6),
+           'ההזמנה לא נרשמה אוטומטית במערכת בגלל תקלת תקשורת. ' +
+           'נשמח שתיצרי איתנו קשר בוואטסאפ כדי לוודא שהיא נקלטה.');
+    });
   });
 })();

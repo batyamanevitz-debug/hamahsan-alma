@@ -1024,3 +1024,6 @@ body.cart-open{overflow:hidden}
   .cart__checkout{padding:11px;font-size:16px}
   .cart__continue{font-size:13px}
 }
+
+/* כרטיס ממלא-מקום ברשימת הבלוג כשיש מאמר אחד בלבד */
+.post--soon .post__text{color:#909090}

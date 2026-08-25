@@ -149,6 +149,100 @@
   }
 
   /* ---------------------------------------------------------
+     הגדרות החנות — הטקסטים שנערכים בלוח הניהול
+     ה-HTML מגיע עם ערכי ברירת מחדל, וכאן הם מוחלפים במה
+     שנשמר בדאטהבייס. אם אין רשת, מה שב-HTML פשוט נשאר.
+     --------------------------------------------------------- */
+  Store.settingsReady.then(function (set) {
+    if (!set) return;
+
+    if (set.announcement_bar) {
+      document.querySelectorAll('.announce__text').forEach(function (el) {
+        el.textContent = set.announcement_bar;
+      });
+    }
+
+    var hero = document.querySelector('[data-setting="hero_title"]');
+    if (hero && set.hero_title) hero.textContent = set.hero_title;
+    var heroSub = document.querySelector('[data-setting="hero_subtitle"]');
+    if (heroSub && set.hero_subtitle) heroSub.textContent = set.hero_subtitle;
+
+    /* פרטי הקשר בפוטר */
+    if (set.contact_phone) {
+      document.querySelectorAll('[data-setting="contact_phone"]').forEach(function (el) {
+        el.textContent = set.contact_phone;
+        if (el.tagName === 'A') el.href = 'tel:' + set.contact_phone.replace(/[^\d+]/g, '');
+      });
+    }
+    if (set.contact_email) {
+      document.querySelectorAll('[data-setting="contact_email"]').forEach(function (el) {
+        el.textContent = set.contact_email;
+        if (el.tagName === 'A') el.href = 'mailto:' + set.contact_email;
+      });
+    }
+    if (set.shop_address) {
+      document.querySelectorAll('[data-setting="shop_address"]').forEach(function (el) {
+        el.textContent = set.shop_address;
+      });
+    }
+  });
+
+  /* ---------------------------------------------------------
+     קישורי דפי התוכן בפוטר — נבנים מהדפים שפורסמו
+     --------------------------------------------------------- */
+  var pagesSlot = document.querySelector('[data-pages-links]');
+  if (pagesSlot) {
+    Store.pages().then(function (list) {
+      if (!list || !list.length) return;
+      pagesSlot.innerHTML = list.map(function (p) {
+        return '<li><a href="page.html?slug=' + encodeURIComponent(p.slug) + '">' +
+               p.title.replace(/[&<>]/g, '') + '</a></li>';
+      }).join('');
+    });
+  }
+
+  /* ---------------------------------------------------------
+     סקשן הבלוג בעמוד הבית — נבנה מהמאמרים שפורסמו בלוח הניהול.
+     המאמר החדש ביותר הוא הגדול, וארבעה הבאים ברשימה שלצדו.
+     אם אין מאמרים כלל, מה שכתוב ב-HTML נשאר.
+     --------------------------------------------------------- */
+  var blogList = document.getElementById('blogList');
+  var blogMain = document.getElementById('blogMain');
+
+  if (blogList && blogMain) {
+    Store.posts(5).then(function (list) {
+      if (!list || !list.length) return;
+
+      function safe(t) { return String(t || '').replace(/[&<>"]/g, function (c) {
+        return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
+      function href(p) { return 'page.html?post=' + encodeURIComponent(p.slug); }
+
+      var main = list[0];
+      blogMain.innerHTML =
+        '<a href="' + href(main) + '">' +
+          '<span class="post-main__media"><img src="' + safe(main.cover_image || 'assets/blog-main.png') +
+            '" alt="" loading="lazy"></span>' +
+          '<span class="post-main__title">' + safe(main.title) + '</span>' +
+        '</a>';
+
+      var rest = list.slice(1, 5);
+      if (rest.length) {
+        blogList.innerHTML = rest.map(function (p) {
+          return '<li class="post"><a href="' + href(p) + '">' +
+            '<span class="post__text">' + safe(p.title) + '</span>' +
+            '<span class="post__thumb"><img src="' + safe(p.cover_image || 'assets/blog-1.png') +
+              '" alt="" loading="lazy"></span>' +
+          '</a></li>';
+        }).join('');
+      } else {
+        /* יש רק מאמר אחד — עדיף רשימה ריקה מאשר כרטיסים שלא מובילים לשום מקום */
+        blogList.innerHTML = '<li class="post post--soon"><span class="post__text">' +
+          'מאמרים נוספים בקרוב</span></li>';
+      }
+    });
+  }
+
+  /* ---------------------------------------------------------
      header badges
      --------------------------------------------------------- */
   var badges = document.querySelectorAll('.nav__badge');

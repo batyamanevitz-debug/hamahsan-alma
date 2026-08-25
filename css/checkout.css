@@ -233,3 +233,10 @@
   .sum__price{align-self:flex-start}
   .crow__pair{flex-direction:row}
 }
+
+/* אזהרה במסך האישור כשההזמנה לא נרשמה בשרת */
+.ck-done__warn{
+  max-width:520px;margin:14px auto 0;padding:12px 16px;
+  background:#fbf2e2;color:#9a6b20;border-radius:10px;
+  font-size:14.5px;line-height:1.6;
+}

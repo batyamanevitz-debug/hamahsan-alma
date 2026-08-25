@@ -394,7 +394,7 @@
     <h2 class="section-title blog__title">Beauty blog</h2>
 
     <div class="blog__grid">
-      <ul class="blog__list">
+      <ul class="blog__list" id="blogList">
         <li class="post">
           <a href="#">
             <span class="post__text">לה רוש-פוזה מציגה: כוכב הטיפוח CICAPLAST Baume B5</span>
@@ -421,7 +421,7 @@
         </li>
       </ul>
 
-      <article class="post-main">
+      <article class="post-main" id="blogMain">
         <a href="#">
           <span class="post-main__media"><img src="assets/blog-main.png" alt=""></span>
           <span class="post-main__title">מהפכת ה-K-Beauty בישראל: טיפוח קוריאני מדויק לעור הישראלי</span>
@@ -429,7 +429,7 @@
       </article>
     </div>
 
-    <div class="blog__foot"><a class="blog__all" href="#">לכל המאמרים</a></div>
+    <div class="blog__foot"><a class="blog__all" href="page.html?blog">לכל המאמרים</a></div>
   </section>
 
   <!-- ============ NEWSLETTER ============ -->
@@ -477,7 +477,7 @@
           <h3 class="fcol__title">צרו קשר</h3>
           <div class="fcol__body">
             <p>כתובת: רח&rsquo; שאול המלך 38, קניון אביה, קומה 2, באר שבע</p>
-            <p>טלפון: 052-9191919<br>זמינים בין השעות 9:00-18:00</p>
+            <p>טלפון: <a data-setting="contact_phone" href="tel:0529191919">052-9191919</a><br>זמינים בין השעות 9:00-18:00</p>
             <p>מייל: Hamahsan@gmail.com</p>
           </div>
         </div>
@@ -495,11 +495,11 @@
 
         <div class="fcol">
           <h3 class="fcol__title">שירותים</h3>
-          <ul class="fcol__links">
-            <li><a href="#">סטטוס משלוח</a></li>
-            <li><a href="#">תקנון האתר</a></li>
-            <li><a href="#">תקנון משלוחים</a></li>
-            <li><a href="#">בקשה לזיכוי</a></li>
+          <ul class="fcol__links" data-pages-links>
+            <li><a href="page.html?slug=terms">תקנון האתר</a></li>
+            <li><a href="page.html?slug=shipping">מדיניות משלוחים</a></li>
+            <li><a href="page.html?slug=faq">שאלות נפוצות</a></li>
+            <li><a href="page.html?slug=about">אודות</a></li>
           </ul>
         </div>
 
