@@ -750,10 +750,21 @@ body.cart-open{overflow:hidden}
   .announce{padding:0 40px}
   .announce__text{font-size:16px}
 
-  .hero{height:600px;padding:60px 32px}
-  .hero__box{width:100%;max-width:560px}
+  /* התמונה היא 1920x937 — יחס של 2:1. מתחת ל-1024 היא רחבה מדי
+     מכדי למלא גובה קבוע בלי לחתוך את הבקבוק ואת שם המותג, ולכן
+     היא עוברת לרצועה מלאה ביחס המקורי והטקסט יורד מתחתיה. */
+  .hero{
+    height:auto;display:block;padding:0;overflow:visible;
+    background:#06011a;
+  }
+  .hero__bg{
+    position:static;width:100%;height:auto;
+    object-fit:contain;display:block;
+  }
+  .hero__box{width:100%;max-width:none;padding:28px 32px 34px;gap:24px}
+  .hero__dots{position:static;margin:0 0 26px}
   .hero__title{font-size:44px;line-height:58px}
-  .hero__desc{font-size:16px;line-height:26px}
+  .hero__desc{font-size:16px;line-height:26px;max-width:none}
 
   .usp__item{width:170px}
   .cats{padding-top:16px;gap:36px}
@@ -801,11 +812,15 @@ body.cart-open{overflow:hidden}
   .nav__logo{width:110px;height:44px}
   .nav__icons{gap:14px}
 
-  .hero{height:520px;margin-top:24px;padding:40px 20px;justify-content:flex-end}
+  .hero{margin-top:24px}
+  .hero__box{padding:24px 20px 28px;gap:20px}
   .hero__kicker{font-size:22px;line-height:24px}
   .hero__title{font-size:32px;line-height:42px}
   .hero__desc{font-size:14px;line-height:22px}
-  .hero__actions{gap:12px}
+  .hero__dots{margin:0 0 20px}
+  /* הכפתורים היו ברוחב קבוע ונחתכו מחוץ למסך */
+  .hero__actions{gap:12px;flex-wrap:wrap}
+  .hero__actions .btn{flex:1 1 150px;width:auto;padding:10px 14px}
   .btn--collection{width:auto;padding:10px 20px}
   .btn--buy{width:auto;padding:10px 22px}
 
@@ -888,8 +903,10 @@ body.cart-open{overflow:hidden}
 }
 
 @media (max-width:480px){
-  .hero{height:460px}
+  .hero__box{padding:20px 16px 26px;gap:18px}
+  .hero__kicker{font-size:19px;line-height:22px}
   .hero__title{font-size:26px;line-height:34px}
+  .hero__actions .btn{flex:1 1 100%}
   .usp__item{width:calc(50% - 8px)}
   .cat img{width:105px;height:105px}
   .cat__name{font-size:16px}
