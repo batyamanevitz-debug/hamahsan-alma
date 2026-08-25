@@ -13,6 +13,11 @@ const SUPABASE_URL = 'https://touuyegybctmfdtzlbmt.supabase.co';
 const SUPABASE_KEY = 'sb_publishable_OaxEZB5EkKNvGlXk9yrY-w_6gV7zcsI';
 const BUCKET = 'media';
 
+/* חשבון המנהל. המסך מבקש סיסמה בלבד, והמייל מולא כאן מראש.
+   הסיסמה עצמה לא נמצאת בקוד — היא נבדקת מול Supabase Auth,
+   ובלי סשן תקף אין הרשאת כתיבה לשום טבלה. */
+const ADMIN_EMAIL = 'batyamanevitz@gmail.com';
+
 const db = createClient(SUPABASE_URL, SUPABASE_KEY);
 
 /* מצב הזיכרון של הלוח */
@@ -103,7 +108,7 @@ $('#loginForm').addEventListener('submit', async e => {
   btn.textContent = 'מתחבר…';
 
   const { error } = await db.auth.signInWithPassword({
-    email: $('#loginEmail').value.trim(),
+    email: ADMIN_EMAIL,
     password: $('#loginPassword').value
   });
 
@@ -112,9 +117,10 @@ $('#loginForm').addEventListener('submit', async e => {
 
   if (error) {
     box.textContent = error.message === 'Invalid login credentials'
-      ? 'הדוא״ל או הסיסמה שגויים.'
+      ? 'הסיסמה שגויה.'
       : 'ההתחברות נכשלה: ' + error.message;
     box.hidden = false;
+    $('#loginPassword').select();
     return;
   }
   $('#loginPassword').value = '';
