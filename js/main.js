@@ -265,9 +265,7 @@
       brandCards.forEach(function (a) {
         var span = a.querySelector('span');
         var hit = byKey[key(span ? span.textContent : '')];
-        /* מותג בלי מוצרים בקטלוג היה מוביל לדף ריק */
-        var hasItems = hit && Store.products.some(function (p) { return p.brandId === hit.id; });
-        a.href = hasItems ? Store.brandUrl(hit.slug) : 'brands.html';
+        a.href = hit ? Store.brandUrl(hit.slug) : 'brands.html';
       });
     });
   }

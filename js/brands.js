@@ -24,13 +24,15 @@
   Promise.all([Store.ready, Store.brands()]).then(function (res) {
     var brands = res[1] || [];
 
-    /* מותג בלי מוצרים לא מקבל כרטיס — הוא יוביל לדף ריק */
+    /* מותג מוצג אם יש לו מוצרים, או אם יש לו לוגו — כך ששישת
+       המותגים שברצועה בעמוד הבית מופיעים כאן גם לפני שנוספו
+       להם מוצרים. מותג בלי מוצרים ובלי לוגו לא מוסיף כלום. */
     var rows = brands.map(function (b) {
       return {
         b: b,
         n: Store.products.filter(function (p) { return p.brandId === b.id; }).length
       };
-    }).filter(function (r) { return r.n > 0; });
+    }).filter(function (r) { return r.n > 0 || r.b.logo_url; });
 
     var note = document.getElementById('brandCount');
 
@@ -57,7 +59,9 @@
         '<a href="' + esc(Store.brandUrl(r.b.slug)) + '">' +
           '<span class="brandcard__media">' + logo + '</span>' +
           '<b class="brandcard__name">' + esc(r.b.name) + '</b>' +
-          '<span class="brandcard__n">' + r.n + (r.n === 1 ? ' מוצר' : ' מוצרים') + '</span>' +
+          '<span class="brandcard__n">' +
+            (r.n ? r.n + (r.n === 1 ? ' מוצר' : ' מוצרים') : 'בקרוב') +
+          '</span>' +
         '</a></li>';
     }).join('');
   });
