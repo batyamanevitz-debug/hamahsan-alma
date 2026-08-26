@@ -243,6 +243,36 @@
   }
 
   /* ---------------------------------------------------------
+     רצועת המותגים בעמוד הבית
+     הכרטיסים והתמונות מהעיצוב נשארים, ורק הקישור מתעדכן לדף
+     המותג האמיתי. מותג שאין לו מוצרים בקטלוג מוביל לדף המותגים.
+     --------------------------------------------------------- */
+  var brandCards = document.querySelectorAll('.brands__track .brand a');
+  if (brandCards.length) {
+    Store.brands().then(function (list) {
+      if (!list || !list.length) return;
+
+      /* השוואה סלחנית: רק אותיות וספרות, בלי גרשים ורווחים */
+      function key(t) {
+        return String(t || '').toLowerCase()
+          .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+          .replace(/[^a-z0-9]/g, '');
+      }
+
+      var byKey = {};
+      list.forEach(function (b) { byKey[key(b.name)] = b; });
+
+      brandCards.forEach(function (a) {
+        var span = a.querySelector('span');
+        var hit = byKey[key(span ? span.textContent : '')];
+        /* מותג בלי מוצרים בקטלוג היה מוביל לדף ריק */
+        var hasItems = hit && Store.products.some(function (p) { return p.brandId === hit.id; });
+        a.href = hasItems ? Store.brandUrl(hit.slug) : 'brands.html';
+      });
+    });
+  }
+
+  /* ---------------------------------------------------------
      header badges
      --------------------------------------------------------- */
   var badges = document.querySelectorAll('.nav__badge');

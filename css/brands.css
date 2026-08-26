@@ -1,54 +1,65 @@
 /* =========================================================
    ALMA — דף המותגים (brands.html)
+   נראה כמו רצועת המותגים בעמוד הבית: עיגול לילך גדול,
+   הלוגו בתוכו, והשם מתחת.
    ========================================================= */
 
 .brandpage{padding:14px 0 60px}
 
 .brandgrid{
-  list-style:none;margin:28px 0 0;padding:0;
-  display:grid;gap:18px;
-  grid-template-columns:repeat(auto-fill, minmax(190px, 1fr));
+  list-style:none;margin:40px 0 0;padding:0;
+  display:grid;gap:32px 16px;
+  grid-template-columns:repeat(auto-fill, minmax(200px, 1fr));
+  justify-items:center;
 }
 
 .brandcard a{
-  display:flex;flex-direction:column;align-items:center;gap:10px;
-  padding:26px 18px 22px;
-  border:1px solid #eee;border-radius:14px;background:#fff;
-  text-decoration:none;color:inherit;text-align:center;
-  transition:box-shadow .2s, transform .2s, border-color .2s;
-}
-.brandcard a:hover{
-  border-color:var(--lilac);
-  box-shadow:0 10px 30px rgba(125,65,95,.10);
-  transform:translateY(-2px);
+  display:flex;flex-direction:column;align-items:center;justify-content:flex-start;
+  gap:16px;text-decoration:none;color:inherit;text-align:center;
 }
 
+/* התמונות שיוצאו מהפיגמה כוללות כבר את העיגול הלילך.
+   מותג בלי לוגו מקבל עיגול זהה עם ראשי התיבות שלו. */
 .brandcard__media{
-  width:88px;height:88px;flex:none;
+  width:200px;height:210px;flex:none;
   display:grid;place-items:center;
-  border-radius:50%;background:var(--lilac);
-  overflow:hidden;
+  transition:transform .3s ease;
 }
+.brandcard a:hover .brandcard__media{transform:scale(1.05)}
+
 .brandcard__logo{
-  width:100%;height:100%;object-fit:contain;
-  padding:12px;background:#fff;
+  width:200px;height:210px;object-fit:contain;display:block;
 }
+
 .brandcard__initials{
+  width:196px;height:196px;border-radius:50%;
+  display:grid;place-items:center;
+  background:var(--lilac);
   font-family:'Jost', sans-serif;
-  font-size:28px;font-weight:500;letter-spacing:.05em;
+  font-size:44px;font-weight:400;letter-spacing:.06em;
   color:#fff;
 }
 
 .brandcard__name{
-  font-size:16px;font-weight:600;line-height:1.35;
-  direction:ltr;
+  font-size:16px;font-weight:600;letter-spacing:.0736px;
+  text-transform:capitalize;color:#000;
+  line-height:1.3;direction:ltr;
 }
-.brandcard__n{font-size:13px;color:#757575}
+.brandcard__n{
+  font-size:13px;color:#757575;margin-top:-10px;
+}
 
 @media (max-width:768px){
-  .brandgrid{gap:14px;grid-template-columns:repeat(auto-fill, minmax(150px, 1fr))}
-  .brandcard a{padding:20px 14px 18px}
-  .brandcard__media{width:72px;height:72px}
-  .brandcard__initials{font-size:23px}
+  .brandgrid{gap:26px 12px;grid-template-columns:repeat(auto-fill, minmax(150px, 1fr))}
+  .brandcard__media,
+  .brandcard__logo{width:150px;height:158px}
+  .brandcard__initials{width:146px;height:146px;font-size:34px}
   .brandcard__name{font-size:15px}
+}
+
+@media (max-width:480px){
+  .brandgrid{gap:22px 10px;grid-template-columns:repeat(2, 1fr)}
+  .brandcard__media,
+  .brandcard__logo{width:135px;height:142px}
+  .brandcard__initials{width:132px;height:132px;font-size:30px}
 }

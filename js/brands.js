@@ -42,16 +42,22 @@
 
     note.textContent = rows.length + ' מותגים בחנות';
 
+    /* מותג עם לוגו קודם — הרצועה נראית מלאה ולא מנוקדת בראשי תיבות */
+    rows.sort(function (a, b) {
+      var la = a.b.logo_url ? 0 : 1, lb = b.b.logo_url ? 0 : 1;
+      return la - lb || b.n - a.n || a.b.name.localeCompare(b.b.name);
+    });
+
     grid.innerHTML = rows.map(function (r) {
       var logo = r.b.logo_url
-        ? '<img class="brandcard__logo" src="' + esc(r.b.logo_url) + '" alt="" loading="lazy">'
+        ? '<img class="brandcard__logo" src="' + esc(r.b.logo_url) + '" alt="' + esc(r.b.name) + '" loading="lazy">'
         : '<span class="brandcard__initials" aria-hidden="true">' + esc(initials(r.b.name)) + '</span>';
 
       return '<li class="brandcard">' +
         '<a href="' + esc(Store.brandUrl(r.b.slug)) + '">' +
           '<span class="brandcard__media">' + logo + '</span>' +
           '<b class="brandcard__name">' + esc(r.b.name) + '</b>' +
-          '<span class="brandcard__n">' + r.n + ' מוצרים</span>' +
+          '<span class="brandcard__n">' + r.n + (r.n === 1 ? ' מוצר' : ' מוצרים') + '</span>' +
         '</a></li>';
     }).join('');
   });
