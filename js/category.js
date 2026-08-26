@@ -119,33 +119,45 @@
     }
 
     function toCircle(map, key) {
-      var img = imgFor(key, map[key]);
-      return img ? { key: key, label: map[key].title, img: img, href: Store.viewUrl(key) } : null;
+      return { key: key, label: map[key].title,
+               img: imgFor(key, map[key]), href: Store.viewUrl(key) };
     }
 
-    function circlesFor(groupKey) {
+    /* העיגולים הם תתי הקטגוריות של הקבוצה הנוכחית, בלי הדף שבו
+       אנחנו נמצאים. קבוצה שיש בה תתי קטגוריות מצולמות מציגה רק
+       אותן, כדי לא לערבב תמונות עם עיגולים ריקים. קבוצה שאין בה
+       אף תמונה — כמו איפור ושיער — מציגה את כולן כעיגול לילך נקי. */
+    function circlesFor(groupKey, currentKey) {
       var subs = Store.subviews || {};
       var kids = Object.keys(subs)
-        .filter(function (k) { return subs[k].parent === groupKey; })
-        .map(function (k) { return toCircle(subs, k); })
-        .filter(Boolean);
+        .filter(function (k) { return subs[k].parent === groupKey && k !== currentKey; })
+        .map(function (k) { return toCircle(subs, k); });
 
-      if (kids.length) return kids;
+      if (kids.length) {
+        var withImg = kids.filter(function (c) { return c.img; });
+        return withImg.length ? withImg : kids;
+      }
 
-      /* קבוצה בלי תתי קטגוריות מצולמות — מציגים את הקטגוריות הראשיות */
+      /* אין תתי קטגוריות בכלל — מציגים את הקטגוריות הראשיות */
       var groups = Store.groups || {};
-      return Object.keys(groups).map(function (k) { return toCircle(groups, k); }).filter(Boolean);
+      return Object.keys(groups)
+        .filter(function (k) { return k !== currentKey; })
+        .map(function (k) { return toCircle(groups, k); })
+        .filter(function (c) { return c.img; });
     }
 
     var circles = document.getElementById('catCircles');
     if (circles) {
-      var list = circlesFor(GROUP);
+      var list = circlesFor(GROUP, VIEW.key);
       circles.innerHTML = list.map(function (c) {
-        var active = c.key === VIEW.key;
-        return '<li class="circ' + (active ? ' is-active' : '') + '">' +
-          '<a href="' + c.href + '"' + (active ? ' aria-current="page"' : '') + '>' +
-          '<img src="' + c.img + '" alt=""><span>' + c.label + '</span></a></li>';
+        var media = c.img
+          ? '<img src="' + c.img + '" alt="">'
+          : '<span class="circ__blank" aria-hidden="true"></span>';
+        return '<li class="circ">' +
+          '<a href="' + c.href + '">' + media +
+          '<span>' + c.label + '</span></a></li>';
       }).join('');
+      circles.parentNode.hidden = list.length === 0;
     }
 
     /* ---------------------------------------------------------

@@ -310,3 +310,11 @@
 /* באנר קטגוריה ללא תמונה ייעודית — רצועת לילך נקייה */
 .cbanner--plain{background:var(--lilac)}
 
+
+/* עיגול לתת קטגוריה שאין לה תמונה — לילך נקי בגודל זהה */
+.circ__blank{
+  display:block;width:171px;height:171px;border-radius:50%;
+  background:var(--lilac);
+  transition:transform .3s ease;
+}
+.circ a:hover .circ__blank{transform:scale(1.04)}
