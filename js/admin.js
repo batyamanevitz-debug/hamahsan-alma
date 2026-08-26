@@ -24,6 +24,8 @@ const state = {
   pages: [],
   posts: [],
   settings: [],
+  coupons: [],
+  testimonials: [],
   orders: []
 };
 
@@ -239,13 +241,15 @@ async function boot() {
    טעינת הנתונים
    --------------------------------------------------------- */
 async function loadAll() {
-  const [products, brands, categories, pages, posts, settings, orders] = await Promise.all([
+  const [products, brands, categories, pages, posts, settings, coupons, testimonials, orders] = await Promise.all([
     run(db.from('products').select('*').order('sort_order'), 'טעינת המוצרים נכשלה'),
     run(db.from('brands').select('*').order('name'), 'טעינת המותגים נכשלה'),
     run(db.from('categories').select('*').order('sort_order'), 'טעינת הקטגוריות נכשלה'),
     run(db.from('pages').select('*').order('sort_order'), 'טעינת דפי התוכן נכשלה'),
     run(db.from('blog_posts').select('*').order('created_at', { ascending: false }), 'טעינת הבלוג נכשלה'),
-    run(db.from('site_settings').select('*').order('key'), 'טעינת ההגדרות נכשלה'),
+    run(db.from('site_settings').select('*').order('sort_order'), 'טעינת ההגדרות נכשלה'),
+    run(db.from('coupons').select('*').order('code'), 'טעינת קודי ההנחה נכשלה'),
+    run(db.from('testimonials').select('*').order('sort_order'), 'טעינת חוות הדעת נכשלה'),
     run(db.from('orders').select('*').order('created_at', { ascending: false }), 'טעינת ההזמנות נכשלה')
   ]);
 
@@ -254,14 +258,18 @@ async function loadAll() {
   state.categories = categories || [];
   state.pages      = pages      || [];
   state.posts      = posts      || [];
-  state.settings   = settings   || [];
-  state.orders     = orders     || [];
+  state.settings     = settings     || [];
+  state.coupons      = coupons      || [];
+  state.testimonials = testimonials || [];
+  state.orders       = orders       || [];
 
   renderProducts();
   renderTaxonomy();
   renderPages();
   renderPosts();
   renderSettings();
+  renderCoupons();
+  renderTestimonials();
   renderOrders();
 }
 
@@ -1224,17 +1232,28 @@ function postForm(po) {
 const LONG_SETTINGS = ['hero_subtitle', 'announcement_bar'];
 
 function renderSettings() {
-  $('#settingsFields').innerHTML = state.settings.map(s => {
-    const long = LONG_SETTINGS.includes(s.key);
-    return `
+  /* מקבצים לפי ה-group שבטבלה, אחרת הטופס הוא קיר של שדות */
+  const groups = [];
+  state.settings.forEach(s => {
+    const name = s.group || 'כללי';
+    let g = groups.find(x => x.name === name);
+    if (!g) { g = { name, items: [] }; groups.push(g); }
+    g.items.push(s);
+  });
+
+  $('#settingsFields').innerHTML = groups.map(g =>
+    `<p class="sectitle field--wide">${esc(g.name)}</p>` +
+    g.items.map(s => {
+      const long = s.multiline || LONG_SETTINGS.includes(s.key);
+      return `
       <label class="field ${long ? 'field--wide' : ''}">
         <span class="field__label">${esc(s.label || s.key)}</span>
         ${long
           ? `<textarea class="field__area" name="${esc(s.key)}" style="min-height:60px">${esc(s.value)}</textarea>`
           : `<input class="field__input" type="text" name="${esc(s.key)}" value="${esc(s.value)}">`}
-        <span class="field__hint" dir="ltr" style="text-align:start">${esc(s.key)}</span>
       </label>`;
-  }).join('');
+    }).join('')
+  ).join('');
 }
 
 $('#settingsForm').addEventListener('submit', async e => {
@@ -1245,7 +1264,8 @@ $('#settingsForm').addEventListener('submit', async e => {
 
   const fd = new FormData(e.target);
   const rows = state.settings.map(s => ({
-    key: s.key, value: String(fd.get(s.key) ?? ''), label: s.label
+    key: s.key, value: String(fd.get(s.key) ?? ''),
+    label: s.label, group: s.group, sort_order: s.sort_order, multiline: s.multiline
   }));
 
   const res = await run(db.from('site_settings').upsert(rows, { onConflict: 'key' }).select(), 'שמירת ההגדרות נכשלה');
@@ -1254,9 +1274,198 @@ $('#settingsForm').addEventListener('submit', async e => {
   btn.textContent = 'שמירת הגדרות';
   if (!res) return;
 
-  state.settings = res.sort((a, b) => a.key.localeCompare(b.key));
+  state.settings = res.sort((a, b) => (a.sort_order || 0) - (b.sort_order || 0));
+  renderSettings();
   ok('ההגדרות נשמרו');
 });
+
+/* =========================================================
+   קודי הנחה
+   ========================================================= */
+function renderCoupons() {
+  const today = new Date().toISOString().slice(0, 10);
+
+  $('#couponsTable tbody').innerHTML = state.coupons.map(c => {
+    const expired = c.expires_at && c.expires_at < today;
+    return `<tr>
+      <td data-label="קוד"><b dir="ltr" style="display:inline-block">${esc(c.code)}</b></td>
+      <td data-label="הנחה">${esc(c.percent)}%</td>
+      <td data-label="בתוקף עד">${c.expires_at ? dateHe(c.expires_at) : 'ללא הגבלה'}</td>
+      <td data-label="הערה">${esc(c.note || '')}</td>
+      <td data-label="מצב">${
+        expired ? '<span class="tag tag--out">פג תוקף</span>'
+        : c.is_active ? '<span class="tag tag--ok">פעיל</span>'
+        : '<span class="tag tag--muted">כבוי</span>'}</td>
+      <td class="table__cell--actions">
+        <div class="table__actions">
+          <button class="btn btn--sm" type="button" data-edit-coupon="${c.id}">עריכה</button>
+        </div>
+      </td>
+    </tr>`;
+  }).join('');
+
+  $('#couponsEmpty').hidden = state.coupons.length > 0;
+  const live = state.coupons.filter(c => c.is_active && (!c.expires_at || c.expires_at >= today)).length;
+  $('#couponsCount').textContent = state.coupons.length
+    ? `${live} קודים פעילים מתוך ${state.coupons.length}`
+    : 'הקודים שאפשר להזין בדף התשלום.';
+}
+
+document.addEventListener('click', e => {
+  const b = e.target.closest('[data-edit-coupon]');
+  if (b) couponForm(state.coupons.find(c => c.id === b.dataset.editCoupon));
+});
+$('#newCoupon').addEventListener('click', () => couponForm(null));
+
+function couponForm(c) {
+  const isNew = !c;
+  c = c || { id: '', code: '', percent: 10, is_active: true, expires_at: '', note: '' };
+
+  openModal(isNew ? 'קוד הנחה חדש' : 'עריכת קוד הנחה', `
+    <div class="fields">
+      <label class="field">
+        <span class="field__label">הקוד *</span>
+        <input class="field__input" type="text" name="code" value="${esc(c.code)}" required dir="ltr">
+        <span class="field__hint">הלקוחה מקלידה אותו בדף התשלום. אותיות גדולות באנגלית.</span>
+      </label>
+      <label class="field">
+        <span class="field__label">אחוז הנחה *</span>
+        <input class="field__input" type="number" name="percent" value="${esc(c.percent)}"
+               min="1" max="100" step="1" required dir="ltr">
+      </label>
+      <label class="field">
+        <span class="field__label">בתוקף עד</span>
+        <input class="field__input" type="date" name="expires_at" value="${esc(c.expires_at || '')}" dir="ltr">
+        <span class="field__hint">ריק = ללא הגבלת זמן.</span>
+      </label>
+      <label class="field">
+        <span class="field__label">הערה פנימית</span>
+        <input class="field__input" type="text" name="note" value="${esc(c.note || '')}">
+      </label>
+      <div class="field field--wide">
+        <label class="checkline">
+          <input type="checkbox" name="is_active" ${c.is_active ? 'checked' : ''}>
+          <span>הקוד פעיל</span>
+        </label>
+      </div>
+    </div>
+  `, async fd => {
+    const row = {
+      code: fd.get('code').trim().toUpperCase(),
+      percent: Number(fd.get('percent')),
+      expires_at: fd.get('expires_at') || null,
+      note: fd.get('note').trim() || null,
+      is_active: fd.get('is_active') === 'on'
+    };
+    if (!row.code) { err('צריך קוד'); return; }
+
+    const res = isNew
+      ? await run(db.from('coupons').insert(row).select().single(), 'שמירת הקוד נכשלה')
+      : await run(db.from('coupons').update(row).eq('id', c.id).select().single(), 'עדכון הקוד נכשל');
+    if (!res) return;
+
+    closeModal();
+    ok(isNew ? 'הקוד נוסף' : 'הקוד עודכן');
+    state.coupons = await run(db.from('coupons').select('*').order('code'), 'רענון הקודים נכשל') || state.coupons;
+    renderCoupons();
+  }, isNew ? null : () => {
+    askDelete(`למחוק את הקוד "${c.code}"?`, async () => {
+      const res = await run(db.from('coupons').delete().eq('id', c.id), 'מחיקת הקוד נכשלה');
+      if (res === null) return;
+      closeModal();
+      ok('הקוד נמחק');
+      state.coupons = state.coupons.filter(x => x.id !== c.id);
+      renderCoupons();
+    });
+  });
+}
+
+/* =========================================================
+   חוות דעת
+   ========================================================= */
+function renderTestimonials() {
+  $('#testimonialList').innerHTML = state.testimonials.map(t => `
+    <article class="doc">
+      <div class="doc__meta">
+        ${t.is_published ? '<span class="tag tag--ok">מוצגת</span>' : '<span class="tag tag--muted">מוסתרת</span>'}
+        <span>${'★'.repeat(t.rating)}</span>
+      </div>
+      <p class="doc__sum">${esc(t.body)}</p>
+      <h3 class="doc__title" style="font-size:15px">${esc(t.author)}</h3>
+      <div class="doc__foot">
+        <button class="btn btn--sm" type="button" data-edit-testimonial="${t.id}">עריכה</button>
+      </div>
+    </article>`).join('') || '<p class="empty">אין עדיין חוות דעת.</p>';
+}
+
+document.addEventListener('click', e => {
+  const b = e.target.closest('[data-edit-testimonial]');
+  if (b) testimonialForm(state.testimonials.find(t => t.id === b.dataset.editTestimonial));
+});
+$('#newTestimonial').addEventListener('click', () => testimonialForm(null));
+
+function testimonialForm(t) {
+  const isNew = !t;
+  t = t || { id: '', author: '', body: '', rating: 5, is_published: true,
+             sort_order: state.testimonials.length + 1 };
+
+  openModal(isNew ? 'חוות דעת חדשה' : 'עריכת חוות דעת', `
+    <div class="fields">
+      <label class="field">
+        <span class="field__label">שם הלקוחה *</span>
+        <input class="field__input" type="text" name="author" value="${esc(t.author)}" required>
+      </label>
+      <label class="field">
+        <span class="field__label">דירוג</span>
+        <select class="field__select" name="rating">
+          ${[5, 4, 3, 2, 1].map(n =>
+            `<option value="${n}" ${n === t.rating ? 'selected' : ''}>${'★'.repeat(n)}</option>`).join('')}
+        </select>
+      </label>
+      <label class="field field--wide">
+        <span class="field__label">התוכן *</span>
+        <textarea class="field__area" name="body" required>${esc(t.body)}</textarea>
+      </label>
+      <label class="field">
+        <span class="field__label">סדר הצגה</span>
+        <input class="field__input" type="number" name="sort_order" value="${esc(t.sort_order)}" step="1" dir="ltr">
+      </label>
+      <div class="field">
+        <label class="checkline" style="margin-top:26px">
+          <input type="checkbox" name="is_published" ${t.is_published ? 'checked' : ''}>
+          <span>מוצגת בעמוד הבית</span>
+        </label>
+      </div>
+    </div>
+  `, async fd => {
+    const row = {
+      author: fd.get('author').trim(),
+      body: fd.get('body').trim(),
+      rating: Number(fd.get('rating')),
+      sort_order: Number(fd.get('sort_order') || 0),
+      is_published: fd.get('is_published') === 'on'
+    };
+    const res = isNew
+      ? await run(db.from('testimonials').insert(row).select().single(), 'שמירת חוות הדעת נכשלה')
+      : await run(db.from('testimonials').update(row).eq('id', t.id).select().single(), 'עדכון חוות הדעת נכשל');
+    if (!res) return;
+
+    closeModal();
+    ok(isNew ? 'חוות הדעת נוספה' : 'חוות הדעת עודכנה');
+    state.testimonials = await run(
+      db.from('testimonials').select('*').order('sort_order'), 'רענון חוות הדעת נכשל') || state.testimonials;
+    renderTestimonials();
+  }, isNew ? null : () => {
+    askDelete(`למחוק את חוות הדעת של ${t.author}?`, async () => {
+      const res = await run(db.from('testimonials').delete().eq('id', t.id), 'המחיקה נכשלה');
+      if (res === null) return;
+      closeModal();
+      ok('חוות הדעת נמחקה');
+      state.testimonials = state.testimonials.filter(x => x.id !== t.id);
+      renderTestimonials();
+    });
+  });
+}
 
 /* =========================================================
    הזמנות

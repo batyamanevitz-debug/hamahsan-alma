@@ -67,6 +67,8 @@
       <button class="side__item" data-tab="pages">דפי תוכן</button>
       <button class="side__item" data-tab="blog">בלוג</button>
       <button class="side__item" data-tab="settings">הגדרות חנות</button>
+      <button class="side__item" data-tab="coupons">קודי הנחה</button>
+      <button class="side__item" data-tab="testimonials">חוות דעת</button>
       <button class="side__item" data-tab="orders">הזמנות <span class="side__badge" id="ordersBadge" hidden>0</span></button>
     </nav>
 
@@ -172,6 +174,36 @@
             <button class="btn btn--primary" type="submit">שמירת הגדרות</button>
           </div>
         </form>
+      </section>
+
+      <!-- ---------- קודי הנחה ---------- -->
+      <section class="panel" id="tab-coupons">
+        <div class="panel__head">
+          <div>
+            <h2 class="panel__title">קודי הנחה</h2>
+            <p class="panel__sub" id="couponsCount">הקודים שאפשר להזין בדף התשלום.</p>
+          </div>
+          <button class="btn btn--primary" type="button" id="newCoupon">+ קוד חדש</button>
+        </div>
+        <div class="tablewrap">
+          <table class="table" id="couponsTable">
+            <thead><tr><th>קוד</th><th>הנחה</th><th>בתוקף עד</th><th>הערה</th><th>מצב</th><th></th></tr></thead>
+            <tbody></tbody>
+          </table>
+          <p class="empty" id="couponsEmpty" hidden>אין עדיין קודי הנחה.</p>
+        </div>
+      </section>
+
+      <!-- ---------- חוות דעת ---------- -->
+      <section class="panel" id="tab-testimonials">
+        <div class="panel__head">
+          <div>
+            <h2 class="panel__title">חוות דעת</h2>
+            <p class="panel__sub">מוצגות ברצועת ההמלצות בעמוד הבית.</p>
+          </div>
+          <button class="btn btn--primary" type="button" id="newTestimonial">+ חוות דעת</button>
+        </div>
+        <div class="cardgrid" id="testimonialList"></div>
       </section>
 
       <!-- ---------- הזמנות ---------- -->

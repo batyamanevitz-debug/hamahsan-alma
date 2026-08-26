@@ -715,6 +715,19 @@
 
 
   /* ---------------------------------------------------------
+     חוות דעת וקודי הנחה — נערכים בלוח הניהול
+     --------------------------------------------------------- */
+  Store.testimonials = function () {
+    return dbGet('testimonials?select=author,body,rating&is_published=is.true&order=sort_order.asc')
+      .catch(function () { return []; });
+  };
+
+  Store.coupons = function () {
+    return dbGet('coupons?select=code,percent,expires_at&is_active=is.true')
+      .catch(function () { return []; });
+  };
+
+  /* ---------------------------------------------------------
      מותגים
      --------------------------------------------------------- */
   var BRAND_CACHE = 'alma.brands.v1';

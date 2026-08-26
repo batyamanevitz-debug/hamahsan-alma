@@ -8,10 +8,30 @@
   var form = document.querySelector('.ck-grid');
   if (!form) return;
 
+  /* נטענים מלוח הניהול; הערכים כאן הם ברירת מחדל אם אין רשת */
   var VAT = 0.18;
-  var COUPONS = { ALMA10: 0.10, ALMA20: 0.20, WELCOME: 0.15 };
+  var SHIP = 0;
+  var FREE_FROM = 0;
+  var COUPONS = {};
   var discount = 0;
   var couponCode = '';
+
+  Store.settingsReady.then(function (set) {
+    if (!set) return;
+    if (set.vat_rate !== undefined && set.vat_rate !== '') VAT = Number(set.vat_rate) / 100;
+    if (set.shipping_price) SHIP = Number(set.shipping_price) || 0;
+    if (set.free_shipping_from) FREE_FROM = Number(set.free_shipping_from) || 0;
+    render();
+  });
+
+  Store.coupons().then(function (list) {
+    var today = new Date().toISOString().slice(0, 10);
+    (list || []).forEach(function (c) {
+      /* קופון שפג תוקפו לא נטען כלל */
+      if (c.expires_at && c.expires_at < today) return;
+      COUPONS[String(c.code).toUpperCase()] = Number(c.percent) / 100;
+    });
+  });
 
   /* ---------------------------------------------------------
      order summary rendered from the cart
@@ -65,12 +85,15 @@
     var subtotal = Store.subtotal();
     var off = subtotal * discount;
     var afterDiscount = subtotal - off;
-    var vat = afterDiscount * VAT;
+
+    /* משלוח חינם כשאין דמי משלוח, או כשעברו את סכום הסף */
+    var ship = (!SHIP || (FREE_FROM && afterDiscount >= FREE_FROM)) ? 0 : SHIP;
+    var vat = (afterDiscount + ship) * VAT;
 
     subVal.textContent = Store.money(subtotal);
-    shipVal.textContent = 'חינם';
+    shipVal.textContent = ship ? Store.money(ship) : 'חינם';
     vatVal.textContent = Store.money(vat);
-    grandVal.textContent = Store.money(afterDiscount + vat);
+    grandVal.textContent = Store.money(afterDiscount + ship + vat);
 
     discountRow.hidden = !discount;
     if (discount) {
@@ -103,7 +126,7 @@
       } else {
         couponInput.value = '';
         couponInput.placeholder = 'קוד לא תקין, נסי שוב';
-        Store.toast('קוד הקופון אינו תקין');
+        Store.toast('קוד הקופון אינו תקין או שפג תוקפו');
       }
       render();
     });

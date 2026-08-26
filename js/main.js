@@ -156,33 +156,52 @@
   Store.settingsReady.then(function (set) {
     if (!set) return;
 
+    /* טקסט פשוט */
+    document.querySelectorAll('[data-setting]').forEach(function (el) {
+      var v = set[el.getAttribute('data-setting')];
+      if (v) el.textContent = v;
+    });
+
+    /* טקסט שמותר בו עיצוב, למשל מילה מודגשת בכותרת ההירו */
+    document.querySelectorAll('[data-setting-html]').forEach(function (el) {
+      var v = set[el.getAttribute('data-setting-html')];
+      if (v) el.innerHTML = v;
+    });
+
+    /* תמונות וקישורים */
+    document.querySelectorAll('[data-setting-src]').forEach(function (el) {
+      var v = set[el.getAttribute('data-setting-src')];
+      if (v) el.src = v;
+    });
+    document.querySelectorAll('[data-setting-href]').forEach(function (el) {
+      var v = set[el.getAttribute('data-setting-href')];
+      if (v) el.href = v;
+    });
+
+    /* רצועת ההכרזה מופיעה בכמה מקומות באותו דף */
     if (set.announcement_bar) {
       document.querySelectorAll('.announce__text').forEach(function (el) {
         el.textContent = set.announcement_bar;
       });
     }
 
-    var hero = document.querySelector('[data-setting="hero_title"]');
-    if (hero && set.hero_title) hero.textContent = set.hero_title;
-    var heroSub = document.querySelector('[data-setting="hero_subtitle"]');
-    if (heroSub && set.hero_subtitle) heroSub.textContent = set.hero_subtitle;
-
     /* פרטי הקשר בפוטר */
     if (set.contact_phone) {
       document.querySelectorAll('[data-setting="contact_phone"]').forEach(function (el) {
-        el.textContent = set.contact_phone;
         if (el.tagName === 'A') el.href = 'tel:' + set.contact_phone.replace(/[^\d+]/g, '');
       });
     }
     if (set.contact_email) {
       document.querySelectorAll('[data-setting="contact_email"]').forEach(function (el) {
-        el.textContent = set.contact_email;
         if (el.tagName === 'A') el.href = 'mailto:' + set.contact_email;
       });
     }
-    if (set.shop_address) {
-      document.querySelectorAll('[data-setting="shop_address"]').forEach(function (el) {
-        el.textContent = set.shop_address;
+
+    /* בועת הוואטסאפ */
+    if (set.whatsapp_phone) {
+      var wa = set.whatsapp_phone.replace(/[^\d]/g, '');
+      document.querySelectorAll('[data-setting-wa]').forEach(function (el) {
+        el.href = 'https://wa.me/' + wa;
       });
     }
   });
@@ -267,6 +286,38 @@
         var hit = byKey[key(span ? span.textContent : '')];
         a.href = hit ? Store.brandUrl(hit.slug) : 'brands.html';
       });
+    });
+  }
+
+  /* ---------------------------------------------------------
+     חוות דעת בעמוד הבית — נטענות מלוח הניהול.
+     האווטארים מהעיצוב מתחלפים במחזוריות, כדי שהרצועה תישאר
+     נראית כמו בפיגמה גם כשמספר ההמלצות משתנה.
+     --------------------------------------------------------- */
+  var reviewsList = document.getElementById('reviewsList');
+  if (reviewsList) {
+    var AVATARS = ['assets/avatar-3.png', 'assets/avatar-2.png', 'assets/avatar-1.png'];
+
+    Store.testimonials().then(function (list) {
+      if (!list || !list.length) return;
+
+      function safe(t) {
+        return String(t || '').replace(/[&<>"]/g, function (c) {
+          return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c];
+        });
+      }
+
+      reviewsList.innerHTML = list.map(function (t, i) {
+        return '<li class="review">' +
+          '<p class="review__text">' + safe(t.body) + '</p>' +
+          '<div class="review__person">' +
+            '<img class="review__avatar" src="' + AVATARS[i % AVATARS.length] + '" alt="">' +
+            '<div class="review__meta">' +
+              '<span class="review__name">' + safe(t.author) + '</span>' +
+              '<span class="review__role">לקוחה מרוצה</span>' +
+            '</div>' +
+          '</div></li>';
+      }).join('');
     });
   }
 

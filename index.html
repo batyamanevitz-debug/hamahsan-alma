@@ -135,16 +135,16 @@
 
   <!-- ============ HERO ============ -->
   <section class="hero">
-    <img class="hero__bg" src="assets/hero.png" alt="">
+    <img class="hero__bg" src="assets/hero.png" alt="" data-setting-src="hero_image">
     <div class="hero__box">
       <div class="hero__text">
-        <p class="hero__kicker">חדש השבוע</p>
-        <h1 class="hero__title">בושם חדש שיגרום <strong>לך</strong> להתאהב.</h1>
-        <p class="hero__desc">מהדורת קיץ מוגבלת מבית De Marly– בושם נדיר שתוכנן במיוחד לאספנים ולחובבי יוקרה אמתיים. זמין לזמן קצר בלבד, בבלעדיות ל&rdquo;המחסן&rdquo;.</p>
+        <p class="hero__kicker" data-setting="hero_kicker">חדש השבוע</p>
+        <h1 class="hero__title" data-setting-html="hero_title">בושם חדש שיגרום <strong>לך</strong> להתאהב.</h1>
+        <p class="hero__desc" data-setting="hero_subtitle">מהדורת קיץ מוגבלת מבית De Marly– בושם נדיר שתוכנן במיוחד לאספנים ולחובבי יוקרה אמתיים. זמין לזמן קצר בלבד, בבלעדיות ל&rdquo;המחסן&rdquo;.</p>
       </div>
       <div class="hero__actions">
-        <a class="btn btn--primary btn--buy" href="product.html">קנו עכשיו</a>
-        <a class="btn btn--primary btn--collection" href="category.html">גלו את הקולקציה</a>
+        <a class="btn btn--primary btn--buy" href="product.html" data-setting="hero_cta1_label" data-setting-href="hero_cta1_url">קנו עכשיו</a>
+        <a class="btn btn--primary btn--collection" href="categories.html" data-setting="hero_cta2_label" data-setting-href="hero_cta2_url">גלו את הקולקציה</a>
       </div>
     </div>
     <div class="dots hero__dots" aria-hidden="true">
@@ -157,23 +157,23 @@
     <ul class="usp__list">
       <li class="usp__item">
         <img class="usp__icon" src="assets/feat-heart.svg" alt="" width="44" height="44">
-        <p class="usp__label">מותגים אהובים</p>
+        <p class="usp__label" data-setting="usp_1">מותגים אהובים</p>
       </li>
       <li class="usp__item">
         <img class="usp__icon" src="assets/feat-perfume.svg" alt="" width="33" height="46">
-        <p class="usp__label">צבירת נקודות</p>
+        <p class="usp__label" data-setting="usp_2">צבירת נקודות</p>
       </li>
       <li class="usp__item">
         <img class="usp__icon" src="assets/feat-gift.svg" alt="" width="45" height="45">
-        <p class="usp__label">מתנה בכל הזמנה</p>
+        <p class="usp__label" data-setting="usp_3">מתנה בכל הזמנה</p>
       </li>
       <li class="usp__item">
         <img class="usp__icon" src="assets/feat-delivery.svg" alt="" width="45" height="45">
-        <p class="usp__label">משלוח מהיר</p>
+        <p class="usp__label" data-setting="usp_4">משלוח מהיר</p>
       </li>
       <li class="usp__item">
         <img class="usp__icon usp__icon--sm" src="assets/feat-whatsapp.svg" alt="" width="32" height="32">
-        <p class="usp__label">יעוץ ומכירה בוואטסאפ</p>
+        <p class="usp__label" data-setting="usp_5">יעוץ ומכירה בוואטסאפ</p>
       </li>
     </ul>
   </section>
@@ -319,7 +319,7 @@
       <p class="section-sub reviews__sub">כל מוצר מספר סיפור, אבל הסיפורים שלכן הם אלה שהכי מרגשים אותנו. מהלקוחות שלנו – חוויות אמיתיות, תוצאות אמיתיות.</p>
     </div>
 
-    <ul class="reviews__list">
+    <ul class="reviews__list" id="reviewsList">
       <li class="review">
         <p class="review__text">שירות מהיר, המשלוח הגיע תוך יום! היו זמינים גם בטלפון וגם בווטצאפ שניסיתי ליצור קשר, חווית קנייה מעולה וכך גם המחיר !!</p>
         <div class="review__person">
@@ -436,8 +436,8 @@
   <section class="newsletter">
     <img class="newsletter__img" src="assets/newsletter.png" alt="">
     <div class="newsletter__content">
-      <h2 class="newsletter__title">בואי נישאר בקשר</h2>
-      <p class="newsletter__sub">הרשמה לניוזלטר של המחסן וקבלו את כל ההטבות, ההפתעות והחידושים ישירות למייל שלך.</p>
+      <h2 class="newsletter__title" data-setting="newsletter_title">בואי נישאר בקשר</h2>
+      <p class="newsletter__sub" data-setting="newsletter_text">הרשמה לניוזלטר של המחסן וקבלו את כל ההטבות, ההפתעות והחידושים ישירות למייל שלך.</p>
       <form class="newsletter__form" action="#" method="post">
         <label class="visually-hidden" for="nl-email">כתובת מייל</label>
         <input class="newsletter__input" id="nl-email" type="email" name="email" placeholder="הזינו כאן את כתובת המייל" required>
@@ -542,7 +542,7 @@
 </footer>
 
 <!-- floating whatsapp -->
-<a class="chat" href="https://wa.me/972529191919" target="_blank" rel="noopener" aria-label="דברו איתנו בוואטסאפ">
+<a class="chat" data-setting-wa href="https://wa.me/972529191919" target="_blank" rel="noopener" aria-label="דברו איתנו בוואטסאפ">
   <span class="chat__text">דברו איתנו</span>
   <img class="chat__icon" src="assets/icon-whatsapp.svg" alt="">
 </a>
