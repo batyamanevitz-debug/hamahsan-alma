@@ -5,6 +5,25 @@
 (function (window) {
   'use strict';
 
+  /* ---------------------------------------------------------
+     חזרה מקישור הכניסה לניהול
+     Supabase מפנה לכתובת שמוגדרת אצלו, ולא תמיד ל-admin.html.
+     אם הנחיתה היא בדף רגיל של האתר עם טוקן בכתובת, מעבירים
+     אותה ללוח הניהול עם אותם פרמטרים — אותו origin, אותו סשן.
+     --------------------------------------------------------- */
+  (function forwardAdminLogin() {
+    if (/admin\.html$/i.test(location.pathname)) return;
+
+    var query = new URLSearchParams(location.search);
+    var hash  = new URLSearchParams(location.hash.replace(/^#/, ''));
+    var isLogin = query.has('code') || hash.has('access_token') ||
+                  query.has('error_code') || hash.has('error_code');
+    if (!isLogin) return;
+
+    var admin = location.pathname.replace(/[^/]*$/, '') + 'admin.html';
+    location.replace(admin + location.search + location.hash);
+  })();
+
   var CART_KEY = 'alma.cart.v1';
   var WISH_KEY = 'alma.wish.v1';
   var listeners = [];

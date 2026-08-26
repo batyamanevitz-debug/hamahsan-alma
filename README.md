@@ -72,14 +72,17 @@ node server.js
 ([`js/admin.js`](js/admin.js)), ולחיצה על הקישור פותחת סשן. הקישור תקף לשעה
 ולשימוש אחד.
 
-**הגדרה חד-פעמית ב-Supabase** (Authentication → URL Configuration):
+**הגדרה חד-פעמית ב-Supabase** (Authentication → URL Configuration).
+בלעדיה Supabase שולח את הקישור לכתובת ברירת המחדל `http://localhost:3000`,
+והדפדפן נוחת על כתובת שלא קיימת — ההתחברות עצמה מצליחה אבל אי אפשר להגיע ללוח:
 
 * **Site URL:** `https://batyamanevitz-debug.github.io/hamahsan-alma/`
 * **Redirect URLs:** להוסיף את שתי השורות
   `https://batyamanevitz-debug.github.io/hamahsan-alma/admin.html`
   ו-`http://localhost:4321/admin.html` (לפיתוח מקומי).
 
-בלי זה הקישור שבמייל יחזיר לכתובת ברירת המחדל ולא ללוח.
+אם בכל זאת הקישור נוחת בדף רגיל של האתר, `js/store.js` מזהה את הטוקן
+בכתובת ומעביר אוטומטית ל-`admin.html` עם אותם פרמטרים.
 
 להוספת מנהל נוסף: ליצור משתמש ב-Authentication → Users, להריץ
 `select public.grant_admin('המייל@שלו.com');`, ולעדכן את `ADMIN_EMAIL`.
