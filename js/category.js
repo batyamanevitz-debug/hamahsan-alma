@@ -10,10 +10,24 @@
   if (!grid) return;
 
   /* הקטלוג מגיע מ-Supabase — מציירים רק אחרי שהוא נטען */
-  Store.ready.then(start);
+  var params = new URLSearchParams(location.search);
+  var brandSlug = params.get('brand');
 
-  function start() {
-    var VIEW = Store.category(new URLSearchParams(location.search).get('cat'));
+  Store.ready.then(function () {
+    /* category.html?brand=<slug> מציג את כל המוצרים של מותג אחד */
+    if (brandSlug) {
+      return Store.byBrandSlug(brandSlug).then(function (res) {
+        start(res.brand
+          ? { key: 'brand', parent: 'perfume', title: res.brand.name,
+              crumb: 'מותגים', items: res.items, isBrand: true }
+          : { key: 'brand', parent: 'perfume', title: 'מותג לא נמצא',
+              crumb: 'מותגים', items: [], isBrand: true });
+      });
+    }
+    start(Store.category(params.get('cat')));
+  });
+
+  function start(VIEW) {
     var GROUP = VIEW.parent || VIEW.key;
     var PER_PAGE = 8;
     var page = 1;
@@ -54,10 +68,16 @@
     var crumbNav = document.querySelector('.ctitle__crumbs');
     if (crumbNav) {
       var trail = [{ label: 'ראשי', href: 'index.html' }];
-      var up = VIEW.parent && VIEW.parent !== VIEW.key ? Store.groups[VIEW.parent] : null;
-      /* תת קטגוריה שנקראת כמו הראשית — פירור אחד מספיק */
-      if (up && up.title !== VIEW.title) {
-        trail.push({ label: up.title, href: Store.viewUrl(VIEW.parent) });
+
+      if (VIEW.isBrand) {
+        /* דף מותג יושב תחת דף המותגים, לא תחת קטגוריה */
+        trail.push({ label: 'מותגים', href: 'brands.html' });
+      } else {
+        var up = VIEW.parent && VIEW.parent !== VIEW.key ? Store.groups[VIEW.parent] : null;
+        /* תת קטגוריה שנקראת כמו הראשית — פירור אחד מספיק */
+        if (up && up.title !== VIEW.title) {
+          trail.push({ label: up.title, href: Store.viewUrl(VIEW.parent) });
+        }
       }
       trail.push({ label: VIEW.title });
       crumbNav.innerHTML = trail.map(function (c, i) {

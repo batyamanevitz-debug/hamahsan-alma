@@ -1,0 +1,58 @@
+/* =========================================================
+   ALMA — דף המותגים. רשימת כל המותגים מהדאטהבייס,
+   כל אחד מוביל לכל המוצרים שלו.
+   ========================================================= */
+(function () {
+  'use strict';
+
+  var Store = window.AlmaStore;
+  var grid = document.getElementById('brandGrid');
+  if (!grid) return;
+
+  function esc(v) {
+    return String(v == null ? '' : v).replace(/[&<>"']/g, function (c) {
+      return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+    });
+  }
+
+  /* ראשי התיבות של המותג, כשאין לו לוגו */
+  function initials(name) {
+    var parts = String(name || '').trim().split(/\s+/).slice(0, 2);
+    return parts.map(function (w) { return w.charAt(0); }).join('');
+  }
+
+  Promise.all([Store.ready, Store.brands()]).then(function (res) {
+    var brands = res[1] || [];
+
+    /* מותג בלי מוצרים לא מקבל כרטיס — הוא יוביל לדף ריק */
+    var rows = brands.map(function (b) {
+      return {
+        b: b,
+        n: Store.products.filter(function (p) { return p.brandId === b.id; }).length
+      };
+    }).filter(function (r) { return r.n > 0; });
+
+    var note = document.getElementById('brandCount');
+
+    if (!rows.length) {
+      note.textContent = 'עוד לא שויכו מוצרים למותגים.';
+      grid.innerHTML = '';
+      return;
+    }
+
+    note.textContent = rows.length + ' מותגים בחנות';
+
+    grid.innerHTML = rows.map(function (r) {
+      var logo = r.b.logo_url
+        ? '<img class="brandcard__logo" src="' + esc(r.b.logo_url) + '" alt="" loading="lazy">'
+        : '<span class="brandcard__initials" aria-hidden="true">' + esc(initials(r.b.name)) + '</span>';
+
+      return '<li class="brandcard">' +
+        '<a href="' + esc(Store.brandUrl(r.b.slug)) + '">' +
+          '<span class="brandcard__media">' + logo + '</span>' +
+          '<b class="brandcard__name">' + esc(r.b.name) + '</b>' +
+          '<span class="brandcard__n">' + r.n + ' מוצרים</span>' +
+        '</a></li>';
+    }).join('');
+  });
+})();

@@ -354,6 +354,7 @@
       id: r.id, brand: r.brand, name: r.title, latin: r.latin || '',
       price: Number(r.price), sku: r.sku, cat: r.cat,
       img: r.img, subs: r.subs || [], catId: r.category_id,
+      brandId: r.brand_id, isNew: r.is_new === true,
       rating: Number(r.rating), reviews: Number(r.reviews)
     };
     if (r.original_price !== null && r.original_price !== undefined) p.old = Number(r.original_price);
@@ -521,7 +522,11 @@
      כללי סינון מיוחדים שאי אפשר להביע בטבלה נשמרים לפי slug.
      --------------------------------------------------------- */
   var RULES = {
-    best: function (p) { return p.reviews >= 300 && isUnder(p, 'perfume'); }
+    best: function (p) { return p.reviews >= 300 && isUnder(p, 'perfume'); },
+    /* מבצעים: כל מוצר שיש לו מחיר לפני הנחה */
+    sale: function (p) { return p.old != null && p.old > p.price; },
+    /* חדש: כל מוצר שסומן ידנית בלוח הניהול */
+    'new': function (p) { return p.isNew === true; }
   };
 
   /* האם המוצר שייך לקטגוריה הראשית הזו */
@@ -708,6 +713,33 @@
     return { label: SUBVIEWS[subs[0]].title, href: Store.viewUrl(subs[0]) };
   };
 
+
+  /* ---------------------------------------------------------
+     מותגים
+     --------------------------------------------------------- */
+  var BRAND_CACHE = 'alma.brands.v1';
+
+  Store.brands = function () {
+    return dbGet('brands?select=id,name,slug,logo_url&order=name.asc')
+      .then(function (rows) { write(BRAND_CACHE, rows || []); return rows || []; })
+      .catch(function () { return read(BRAND_CACHE) || []; });
+  };
+
+  /* כל המוצרים של מותג לפי ה-slug שלו */
+  Store.byBrandSlug = function (slug) {
+    return Store.brands().then(function (list) {
+      var b = list.filter(function (x) { return x.slug === slug; })[0];
+      if (!b) return { brand: null, items: [] };
+      return {
+        brand: b,
+        items: Store.products.filter(function (p) { return p.brandId === b.id; })
+      };
+    });
+  };
+
+  Store.brandUrl = function (slug) {
+    return "category.html?brand=" + encodeURIComponent(slug);
+  };
 
   Store.url = function (p) { return "product.html?id=" + p.id; };
 

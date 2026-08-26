@@ -3,13 +3,14 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>המחסן ALMA</title>
-<meta name="description" content="דף תוכן באתר המחסן ALMA.">
+<title>מותגים | המחסן ALMA</title>
+<meta name="description" content="כל המותגים שנמכרים בחנות המחסן ALMA — בשמי בוטיק, איפור וטיפוח.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Assistant:wght@200;300;400;600;700&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/style.css">
 <link rel="stylesheet" href="css/page.css">
+<link rel="stylesheet" href="css/brands.css">
 </head>
 <body>
 
@@ -77,18 +78,14 @@
     <ol>
       <li><a href="index.html">עמוד הבית</a></li>
       <li aria-hidden="true">/</li>
-      <li><span aria-current="page" id="crumbTitle">טוען…</span></li>
+      <li><span aria-current="page">מותגים</span></li>
     </ol>
   </nav>
 
-  <article class="doc-page pagewrap" id="docPage">
-    <p class="doc-page__loading">טוען…</p>
-  </article>
-
-  <!-- רשימת מאמרים, מוצגת רק בכתובת page.html?blog -->
-  <section class="postlist pagewrap" id="postList" hidden>
-    <h1 class="doc-page__title">Beauty Blog</h1>
-    <div class="postlist__grid" id="postGrid"></div>
+  <section class="brandpage pagewrap">
+    <h1 class="doc-page__title">המותגים שלנו</h1>
+    <p class="doc-page__lead" id="brandCount">טוען…</p>
+    <ul class="brandgrid" id="brandGrid"></ul>
   </section>
 </main>
 
@@ -164,6 +161,6 @@
 
 <script src="js/store.js"></script>
 <script src="js/main.js"></script>
-<script src="js/page.js"></script>
+<script src="js/brands.js"></script>
 </body>
 </html>

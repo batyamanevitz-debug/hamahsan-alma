@@ -1,0 +1,54 @@
+/* =========================================================
+   ALMA — דף המותגים (brands.html)
+   ========================================================= */
+
+.brandpage{padding:14px 0 60px}
+
+.brandgrid{
+  list-style:none;margin:28px 0 0;padding:0;
+  display:grid;gap:18px;
+  grid-template-columns:repeat(auto-fill, minmax(190px, 1fr));
+}
+
+.brandcard a{
+  display:flex;flex-direction:column;align-items:center;gap:10px;
+  padding:26px 18px 22px;
+  border:1px solid #eee;border-radius:14px;background:#fff;
+  text-decoration:none;color:inherit;text-align:center;
+  transition:box-shadow .2s, transform .2s, border-color .2s;
+}
+.brandcard a:hover{
+  border-color:var(--lilac);
+  box-shadow:0 10px 30px rgba(125,65,95,.10);
+  transform:translateY(-2px);
+}
+
+.brandcard__media{
+  width:88px;height:88px;flex:none;
+  display:grid;place-items:center;
+  border-radius:50%;background:var(--lilac);
+  overflow:hidden;
+}
+.brandcard__logo{
+  width:100%;height:100%;object-fit:contain;
+  padding:12px;background:#fff;
+}
+.brandcard__initials{
+  font-family:'Jost', sans-serif;
+  font-size:28px;font-weight:500;letter-spacing:.05em;
+  color:#fff;
+}
+
+.brandcard__name{
+  font-size:16px;font-weight:600;line-height:1.35;
+  direction:ltr;
+}
+.brandcard__n{font-size:13px;color:#757575}
+
+@media (max-width:768px){
+  .brandgrid{gap:14px;grid-template-columns:repeat(auto-fill, minmax(150px, 1fr))}
+  .brandcard a{padding:20px 14px 18px}
+  .brandcard__media{width:72px;height:72px}
+  .brandcard__initials{font-size:23px}
+  .brandcard__name{font-size:15px}
+}

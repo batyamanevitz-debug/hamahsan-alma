@@ -557,6 +557,8 @@ function renderProducts() {
       <td data-label="מצב">
         ${p.is_in_stock ? '<span class="tag tag--ok">במלאי</span>' : '<span class="tag tag--out">אזל</span>'}
         ${p.is_featured ? ' <span class="tag tag--gold">מומלץ</span>' : ''}
+        ${p.is_new ? ' <span class="tag tag--muted">חדש</span>' : ''}
+        ${p.original_price ? ' <span class="tag tag--pending">במבצע</span>' : ''}
       </td>
       <td class="table__cell--actions">
         <div class="table__actions">
@@ -588,7 +590,7 @@ function productForm(p) {
   p = p || {
     id: '', title: '', latin: '', brand_id: '', category_id: '', subs: [],
     price: '', original_price: '', sku: '', stock_quantity: 25,
-    is_in_stock: true, is_featured: false, img: '', images: [],
+    is_in_stock: true, is_featured: false, is_new: false, img: '', images: [],
     short_description: '', full_description: '', who: '', love: '',
     kind: '', style: '', note: '', need: '', rating: 5, reviews: 0,
     sort_order: state.products.length
@@ -677,6 +679,10 @@ function productForm(p) {
         <label class="checkline">
           <input type="checkbox" name="is_featured" ${p.is_featured ? 'checked' : ''}>
           <span>מוצר מומלץ</span>
+        </label>
+        <label class="checkline">
+          <input type="checkbox" name="is_new" ${p.is_new ? 'checked' : ''}>
+          <span>מוצר חדש — יוצג בדף ״חדש״</span>
         </label>
       </div>
     </div>
@@ -775,6 +781,7 @@ function productForm(p) {
       stock_quantity: Number(fd.get('stock_quantity') || 0),
       is_in_stock: fd.get('is_in_stock') === 'on',
       is_featured: fd.get('is_featured') === 'on',
+      is_new: fd.get('is_new') === 'on',
       kind: fd.get('kind') || null,
       img: fd.get('img').trim(),
       images: JSON.parse(fd.get('images') || '[]'),
