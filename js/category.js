@@ -91,24 +91,30 @@
     var FALLBACK_IMG = {};
     PERFUME_CIRCLES.concat(MAIN_CIRCLES).forEach(function (c) { FALLBACK_IMG[c.key] = c.img; });
 
-    /* העיגולים נבנים מעץ הקטגוריות: תתי הקטגוריות של הקבוצה
-       הנוכחית, ואם היא עצמה שורש ללא ילדים — שאר הקטגוריות הראשיות */
+    /* עיגול בלי תמונה משלו לא מוצג. אחרת כל תת קטגוריה שאין לה
+       תמונה מקבלת אותה תמונה גנרית, והשורה נראית משוכפלת.
+       כדי להוסיף עיגול לקטגוריה — מעלים לה תמונה בלוח הניהול. */
+    function imgFor(key, view) {
+      return (view && view.image) || FALLBACK_IMG[key] || null;
+    }
+
+    function toCircle(map, key) {
+      var img = imgFor(key, map[key]);
+      return img ? { key: key, label: map[key].title, img: img, href: Store.viewUrl(key) } : null;
+    }
+
     function circlesFor(groupKey) {
       var subs = Store.subviews || {};
-      var kids = Object.keys(subs).filter(function (k) { return subs[k].parent === groupKey; });
+      var kids = Object.keys(subs)
+        .filter(function (k) { return subs[k].parent === groupKey; })
+        .map(function (k) { return toCircle(subs, k); })
+        .filter(Boolean);
 
-      if (kids.length) {
-        return kids.map(function (k) {
-          return { key: k, label: subs[k].title,
-                   img: subs[k].image || FALLBACK_IMG[k] || 'assets/cat-perfume.png',
-                   href: Store.viewUrl(k) };
-        });
-      }
-      return Object.keys(Store.groups || {}).map(function (k) {
-        return { key: k, label: Store.groups[k].title,
-                 img: Store.groups[k].image || FALLBACK_IMG[k] || 'assets/cat-perfume.png',
-                 href: Store.viewUrl(k) };
-      });
+      if (kids.length) return kids;
+
+      /* קבוצה בלי תתי קטגוריות מצולמות — מציגים את הקטגוריות הראשיות */
+      var groups = Store.groups || {};
+      return Object.keys(groups).map(function (k) { return toCircle(groups, k); }).filter(Boolean);
     }
 
     var circles = document.getElementById('catCircles');
