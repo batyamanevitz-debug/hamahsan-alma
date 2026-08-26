@@ -1,0 +1,77 @@
+/* =========================================================
+   ALMA — דף כל הקטגוריות (categories.html)
+   ========================================================= */
+
+.catspage{padding:14px 0 60px}
+
+.catgroup{
+  margin-top:40px;padding-top:32px;
+  border-top:1px solid #eee;
+}
+.catgroup:first-of-type{border-top:0;padding-top:8px;margin-top:26px}
+
+/* ---------- כותרת הקטגוריה הראשית ---------- */
+.catgroup__head{
+  display:flex;align-items:center;gap:20px;
+  text-decoration:none;color:inherit;
+}
+.catgroup__img{
+  width:110px;height:110px;flex:none;
+  border-radius:50%;object-fit:cover;
+  transition:transform .3s ease;
+}
+.catgroup__head:hover .catgroup__img{transform:scale(1.04)}
+.catgroup__txt{display:flex;flex-direction:column;gap:4px;min-width:0}
+.catgroup__name{
+  font-size:26px;font-weight:700;color:var(--plum);line-height:1.25;
+}
+.catgroup__head:hover .catgroup__name{text-decoration:underline}
+.catgroup__n{font-size:14px;color:#757575}
+
+.catgroup__none{margin:18px 0 0;color:#909090;font-size:14.5px}
+
+/* ---------- תתי הקטגוריות ---------- */
+.catsub{
+  list-style:none;margin:22px 0 0;padding:0;
+  display:grid;gap:12px;
+  grid-template-columns:repeat(auto-fill, minmax(230px, 1fr));
+}
+
+.catsub__item a{
+  display:flex;align-items:center;gap:12px;
+  padding:10px 14px;
+  border:1px solid #eee;border-radius:12px;background:#fff;
+  text-decoration:none;color:inherit;
+  transition:border-color .2s, box-shadow .2s, transform .2s;
+}
+.catsub__item a:hover{
+  border-color:var(--lilac);
+  box-shadow:0 8px 22px rgba(125,65,95,.08);
+  transform:translateY(-1px);
+}
+
+.catsub__img{
+  width:52px;height:52px;flex:none;
+  border-radius:50%;object-fit:cover;background:var(--lilac);
+}
+.catsub__dot{
+  width:52px;height:52px;flex:none;border-radius:50%;
+  background:var(--lilac);
+}
+
+.catsub__txt{display:flex;flex-direction:column;gap:2px;min-width:0}
+.catsub__txt b{
+  font-size:15.5px;font-weight:600;line-height:1.3;
+  overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
+}
+.catsub__txt em{font-style:normal;font-size:12.5px;color:#909090}
+
+/* ---------- מובייל ---------- */
+@media (max-width:768px){
+  .catgroup{margin-top:30px;padding-top:24px}
+  .catgroup__img{width:84px;height:84px}
+  .catgroup__name{font-size:21px}
+  .catsub{gap:10px;grid-template-columns:1fr}
+  .catsub__img,
+  .catsub__dot{width:44px;height:44px}
+}
