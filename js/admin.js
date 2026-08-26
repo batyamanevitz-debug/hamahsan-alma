@@ -13,10 +13,6 @@ const SUPABASE_URL = 'https://touuyegybctmfdtzlbmt.supabase.co';
 const SUPABASE_KEY = 'sb_publishable_OaxEZB5EkKNvGlXk9yrY-w_6gV7zcsI';
 const BUCKET = 'media';
 
-/* חשבון המנהל. הכניסה היא בקישור קסם: לוחצים, מגיע מייל לכתובת הזו,
-   ולחיצה על הקישור פותחת סשן. אין סיסמה בקוד ואין סיסמה לזכור —
-   מי שאין לו גישה לתיבת המייל הזו לא יכול להיכנס. */
-const ADMIN_EMAIL = 'batyamanevitz@gmail.com';
 
 const db = createClient(SUPABASE_URL, SUPABASE_KEY);
 
@@ -99,21 +95,23 @@ async function run(promise, failMsg) {
 const gate = $('#gate');
 const app  = $('#app');
 
-$('#gateEmail').textContent = ADMIN_EMAIL;
-
-/* אם החזרה מהמייל נכשלה, Supabase מחזיר את הסיבה ב-hash */
+/* אם החזרה מקישור המייל נכשלה, Supabase מחזיר את הסיבה ב-hash */
 (function showLinkError() {
   const hash = new URLSearchParams(location.hash.slice(1));
   const code = hash.get('error_code') || hash.get('error');
   if (!code) return;
   const box = $('#loginError');
   box.textContent = /expired|invalid/i.test(code)
-    ? 'הקישור פג תוקף או כבר נוצל. אפשר לבקש קישור חדש.'
+    ? 'הקישור פג תוקף או כבר נוצל. אפשר להיכנס עם סיסמה.'
     : 'הכניסה נכשלה: ' + (hash.get('error_description') || code);
   box.hidden = false;
   history.replaceState({}, '', location.pathname);
 })();
 
+/* ---------------------------------------------------------
+   כניסה עם דוא״ל וסיסמה
+   הסיסמה נבדקת מול Supabase Auth ואינה נמצאת בקוד.
+   --------------------------------------------------------- */
 $('#loginForm').addEventListener('submit', async e => {
   e.preventDefault();
   const btn  = $('#loginBtn');
@@ -122,30 +120,69 @@ $('#loginForm').addEventListener('submit', async e => {
   box.hidden = true;
   sent.hidden = true;
   btn.disabled = true;
-  btn.textContent = 'שולח…';
+  btn.textContent = 'מתחבר…';
 
-  const { error } = await db.auth.signInWithOtp({
-    email: ADMIN_EMAIL,
-    options: {
-      emailRedirectTo: location.origin + location.pathname,
-      /* לא יוצרים משתמשים מהמסך הזה — רק חשבון קיים יכול להיכנס */
-      shouldCreateUser: false
-    }
+  const { error } = await db.auth.signInWithPassword({
+    email: $('#loginEmail').value.trim(),
+    password: $('#loginPassword').value
   });
 
   btn.disabled = false;
-  btn.textContent = 'שליחת קישור כניסה';
+  btn.textContent = 'כניסה';
+
+  if (error) {
+    box.textContent = /invalid login credentials/i.test(error.message)
+      ? 'הדוא״ל או הסיסמה שגויים.'
+      : /email not confirmed/i.test(error.message)
+        ? 'החשבון עדיין לא אומת. צריך לסמן Auto Confirm User בסופאבייס.'
+        : 'ההתחברות נכשלה: ' + error.message;
+    box.hidden = false;
+    $('#loginPassword').select();
+    return;
+  }
+
+  $('#loginPassword').value = '';
+  boot();
+});
+
+/* ---------------------------------------------------------
+   גיבוי: קישור כניסה חד-פעמי למייל, למי ששכח סיסמה
+   --------------------------------------------------------- */
+$('#magicBtn').addEventListener('click', async () => {
+  const email = $('#loginEmail').value.trim();
+  const box  = $('#loginError');
+  const sent = $('#loginSent');
+  box.hidden = true;
+  sent.hidden = true;
+
+  if (!email) {
+    box.textContent = 'צריך למלא קודם את כתובת הדוא״ל.';
+    box.hidden = false;
+    $('#loginEmail').focus();
+    return;
+  }
+
+  const btn = $('#magicBtn');
+  btn.disabled = true;
+  const prev = btn.textContent;
+  btn.textContent = 'שולח…';
+
+  const { error } = await db.auth.signInWithOtp({
+    email,
+    options: { emailRedirectTo: location.origin + location.pathname, shouldCreateUser: false }
+  });
+
+  btn.disabled = false;
+  btn.textContent = prev;
 
   if (error) {
     box.textContent = /rate|limit|seconds/i.test(error.message)
-      ? 'נשלחו יותר מדי בקשות. צריך להמתין דקה ולנסות שוב.'
+      ? 'נשלחו יותר מדי מיילים. סופאבייס מגביל לכמה בשעה — כדאי פשוט להיכנס עם הסיסמה.'
       : 'שליחת הקישור נכשלה: ' + error.message;
     box.hidden = false;
     return;
   }
-
-  sent.innerHTML = 'הקישור נשלח. אפשר לפתוח את המייל וללחוץ עליו — '
-                 + 'הכניסה תתבצע אוטומטית.<br>לא הגיע? כדאי לבדוק גם בספאם.';
+  sent.innerHTML = 'הקישור נשלח. אפשר לפתוח את המייל וללחוץ עליו.<br>לא הגיע? כדאי לבדוק גם בספאם.';
   sent.hidden = false;
 });
 

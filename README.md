@@ -68,29 +68,25 @@ node server.js
 
 ### כניסה
 
-אין סיסמה. לוחצים **שליחת קישור כניסה**, מגיע מייל לכתובת שב-`ADMIN_EMAIL`
-([`js/admin.js`](js/admin.js)), ולחיצה על הקישור פותחת סשן. הקישור תקף לשעה
-ולשימוש אחד.
+דוא״ל וסיסמה של משתמש Supabase שרשום בטבלת `admins`.
+הסיסמה אינה נמצאת בקוד — היא נבדקת מול Supabase Auth.
 
-**הגדרה חד-פעמית ב-Supabase** (Authentication → URL Configuration).
-בלעדיה Supabase שולח את הקישור לכתובת ברירת המחדל `http://localhost:3000`,
-והדפדפן נוחת על כתובת שלא קיימת — ההתחברות עצמה מצליחה אבל אי אפשר להגיע ללוח:
+במסך יש גם קישור **״שכחתי סיסמה״** ששולח קישור כניסה חד-פעמי למייל.
+זה גיבוי בלבד: השירות המובנה של סופאבייס מוגבל לכמה מיילים בשעה,
+ולכן הכניסה הרגילה היא עם סיסמה.
 
-* **Site URL:** `https://batyamanevitz-debug.github.io/hamahsan-alma/`
-* **Redirect URLs:** להוסיף את שתי השורות
-  `https://batyamanevitz-debug.github.io/hamahsan-alma/admin.html`
-  ו-`http://localhost:4321/admin.html` (לפיתוח מקומי).
+**הוספת מנהל:**
 
-אם בכל זאת הקישור נוחת בדף רגיל של האתר, `js/store.js` מזהה את הטוקן
-בכתובת ומעביר אוטומטית ל-`admin.html` עם אותם פרמטרים.
+1. Supabase → Authentication → Users → **Add user** → **Create new user**
+   (עם סיסמה ועם Auto Confirm User מסומן).
+2. בעורך ה-SQL: `select public.grant_admin('המייל@שלו.com');`
 
-להוספת מנהל נוסף: ליצור משתמש ב-Authentication → Users, להריץ
-`select public.grant_admin('המייל@שלו.com');`, ולעדכן את `ADMIN_EMAIL`.
+שימו לב: מחיקת משתמש ויצירתו מחדש יוצרת מזהה חדש, ולכן צריך
+להריץ שוב את `grant_admin` — הרשומה הישנה נמחקת יחד עם המשתמש.
 
 חשוב: משתמש מחובר **אינו** מנהל. רק מי שרשום בטבלת `admins` יכול לשנות
 משהו — כל פוליסת כתיבה בדאטהבייס דורשת `public.is_admin()`. לכן העובדה
-ש-`admin.html` נגיש לכולם ב-GitHub Pages אינה חושפת את החנות: מי שיפתח
-אותו יוכל לבקש קישור, אבל הקישור יגיע לתיבה של בעלת החנות בלבד.
+ש-`admin.html` נגיש לכולם ב-GitHub Pages אינה חושפת את החנות.
 
 ### מה אפשר לעשות שם
 

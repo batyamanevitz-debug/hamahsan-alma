@@ -522,3 +522,13 @@ button{font-family:inherit}
     inset-inline:14px;inset-block-end:14px;max-width:none;
   }
 }
+
+/* קישור משני במסך הכניסה — שליחת קישור חד-פעמי למייל */
+.gate__link{
+  display:block;width:100%;margin-top:14px;
+  background:none;border:0;cursor:pointer;
+  font-family:inherit;font-size:13px;color:var(--muted);
+  text-decoration:underline;text-underline-offset:3px;
+}
+.gate__link:hover{color:var(--gold)}
+.gate__link:disabled{opacity:.55;cursor:default}
