@@ -185,7 +185,8 @@ input{font:inherit}
    HERO
    ========================================================= */
 .hero{
-  position:relative;height:822px;margin-top:44px;
+  /* מסך הפתיחה נצמד להדר, בלי רווח לבן ביניהם */
+  position:relative;height:822px;
   display:flex;flex-direction:column;align-items:flex-start;justify-content:center;
   padding:106px 15px;overflow:hidden;
 }
@@ -812,7 +813,6 @@ body.cart-open{overflow:hidden}
   .nav__logo{width:110px;height:44px}
   .nav__icons{gap:14px}
 
-  .hero{margin-top:24px}
   .hero__box{padding:24px 20px 28px;gap:20px}
   .hero__kicker{font-size:22px;line-height:24px}
   .hero__title{font-size:32px;line-height:42px}
