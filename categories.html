@@ -9,14 +9,15 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Assistant:wght@200;300;400;600;700&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/style.css">
-<link rel="stylesheet" href="css/page.css">
 <link rel="stylesheet" href="css/cats.css">
 </head>
 <body>
 
-<!-- ============ ANNOUNCEMENT ============ -->
-<div class="announce">
-  <div class="announce__inner">
+<a class="skip-link" href="#main">דלג לתוכן הראשי</a>
+
+<!-- ============ HEADER ============ -->
+<header class="site-header">
+  <div class="announce">
     <button class="announce__arrow announce__arrow--prev" type="button" aria-label="הודעה קודמת">
       <img src="assets/arrow-left-thin.svg" alt="">
     </button>
@@ -25,28 +26,14 @@
       <img src="assets/arrow-right-thin.svg" alt="">
     </button>
   </div>
-</div>
 
-<!-- ============ HEADER ============ -->
-<header class="header">
   <div class="nav">
     <div class="nav__inner">
-
       <div class="nav__icons">
-        <button class="nav__icon" type="button" aria-label="חיפוש">
-          <img src="assets/icon-search.svg" alt="">
-        </button>
-        <a class="nav__icon" href="#" aria-label="אזור אישי">
-          <img src="assets/icon-user.svg" alt="">
-        </a>
-        <a class="nav__icon" href="#" aria-label="מועדפים">
-          <img src="assets/icon-heart.svg" alt="">
-          <span class="nav__badge">0</span>
-        </a>
-        <a class="nav__icon" href="#" aria-label="עגלת קניות">
-          <img src="assets/icon-cart.svg" alt="">
-          <span class="nav__badge">0</span>
-        </a>
+        <button class="nav__icon" type="button" aria-label="חיפוש"><img src="assets/icon-search.svg" alt=""></button>
+        <a class="nav__icon" href="#" aria-label="אזור אישי"><img src="assets/icon-user.svg" alt=""></a>
+        <a class="nav__icon" href="#" aria-label="מועדפים"><img src="assets/icon-heart.svg" alt=""><span class="nav__badge">0</span></a>
+        <a class="nav__icon" href="#" aria-label="עגלת קניות"><img src="assets/icon-cart.svg" alt=""><span class="nav__badge">0</span></a>
       </div>
 
       <button class="nav__burger" type="button" aria-label="תפריט" aria-expanded="false" aria-controls="primary-menu">
@@ -55,24 +42,80 @@
 
       <nav class="nav__menu" id="primary-menu" aria-label="תפריט ראשי">
         <ul class="nav__list">
-          <li><a href="category.html?cat=perfume">בשמים</a></li>
-          <li><a href="category.html?cat=makeup">איפור</a></li>
-          <li><a href="category.html?cat=hair">הכל לשיער</a></li>
+          <li class="has-mega">
+            <a href="#" aria-expanded="false" aria-haspopup="true" aria-controls="mega-perfume">בשמים</a>
+            <div class="mega" id="mega-perfume">
+              <div class="mega__inner mega__inner--wide">
+                <img class="mega__img mega__img--perfume" src="assets/mega-perfume.png" alt="">
+                <ul class="mega__list">
+                  <li><a href="category.html?cat=brands">מותגי בישום מובילים</a></li>
+                  <li><a href="category.html?cat=unisex">בשמי יוניסקס</a></li>
+                  <li><a href="category.html">בשמי נשים</a></li>
+                  <li><a href="category.html?cat=men">בשמי גברים</a></li>
+                  <li><a href="category.html?cat=luxury">בשמי יוקרה</a></li>
+                  <li><a href="category.html?cat=sets">סטים ומארזים</a></li>
+                </ul>
+              </div>
+            </div>
+          </li>
+          <li class="has-mega">
+            <a href="#" aria-expanded="false" aria-haspopup="true" aria-controls="mega-makeup">איפור</a>
+            <div class="mega" id="mega-makeup">
+              <div class="mega__inner mega__inner--wide">
+                <img class="mega__img mega__img--makeup" src="assets/mega-makeup.png" alt="">
+                <ul class="mega__list">
+                  <li><a href="category.html?cat=beauty-brands">מותגי יופי מומלצים</a></li>
+                  <li><a href="category.html?cat=cosmetics">איפור</a></li>
+                  <li><a href="category.html?cat=body">טיפוח הגוף</a></li>
+                  <li><a href="category.html?cat=face">טיפוח פנים</a></li>
+                </ul>
+              </div>
+            </div>
+          </li>
+          <li class="has-mega">
+            <a href="#" aria-expanded="false" aria-haspopup="true" aria-controls="mega-hair">הכל לשיער</a>
+            <div class="mega" id="mega-hair">
+              <div class="mega__inner">
+                <ul class="mega__list">
+                  <li><a href="category.html?cat=hair-brands">מותגי טיפוח<br>שיער מומלצים</a></li>
+                  <li><a href="category.html?cat=devices">מכשירי חשמל לשיער</a></li>
+                  <li><a href="category.html?cat=styling">עיצוב שיער</a></li>
+                  <li><a href="category.html?cat=haircare">טיפוח שיער</a></li>
+                </ul>
+              </div>
+            </div>
+          </li>
           <li><a href="category.html?cat=sale">מבצעים</a></li>
           <li><a href="category.html?cat=new">חדש</a></li>
           <li><a href="brands.html">מותגים</a></li>
-          <li><a href="index.html">עמוד הבית</a></li>
         </ul>
+        <a class="btn-club" href="#">
+          <span>הצטרפות למועדון</span>
+          <img src="assets/icon-gift-sm.svg" alt="">
+        </a>
       </nav>
 
-      <a class="nav__logo" href="index.html" aria-label="המחסן ALMA">
+      <a class="nav__logo" href="index.html" aria-label="ALMA — לעמוד הבית">
         <img src="assets/logo.png" alt="ALMA">
       </a>
     </div>
   </div>
+
+  <!-- ============ SEARCH PANEL (Figma 593:327) ============ -->
+  <div class="search-panel" id="searchPanel" aria-hidden="true">
+    <div class="search-panel__inner">
+      <button class="search-panel__close" type="button" data-search-close aria-label="סגירת החיפוש">
+        <img src="assets/search-close.svg" alt="">
+      </button>
+      <form class="search-panel__form" role="search" action="#">
+        <img class="search-panel__icon" src="assets/search-ai.svg" alt="">
+        <label class="visually-hidden" for="siteSearch">חיפוש באתר</label>
+        <input class="search-panel__input" id="siteSearch" type="search" name="q" placeholder="כן, במה אני יכולה לעזור?" autocomplete="off">
+      </form>
+    </div>
+  </div>
 </header>
 
-<!-- ============ MAIN ============ -->
 <main id="main">
   <nav class="crumbs pagewrap" aria-label="מסלול ניווט">
     <ol>
@@ -91,75 +134,173 @@
 
 <!-- ============ NEWSLETTER ============ -->
 <section class="newsletter">
-  <div class="newsletter__inner">
-    <h2 class="newsletter__title">הרשמו לניוזלטר</h2>
-    <p class="newsletter__sub">קבלו עדכונים על מבצעים, מותגים חדשים וטיפים</p>
-    <form class="newsletter__form">
-      <input class="newsletter__input" type="email" placeholder="הכניסו כתובת מייל" aria-label="כתובת מייל">
-      <button class="newsletter__btn" type="submit">הרשמה</button>
-    </form>
-  </div>
-</section>
+    <img class="newsletter__img" src="assets/newsletter.png" alt="">
+    <div class="newsletter__content">
+      <h2 class="newsletter__title" data-setting="newsletter_title">בואי נישאר בקשר</h2>
+      <p class="newsletter__sub" data-setting="newsletter_text">הרשמה לניוזלטר של המחסן וקבלו את כל ההטבות, ההפתעות והחידושים ישירות למייל שלך.</p>
+      <form class="newsletter__form" action="#" method="post">
+        <label class="visually-hidden" for="nl-email">כתובת מייל</label>
+        <input class="newsletter__input" id="nl-email" type="email" name="email" placeholder="הזינו כאן את כתובת המייל" required>
+        <button class="newsletter__btn" type="submit">הירשם</button>
+      </form>
+    </div>
+  </section>
 
 <!-- ============ FOOTER ============ -->
 <footer class="footer">
   <div class="footer__inner">
-    <div class="footer__cols">
+    <div class="footer__top">
+      <a class="footer__logo" href="index.html"><img src="assets/logo.png" alt="ALMA"></a>
 
-      <div class="fcol fcol--about">
-        <img src="assets/logo.png" alt="ALMA">
-        <p>בשמים, איפור וטיפוח מהמותגים המובילים בעולם, במחירים של מחסן.</p>
-        <p>טלפון: <a data-setting="contact_phone" href="tel:0529191919">052-9191919</a><br>זמינים בין השעות 9:00-18:00</p>
-      </div>
-
-      <div class="fcol">
-        <h3 class="fcol__title">שירותים</h3>
-        <ul class="fcol__links" data-pages-links>
-          <li><a href="page.html?slug=terms">תקנון האתר</a></li>
-          <li><a href="page.html?slug=shipping">מדיניות משלוחים</a></li>
-          <li><a href="page.html?slug=faq">שאלות נפוצות</a></li>
-          <li><a href="page.html?slug=about">אודות</a></li>
-        </ul>
-      </div>
-
-      <div class="fcol">
-        <h3 class="fcol__title">קישורים מהירים</h3>
-        <ul class="fcol__links">
-          <li><a href="index.html">עמוד הבית</a></li>
-          <li><a href="category.html?cat=perfume">בשמים</a></li>
-          <li><a href="category.html?cat=makeup">איפור</a></li>
-          <li><a href="categories.html">כל הקטגוריות</a></li>
-          <li><a href="brands.html">מותגים</a></li>
-          <li><a href="page.html?blog">הבלוג</a></li>
-        </ul>
+      <div class="footer__cols">
+        <div class="fcol fcol--contact">
+          <h3 class="fcol__title">צרו קשר</h3>
+          <div class="fcol__body">
+            <p>כתובת: רח&rsquo; שאול המלך 38, קניון אביה, קומה 2, באר שבע</p>
+            <p>טלפון: <a data-setting="contact_phone" href="tel:0529191919">052-9191919</a><br>זמינים בין השעות 9:00-18:00</p>
+            <p>מייל: Hamahsan@gmail.com</p>
+          </div>
+        </div>
+        <div class="fcol">
+          <h3 class="fcol__title">האזור האישי</h3>
+          <ul class="fcol__links">
+            <li><a href="#">כניסה לחשבון</a></li>
+            <li><a href="#">מעקב משלוח</a></li>
+            <li><a href="#">הצהרת נגישות</a></li>
+            <li><a href="#">מדיניות הפרטיות</a></li>
+            <li><a href="#">תו אמון הציבור</a></li>
+          </ul>
+        </div>
+        <div class="fcol">
+          <h3 class="fcol__title">שירותים</h3>
+          <ul class="fcol__links" data-pages-links>
+            <li><a href="page.html?slug=terms">תקנון האתר</a></li>
+            <li><a href="page.html?slug=shipping">מדיניות משלוחים</a></li>
+            <li><a href="page.html?slug=faq">שאלות נפוצות</a></li>
+            <li><a href="page.html?slug=about">אודות</a></li>
+          </ul>
+        </div>
+        <div class="fcol">
+          <h3 class="fcol__title">קישורים מהירים</h3>
+          <ul class="fcol__links">
+            <li><a href="#">צרו קשר</a></li>
+            <li><a href="#">משלוחים</a></li>
+            <li><a href="#">מפת האתר</a></li>
+            <li><a href="#">שאלות נפוצות</a></li>
+            <li><a href="#">הבלוג</a></li>
+            <li><a href="#">מידע עלינו</a></li>
+          </ul>
+        </div>
       </div>
     </div>
 
     <hr class="footer__rule">
-    <p class="footer__copy">© המחסן ALMA. כל הזכויות שמורות.</p>
+
+    <div class="footer__bottom">
+      <ul class="pay">
+        <li><img src="assets/pay-isracard.png" alt="PayPal"></li>
+        <li class="pay--amex"><img src="assets/pay-amex.png" alt="American Express"></li>
+        <li><img src="assets/pay-mastercard.png" alt="Visa"></li>
+        <li><img src="assets/pay-visa.png" alt="Mastercard"></li>
+      </ul>
+      <p class="footer__copy">HamahsanCopyright 2025 ©</p>
+      <ul class="socials">
+        <li><a href="#" aria-label="פייסבוק"><img src="assets/soc-5.svg" alt=""></a></li>
+        <li><a href="#" aria-label="יוטיוב"><img src="assets/soc-4.svg" alt=""></a></li>
+        <li><a href="#" aria-label="לינקדאין"><img src="assets/soc-3.svg" alt=""></a></li>
+        <li><a href="#" aria-label="טוויטר"><img src="assets/soc-2.svg" alt=""></a></li>
+        <li><a href="#" aria-label="אינסטגרם"><img src="assets/soc-1.svg" alt=""></a></li>
+      </ul>
+    </div>
   </div>
 </footer>
-
-<!-- ============ CART DRAWER ============ -->
-<div class="cart-overlay" id="cartOverlay" hidden></div>
-<aside class="cart" id="cartDrawer" aria-hidden="true" aria-label="סל הקניות">
-  <header class="cart__head">
-    <button class="cart__close" type="button" aria-label="סגירת הסל">&times;</button>
-    <h2 class="cart__title">סל הקניות</h2>
-  </header>
-  <p class="cart__note">ברכותיי, ההזמנה שלך זכאית למשלוח חינם!</p>
-  <ul class="cart__list" id="cartList"></ul>
-  <p class="cart__empty" id="cartEmpty" hidden>הסל שלך ריק</p>
-  <footer class="cart__foot">
-    <div class="cart__total"><span>סה"כ ביניים</span><b id="cartTotal">₪ 0</b></div>
-    <a class="cart__checkout" href="checkout.html">למעבר לתשלום</a>
-  </footer>
-</aside>
 
 <a class="chat" data-setting-wa href="https://wa.me/972529191919" target="_blank" rel="noopener" aria-label="דברו איתנו בוואטסאפ">
   <span class="chat__text">דברו איתנו</span>
   <img class="chat__icon" src="assets/icon-whatsapp.svg" alt="">
 </a>
+
+<!-- ============ CART DRAWER (Figma 582:103) ============ -->
+<div class="cart-overlay" id="cartOverlay" hidden></div>
+
+<aside class="cart" id="cartDrawer" aria-label="סל קניות" aria-hidden="true">
+
+  <div class="cart__header">
+    <div class="cart__headerRow">
+      <button class="cart__close" type="button" data-cart-close aria-label="סגירת הסל">
+        <img src="assets/cart-close-light.svg" alt="">
+      </button>
+      <p class="cart__title">סל קניות</p>
+    </div>
+  </div>
+
+  <p class="cart__note">ברכותיי, ההזמנה שלך זכאית למשלוח חינם!</p>
+
+  <ul class="cart__list" id="cartList">
+    <li class="citem" data-price="1039">
+      <div class="citem__row">
+        <div class="citem__main">
+          <div class="citem__top">
+            <button class="citem__close" type="button" data-cart-remove aria-label="הסרת המוצר">
+              <img src="assets/cart-close.svg" alt="">
+            </button>
+            <p class="citem__name">בושם פרופרומס דה מארלי</p>
+          </div>
+          <div class="citem__price">
+            <p class="citem__cost"><span data-cart-line>₪ 1039</span></p>
+            <div class="qty">
+              <button class="qty__btn qty__btn--plus" type="button" data-qty="1" aria-label="הוספת יחידה">
+                <img src="assets/cart-plus.svg" alt="">
+              </button>
+              <span class="qty__val" data-qty-val>1</span>
+              <button class="qty__btn qty__btn--minus" type="button" data-qty="-1" aria-label="הפחתת יחידה">
+                <img src="assets/cart-minus.svg" alt="">
+              </button>
+            </div>
+          </div>
+        </div>
+        <span class="citem__img"><img src="assets/pdp-sticky-thumb.png" alt=""></span>
+      </div>
+    </li>
+
+    <li class="citem" data-price="0">
+      <div class="citem__row">
+        <div class="citem__main">
+          <div class="citem__top">
+            <button class="citem__close" type="button" data-cart-remove aria-label="הסרת המוצר">
+              <img src="assets/cart-close.svg" alt="">
+            </button>
+            <p class="citem__name">דוגמיות בשמים חדשים</p>
+          </div>
+          <div class="citem__price">
+            <p class="citem__cost citem__cost--free"><span data-cart-line>חינם</span></p>
+            <div class="qty">
+              <button class="qty__btn qty__btn--plus" type="button" data-qty="1" aria-label="הוספת יחידה">
+                <img src="assets/cart-plus.svg" alt="">
+              </button>
+              <span class="qty__val" data-qty-val>1</span>
+              <button class="qty__btn qty__btn--minus" type="button" data-qty="-1" aria-label="הפחתת יחידה">
+                <img src="assets/cart-minus.svg" alt="">
+              </button>
+            </div>
+          </div>
+        </div>
+        <span class="citem__img"><img src="assets/cart-samples.png" alt=""></span>
+      </div>
+    </li>
+  </ul>
+
+  <p class="cart__empty" id="cartEmpty" hidden>הסל שלך ריק</p>
+
+  <div class="cart__foot">
+    <div class="cart__sum">
+      <span class="cart__sumVal" id="cartTotal">1039</span>
+      <span class="cart__sumLabel">סיכום ביניים</span>
+    </div>
+    <a class="cart__checkout" href="checkout.html">מעבר לתשלום</a>
+    <button class="cart__continue" type="button" data-cart-close>או המשיכי בקניות</button>
+  </div>
+</aside>
 
 <script src="js/store.js"></script>
 <script src="js/main.js"></script>
